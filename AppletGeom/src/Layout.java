@@ -124,6 +124,7 @@ public class Layout extends JFrame {
     public static void main(String[] args) {
         Layout mainLayout = new Layout();
         mainLayout.setVisible(true);
+
     }
 
 
