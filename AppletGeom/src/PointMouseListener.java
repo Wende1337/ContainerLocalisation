@@ -1,11 +1,13 @@
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 public class PointMouseListener extends MouseAdapter{
 
     private CoordPanel panel;
-    private static Color color;
+    private static Color color=new Color(255,0,0);
+	private static List<Point> points = CoordPanel.getPoints();
 
     // Variable die Definiert ob mit der Maus Punkte gezogen werden oder eingef�gt werden
 
@@ -24,14 +26,20 @@ public class PointMouseListener extends MouseAdapter{
 
     @Override
     public void mousePressed(MouseEvent e) {
-    	if (pointmove == false) {
+		//get point in reach (euclid distance within diameter radius)
+		movingpoint=inReach(e.getX(), e.getY());
+		pointmove=false;
+		// if no point in euclid dist add new point
+    	if (movingpoint==null) {
 	        Point point = new Point(e.getX() , e.getY(), color);
 	        panel.addPoint(point);
 	        Pointevent = true;
+	        pointmove = false;
     	}
-    	//get point in reach (euclid distance within diameter radius)
-    	if (pointmove == true) {
-    		movingpoint = MovePointButton.inReach(e.getX(), e.getY());
+    	//if point in euclid distance that point can be dragged, see below
+    	if (movingpoint != null) {
+    		pointmove =true;
+			System.out.println("check");
 
     	}
     	//if button is active and another Point is added, update algorithm
@@ -42,11 +50,12 @@ public class PointMouseListener extends MouseAdapter{
     }
 
     public void mouseDragged (MouseEvent e) {
-    	//move point 
-    	if (pointmove == true & movingpoint != null) {
+    	//move point
+    	if (pointmove==true) {
     		movingpoint.setX(e.getX());
     		movingpoint.setY(e.getY());
     		Pointevent = true;
+    		panel.repaint();
     		
     		//if Points have been moved, update colorrect algorithm
     		if (ColorcombrectButton.getColorrect()==true) {
@@ -72,15 +81,21 @@ public class PointMouseListener extends MouseAdapter{
 //        Color randomColor = new Color(R, G, B);
         color = randomColor;
     }
-    
-    
 
-    
-    public static void switchmove(boolean statement) {
-    	if (statement == true) {
-    		pointmove = true;
-    	} else if (statement == false) {
-    		pointmove = false;
-    	}
-    }
+
+	// check if a point is in range
+	public static Point inReach(int x, int y) {
+		int eucliddist = 10000000;
+		for (Point p: points) {
+			//compute euclid distance
+			eucliddist= (p.getX() - x) * (p.getX() - x) + (p.getY() - y) * (p.getY() - y);
+			if (eucliddist <= p.getDiameter()*p.getDiameter()) {
+				return p;
+			}
+		}
+		return null;
+	}
+
 }
+
+

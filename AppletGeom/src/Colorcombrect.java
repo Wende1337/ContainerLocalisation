@@ -111,7 +111,6 @@ public class Colorcombrect {
 //       führe selben Algorithmus wie oben aus nur für y Koordinaten
         Collections.sort(points, new ComparatorPointY());
 
-
         for (int i = 0; i < points.size(); i++) {
 //            get color index to be synchronized with array "colors"
             index = colors.indexOf(points.get(i).getColor());

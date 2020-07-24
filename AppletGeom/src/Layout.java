@@ -21,7 +21,6 @@ public class Layout extends JFrame {
         JButton rcolorButton = new JButton("Random Color");
         rcolorButton.addActionListener(new ColorButton());
         JButton MovePointButton = new JButton("Move Point");
-        MovePointButton.addActionListener(new MovePointButton());
         JButton button5 = new JButton("Button5");
         JButton button6 = new JButton("Button6");
         JButton button7 = new JButton("Button7");
@@ -124,7 +123,6 @@ public class Layout extends JFrame {
     public static void main(String[] args) {
         Layout mainLayout = new Layout();
         mainLayout.setVisible(true);
-
     }
 
 
