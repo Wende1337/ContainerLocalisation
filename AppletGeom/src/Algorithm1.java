@@ -23,7 +23,7 @@ public class Algorithm1 {
         px= py= pcol = 0;
 
         //sort point List after x coordinate
-        Collections.sort(points, new ComparatorPoint());
+        Collections.sort(points, new ComparatorPointX());
 
         List<Color> colors = new LinkedList<Color>();
 
@@ -113,15 +113,18 @@ public class Algorithm1 {
 
             //Aktueller Corner Punkt
             Point actualCornerPoint = setOfCornerPoints.get(i);
+            List<Point> PointsAboveAndToTheRightSortedByX= new ArrayList<Point>();
+            PointsAboveAndToTheRightSortedByX = PointsAboveAndToTheRight;
 
-            //sortieren nach x
-            Collections.sort(PointsAboveAndToTheRight, new ComparatorPoint());
-
+            //sortieren nach Y
+            Collections.sort(PointsAboveAndToTheRight, new ComparatorPointY());
+            //sortieren nach X
+            Collections.sort(PointsAboveAndToTheRightSortedByX, new ComparatorPointX());
 
 
 
             //y Coordinate Infinite
-            py = 100000;
+            py = 2147483; //integer limit-3 Stellen
 
             //x Cordinate the Point you are at first start
             px = setOfCornerPoints.get(i).getX();
@@ -131,7 +134,7 @@ public class Algorithm1 {
 
             Color actualTopEdgeColor ;
             Point rightEdge;
-            boolean combFound=false;
+            boolean combFound;
 
 
             //PointsInRectangle
@@ -173,7 +176,20 @@ public class Algorithm1 {
                                     setOfPointsInRectangle.add(tempPointDecreasedYpoint);
 
                                     //erstellen eines moeglichen Optimum Rectangle
-                                    //compareRectangle.setHeight();
+                                    compareRectangle.setY(tempPointDecreasedYpoint.getY());
+                                    compareRectangle.setX(setOfCornerPoints.get(i).getX());
+                                    compareRectangle.setWidth(Math.abs(px-(setOfCornerPoints.get(i).getX())));
+                                    compareRectangle.setHeight(Math.abs(setOfCornerPoints.get(i).getY()-tempPointDecreasedYpoint.getY()));
+
+                                    actualTopEdgeColor=tempPointDecreasedYpoint.getColor();
+                                    if (i==0) //Erster Durchlauf?
+                                    {
+                                        optimumRectangle=compareRectangle;
+                                    }
+                                    else
+                                    {
+                                        optimumRectangle=compareRectangle.compareRectangles(compareRectangle,optimumRectangle, "area");
+                                    }
 
                                     break;
                                 }
@@ -192,29 +208,19 @@ public class Algorithm1 {
 
                 //1. X Corner px is moved to the right over the sites of AboveAndtoTheRightofCorner
 
-                if ((colors.size() <= colorsize) && (k == PointsAboveAndToTheRight.size()-1))
+
+                if ((colors.size() <= colorsize) && (k == PointsAboveAndToTheRight.size()-1) )
                 {
                     colors.clear();
                     setOfPointsInRectangle.clear();
-                    px = PointsAboveAndToTheRight.get(++tempI).getX();
+                    px = PointsAboveAndToTheRightSortedByX.get(++tempI).getX();
                     k = 0;
                 }
-
             }
-
-        }
-
-
             PointsAboveAndToTheRight.clear();
-
-
+        }
         return optimumRectangle;
     }
-
-
-
-
-
 
         /*1. Initially the top edge of the rectangle starts at infinity. The right
         edge starts at the x-coordinate of the corner, it is moved right
@@ -232,33 +238,9 @@ public class Algorithm1 {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        // Was noch fehlt: Untere Linke CornerPoints sind biss jetzt nur Zwei Punkte immer. einzelne Punkte auch noch hinzufuegen
+        // Mit px ueber u Iterieren
+    
 
 }
 
