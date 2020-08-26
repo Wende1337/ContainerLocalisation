@@ -16,7 +16,6 @@ public class ColorButton implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         PointMouseListener.setrandomColor(colors[colorcounter]);
-        System.out.println(colors.length);
         colorcounter+=1;
         if (colorcounter == 12) {
         	colorcounter = 0;

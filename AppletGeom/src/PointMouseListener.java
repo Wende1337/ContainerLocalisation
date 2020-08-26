@@ -39,7 +39,6 @@ public class PointMouseListener extends MouseAdapter{
     	//if point in euclid distance that point can be dragged, see below
     	if (movingpoint != null) {
     		pointmove =true;
-			System.out.println("check");
 
     	}
     	//if button is active and another Point is added, update algorithm
