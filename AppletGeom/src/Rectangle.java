@@ -31,7 +31,7 @@ public class Rectangle {
     {
         return this.x;
     }
-    public int gety()
+    public int getY()
     {
         return this.y;
     }

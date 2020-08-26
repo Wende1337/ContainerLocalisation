@@ -8,6 +8,7 @@ public class CoordPanel extends JPanel {
 
     private static List<Point> points = new LinkedList<Point>();
     private static List<Rectangle> rects = new LinkedList<Rectangle>();
+    private static List<Triangle> tris = new LinkedList<Triangle>();
 
     public CoordPanel() {
         super();
@@ -28,6 +29,10 @@ public class CoordPanel extends JPanel {
         for (Rectangle r: rects){
             g.setColor(Color.BLACK);
             g.drawRect((int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight());
+        }
+        for (Triangle t: tris){
+            g.setColor(Color.BLACK);
+            g.drawPolygon(t.getX(),t.getY(),3);
         }
     }
 
@@ -51,6 +56,15 @@ public class CoordPanel extends JPanel {
         this.repaint();
     }
 
+    public void setTri(Triangle tri){
+        if (tris.size()==0){
+            tris.add(tri);
+        } else {
+            tris.set(0, tri);
+        }
+        this.repaint();
+    }
+
     
     public void emptyPoints() {
     	points.clear();
@@ -61,10 +75,16 @@ public class CoordPanel extends JPanel {
     	rects.clear();
     	this.repaint();
     }
+
+    public void emptyTris() {
+        tris.clear();
+        this.repaint();
+    }
     
     public void emptyAll() {
     	points.clear();
     	rects.clear();
+    	tris.clear();
     	this.repaint();
     }
     

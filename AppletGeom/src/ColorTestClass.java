@@ -7,7 +7,7 @@ public class ColorTestClass {
     public ColorTestClass(){
     }
 
-    public boolean getColorCombBool(List<Point> Points, int numberOfColor)
+    public static boolean getColorCombBool(List<Point> Points, int numberOfColor)
     {
         int numberOfActualColors=0;
         ArrayList<Color> ColorsInList =new ArrayList<Color>();

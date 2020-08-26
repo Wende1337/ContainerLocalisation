@@ -46,6 +46,9 @@ public class PointMouseListener extends MouseAdapter{
     	if (ColorcombrectButton.getColorrect()==true & Pointevent == true  ) {
     		Colorcombrect.execute(panel);
     	}
+		if (CSETButton.getCSETTRI()==true & Pointevent == true  ) {
+			CSET.execute(panel);
+		}
     	
     }
 
@@ -62,6 +65,10 @@ public class PointMouseListener extends MouseAdapter{
         		Colorcombrect.execute(panel);
         		panel.repaint();
     		}
+			if (CSETButton.getCSETTRI()==true) {
+				CSET.execute(panel);
+				panel.repaint();
+			}
     	}
     }
     

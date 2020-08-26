@@ -98,7 +98,10 @@ public class Layout extends JFrame {
         JButton colorCombRectButton = new JButton("Color Combination Rectangle");
         colorCombRectButton.addActionListener(new ColorcombrectButton(coordPanel));
         bPanel.add(colorCombRectButton);
-        bPanel.add(button7);
+        JButton CSETButton = new JButton ("CSET");
+        CSETButton.addActionListener(new CSETButton(coordPanel));
+        bPanel.add(CSETButton);
+
         /*
         bPanel.add(button8);
         bPanel.add(button9);
