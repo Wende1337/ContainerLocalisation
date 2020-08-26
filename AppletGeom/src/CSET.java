@@ -123,6 +123,7 @@ public class CSET {
                 System.out.println("Allwedge color size: "+ allwedgecolors.size()+ "colors.size: "+ colors.size());
                 System.out.println("not color spanning :( \n");
                 allwedgecolors.clear();
+                wedgepoints.clear();
                 continue;
             }
             System.out.println("Allwedge color size: "+ allwedgecolors.size()+ "colors.size: "+ colors.size());
@@ -238,6 +239,7 @@ public class CSET {
                         System.out.println("Allwedge color size: "+ allwedgecolors.size()+ "colors.size: "+ colors.size());
                         System.out.println("not color spanning :( \n");
                         allwedgecolors.clear();
+                        wedgepoints.clear();
                         continue;
                     }
                     System.out.println("Allwedge color size: "+ allwedgecolors.size()+ "colors.size: "+ colors.size());
