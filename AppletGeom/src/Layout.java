@@ -73,7 +73,7 @@ public class Layout extends JFrame {
         JPanel bPanel = new JPanel();
         bPanel.setBorder(new LineBorder(Color.GRAY, 2));
         bPanel.setBackground(Color.LIGHT_GRAY);
-        bPanel.setLayout(new GridLayout(2,2,2,2));
+        bPanel.setLayout(new GridLayout(2,3,2,2));
 
             //maybe multiple text Panels for bottom row bottom panel
             JPanel texttupel0 = new JPanel();
@@ -95,12 +95,24 @@ public class Layout extends JFrame {
             texttupel1.add(text5);
             texttupel1.add(text6);
 
+            JPanel texttupel2 = new JPanel();
+            texttupel1.setLayout(new GridLayout(1,3,2,2));
+            JTextField text7 = new JTextField("Umfang");
+            JTextField text8 = new JTextField("Fläche");
+            JTextField text9 = new JTextField("Zeit in s");
+            texttupel1.add(text7);
+            texttupel1.add(text8);
+            texttupel1.add(text9);
+
         JButton colorCombRectButton = new JButton("Color Combination Rectangle");
         colorCombRectButton.addActionListener(new ColorcombrectButton(coordPanel));
         bPanel.add(colorCombRectButton);
         JButton CSETButton = new JButton ("CSET");
         CSETButton.addActionListener(new CSETButton(coordPanel));
         bPanel.add(CSETButton);
+        JButton CSETAButton = new JButton ("CSETA");
+        CSETAButton.addActionListener(new CSETAButton(coordPanel));
+        bPanel.add(CSETAButton);
 
         /*
         bPanel.add(button8);

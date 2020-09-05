@@ -45,10 +45,12 @@ public class PointMouseListener extends MouseAdapter{
     	if (ColorcombrectButton.getColorrect()==true & Pointevent == true  ) {
     		Colorcombrect.execute(panel);
     	}
-		if (CSETButton.getCSETTRI()==true & Pointevent == true  ) {
+		if (CSETButton.getCSETtri()==true & Pointevent == true  ) {
 			CSET.execute(panel);
 		}
-    	
+		if (CSETAButton.getCSETA()==true & Pointevent == true  ) {
+			CSETA.execute(panel);
+		}
     }
 
     public void mouseDragged (MouseEvent e) {
@@ -64,8 +66,12 @@ public class PointMouseListener extends MouseAdapter{
         		Colorcombrect.execute(panel);
         		panel.repaint();
     		}
-			if (CSETButton.getCSETTRI()==true) {
+			if (CSETButton.getCSETtri()==true) {
 				CSET.execute(panel);
+				panel.repaint();
+			}
+			if (CSETAButton.getCSETA()==true ) {
+				CSETA.execute(panel);
 				panel.repaint();
 			}
     	}

@@ -23,16 +23,16 @@ public class CSETButton implements ActionListener{
 
 
         if (CSETtri == false) {
-            panel.emptyTris();
+            panel.emptyTri();
         }
-        System.out.println(getCSETTRI());
+        System.out.println(getCSETtri());
     }
 
     public void computeCSETTri() {
         CSETtri = !CSETtri;
     }
 
-    public static boolean getCSETTRI() {
+    public static boolean getCSETtri() {
         return CSETtri;
     }
 
