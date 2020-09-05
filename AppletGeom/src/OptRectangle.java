@@ -47,7 +47,7 @@ public class OptRectangle {
             // x(p) < x(q) zu jedem Zeiptunkt
             for (int q = 0; q < pointsx.size(); q++) {
                 // Fall falls die zwei Punkte keinen linkeren unten Eckpunkt bilden
-                if (pointsx.get(p).getY() <= pointsx.get(q).getY()) {
+                if (pointsx.get(p).getY() < pointsx.get(q).getY()) {
                     continue;
                 }
                 if(pointsx.get(p).getColor() == pointsx.get(q).getColor()){
@@ -63,11 +63,11 @@ public class OptRectangle {
                 //r = rechte Grenze
                 for (int r = 0 ; r < pointsx.size(); r++) {
                     //1. Fall r_x muss größer als linke Grenze p sein
-                    if (pointsx.get(r).getX()<= pointsx.get(p).getX()){
+                    if (pointsx.get(r).getX() < pointsx.get(p).getX()){
                         continue;
                     }
                     //2. Fall r_y muss über untere Grenze q sein
-                    if (pointsx.get(r).getY()<= pointsx.get(q).getY()){
+                    if (pointsx.get(r).getY() < pointsx.get(q).getY()){
                         continue;
                     }
                     if(pointsx.get(r).getColor() == pointsx.get(p).getColor()){
@@ -96,15 +96,16 @@ public class OptRectangle {
                         //s = obere Grenze
                         for (int s = 0; s<pointsy.size(); s++){
                             //1. Fall s_x muss größer als linke Grenze p sein
-                            if (pointsy.get(s).getX()<= pointsx.get(p).getX()){
+                            if (pointsy.get(s).getX() < pointsx.get(p).getX()){
                                 continue;
                             }
                             //2. Fall s_y muss über untere Grenze q sein
-                            if (pointsy.get(s).getY()<= pointsx.get(q).getY()){
+                            if (pointsy.get(s).getY() < pointsx.get(q).getY()){
                                 continue;
                             }
+
                             //3. Fall s_x muss kleiner als r_x sein
-                            if (pointsy.get(s).getX()> pointsx.get(r).getX()){
+                            if (pointsy.get(s).getX() > pointsx.get(r).getX()){
                                 continue;
                             }
 

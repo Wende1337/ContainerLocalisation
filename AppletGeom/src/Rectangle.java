@@ -46,7 +46,7 @@ public class Rectangle {
 
 
     public static int getArea(Rectangle a){
-        return    a.getWidth()*a.getHeight();
+        return a.getWidth()*a.getHeight();
     }
 
     //Comparing Rectangles after Area or Scope and returning The Rectangle which is smaller
@@ -55,7 +55,7 @@ public class Rectangle {
         if (compareType == "area" )
         {
             int area1= a.getWidth()*a.getHeight();
-            int area2= b.getHeight()*b.getHeight();
+            int area2= b.getWidth()*b.getHeight();
             if (area1<area2)
             {
                 return a;
