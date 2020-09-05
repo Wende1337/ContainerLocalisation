@@ -66,6 +66,10 @@ public class PointMouseListener extends MouseAdapter{
         		Colorcombrect.execute(panel);
         		panel.repaint();
     		}
+			if (OptRectangleButton.getOptRect()==true ) {
+				OptRectangle.execute(panel);
+				panel.repaint();
+			}
 			if (CSETButton.getCSETtri()==true) {
 				CSET.execute(panel);
 				panel.repaint();

@@ -49,11 +49,6 @@ public class CoordPanel extends JPanel {
         points.add(point);
         this.repaint();
     }
-    
-    public void addRect(Rectangle rect){
-        rects.add(rect);
-        this.repaint();
-    }
 
     public void setRect(Rectangle rect){
     	if (rects.size()==0) {

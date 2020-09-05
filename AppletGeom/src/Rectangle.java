@@ -18,14 +18,14 @@ public class Rectangle {
     public void setX(int x){
         this.x=x;
     }
-    public void setY(int x){
-        this.x=x;
+    public void setY(int y){
+        this.y=y;
     }
-    public void setWidth(int x){
-        this.x=x;
+    public void setWidth(int width){
+        this.width=width;
     }
-    public void setHeight(int x){
-        this.x=x;
+    public void setHeight(int height){
+        this.height=height;
     }
     public int getX()
     {
@@ -45,8 +45,12 @@ public class Rectangle {
     }
 
 
+    public static int getArea(Rectangle a){
+        return    a.getWidth()*a.getHeight();
+    }
+
     //Comparing Rectangles after Area or Scope and returning The Rectangle which is smaller
-    public Rectangle compareRectangles(Rectangle a, Rectangle b, String compareType)
+    public static Rectangle compareRectangles(Rectangle a, Rectangle b, String compareType)
     {
         if (compareType == "area" )
         {

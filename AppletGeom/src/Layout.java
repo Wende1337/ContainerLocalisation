@@ -96,7 +96,7 @@ public class Layout extends JFrame {
             texttupel1.add(text6);
 
             JPanel texttupel2 = new JPanel();
-            texttupel1.setLayout(new GridLayout(1,3,2,2));
+            texttupel1.setLayout(new GridLayout(1,4,2,2));
             JTextField text7 = new JTextField("Umfang");
             JTextField text8 = new JTextField("Fläche");
             JTextField text9 = new JTextField("Zeit in s");
@@ -107,6 +107,9 @@ public class Layout extends JFrame {
         JButton colorCombRectButton = new JButton("Color Combination Rectangle");
         colorCombRectButton.addActionListener(new ColorcombrectButton(coordPanel));
         bPanel.add(colorCombRectButton);
+        JButton OptRectButton = new JButton("Optimum Rectangle");
+        OptRectButton.addActionListener(new OptRectangleButton(coordPanel));
+        bPanel.add(OptRectButton);
         JButton CSETButton = new JButton ("CSET");
         CSETButton.addActionListener(new CSETButton(coordPanel));
         bPanel.add(CSETButton);
