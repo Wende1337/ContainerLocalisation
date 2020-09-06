@@ -51,6 +51,10 @@ public class PointMouseListener extends MouseAdapter{
 		if (CSETAButton.getCSETA()==true & Pointevent == true  ) {
 			CSETA.execute(panel);
 		}
+		if (OptRectangleButton.getOptRect()==true & Pointevent == true  ) {
+			OptRectangle.execute(panel);
+		}
+
     }
 
     public void mouseDragged (MouseEvent e) {

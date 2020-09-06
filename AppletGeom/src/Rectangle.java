@@ -55,7 +55,7 @@ public class Rectangle {
         if (compareType == "area" )
         {
             int area1= a.getWidth()*a.getHeight();
-            int area2= b.getHeight()*b.getHeight();
+            int area2= b.getWidth()*b.getHeight();
             if (area1<area2)
             {
                 return a;
