@@ -14,7 +14,7 @@ public class CSET {
     public static Triangle AlgorithmCSET() {
 
         //		if List is less than 1
-        if (pointsx.size() < 2) {
+        if (pointsx.size() <= 2) {
             return null;
         }
         //      sort point List after x coordinate
@@ -32,10 +32,10 @@ public class CSET {
                 }
             }
         }
-        System.out.println("Colors: " + colors.size());
+        System.out.println("Colors: "+colors.size());
 
         //wenn weniger als 2 Farben
-        if (colors.size() < 2) {
+        if (colors.size()<2){
             return null;
         }
 
@@ -44,15 +44,15 @@ public class CSET {
 
         //Schnittpunkt der Gerade die wir mit dem Punktpaar aufspannen (x,y)
         double[] v_pq = new double[2];
-        double b_p, b_q = 0;
+        double b_p, b_q =0 ;
         LinkedList<Point> wedgepoints = new LinkedList<Point>();
         LinkedList<Color> allwedgecolors = new LinkedList<>();
         ArrayList<Color> wedgecolors = new ArrayList<>();
         int[] trix = new int[3];
         int[] triy = new int[3];
         //temporary placeholder for corner point
-        double[] line_p = new double[2];
-        double[] line_q = new double[2];
+        double[] line_p= new double[2];
+        double[] line_q= new double[2];
         int[] trixopt = new int[3];
         int[] triyopt = new int[3];
 
@@ -61,55 +61,55 @@ public class CSET {
 
         System.out.println("Single Point Alg");
         //iteriere für jeden Punkt einmal
-        for (int v = 0; v < pointsx.size(); v++) {
+        for (int v = 0; v<pointsx.size(); v++){
             //setze Geraden für W_q,p Wedges, y=mx+b <=> b=-mx+y
             //berechne b_p mit -sqrt(3), b_q mit sqrt(3)), da das Koordinatensystem Spiegelverkehrt
-            b_p = Math.sqrt(3) * pointsx.get(v).getX() + pointsx.get(v).getY();
-            b_q = -Math.sqrt(3) * pointsx.get(v).getX() + pointsx.get(v).getY();
+            b_p = Math.sqrt(3)*pointsx.get(v).getX()+pointsx.get(v).getY();
+            b_q = -Math.sqrt(3)*pointsx.get(v).getX()+pointsx.get(v).getY();
 
             //berechne Schnittpunkt aus Geradengleichungen
             // tan(60)x +b1 = -tan(60)x +b2 <=> 2*tan(60)x +b1 = b2 <=> x = (-b1 + b2)/2*tan(60)
             // Gerade l_pq hat immer den selben x wert gespeichert in v_pq[0]
             //v_pq[0] = x         v_pq[1] =y
-            v_pq[0] = (-b_p + b_q) / (2 * -Math.sqrt(3));
-            v_pq[1] = -Math.sqrt(3) * (v_pq[0]) + b_p;
+            v_pq[0]= (-b_p + b_q)/(2*-Math.sqrt(3));
+            v_pq[1]= -Math.sqrt(3)*(v_pq[0]) + b_p;
 
             // compute points on both lines with p the right and q the left line, set y and calculate x coors
-            line_p[1] = v_pq[1] + 200;
-            line_q[1] = v_pq[1] + 200;
-            line_p[0] = (line_p[1] - b_p) / -Math.sqrt(3);
-            line_q[0] = (line_q[1] - b_q) / Math.sqrt(3);
+            line_p[1]=v_pq[1]+ 200;
+            line_q[1]=v_pq[1]+ 200;
+            line_p[0]=(line_p[1]-b_p)/-Math.sqrt(3);
+            line_q[0]=(line_q[1]-b_q)/Math.sqrt(3);
 
 
             //loop to find Points in Wedge_p,q
-            for (int windx = 0; windx < pointsx.size(); windx++) {
+            for (int windx=0; windx < pointsx.size(); windx++) {
                 //checke ob y Koordinate größer ist
                 //checke ob es in Kante die p aufspannt rechts davon liegt, also größer ist, y=mx+b <=> x = (y-b)/m
                 //checke ob es in Kante die b aufspannt links davon liegt, also kleiner ist
 
                 //skip Fall, in dem der Algorithmus den spannenden Wedgepunkt analysiert und checkt ob dieser in Wedge ist
                 //aufgrund Konvertierung und ungenauigkeit von double auf Int ist der Halbebenencheck manchmal zu ungenau
-                if (windx == v) {
+                if (windx == v){
                     wedgepoints.add(pointsx.get(windx));
                     //füge Farbe der Liste hinzu um zu gucken ob alle Farben überhaupt in Wedge drin sind
-                    if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
+                    if(!allwedgecolors.contains(pointsx.get(windx).getColor())){
                         allwedgecolors.add(pointsx.get(windx).getColor());
                     }
                     continue;
                 }
 
-                //(windx_x - p_x)*((windx_y+p_y)/2) + (v_pq_x - windx_x)*((v_pq_y+windx_y)/2) + (p_x - v_pq_x)*((p_y+v_pq_y)/2) < 0 Links gerade checkt ob links davon liegt
-                //(windx_x - q_x)*((windx_y+q_y)/2) + (v_pq_x - windx_x)*((v_pq_y+windx_y)/2) + (q_x - v_pq_x)*((q_y+v_pq_y)/2) < 0 Links gerade checkt ob links davon liegt
-                if (((pointsx.get(windx).getX() - line_p[0]) * ((pointsx.get(windx).getY() + line_p[1]) / 2) +
-                        (v_pq[0] - pointsx.get(windx).getX()) * ((v_pq[1] + pointsx.get(windx).getY()) / 2) +
-                        (line_p[0] - v_pq[0]) * ((line_p[1] + v_pq[1]) / 2)) >= 0 &&
-                        ((pointsx.get(windx).getX() - v_pq[0]) * ((pointsx.get(windx).getY() + v_pq[1]) / 2) +
-                                (line_q[0] - pointsx.get(windx).getX()) * ((line_q[1] + pointsx.get(windx).getY()) / 2) +
-                                (v_pq[0] - line_q[0]) * ((v_pq[1] + line_q[1]) / 2)) >= 0 &&
-                        (pointsx.get(windx).getY() >= v_pq[1])) {
+                    //(windx_x - p_x)*((windx_y+p_y)/2) + (v_pq_x - windx_x)*((v_pq_y+windx_y)/2) + (p_x - v_pq_x)*((p_y+v_pq_y)/2) < 0 Links gerade checkt ob links davon liegt
+                    //(windx_x - q_x)*((windx_y+q_y)/2) + (v_pq_x - windx_x)*((v_pq_y+windx_y)/2) + (q_x - v_pq_x)*((q_y+v_pq_y)/2) < 0 Links gerade checkt ob links davon liegt
+                if (((pointsx.get(windx).getX() - line_p[0])*((pointsx.get(windx).getY()+line_p[1])/2) +
+                        (v_pq[0] - pointsx.get(windx).getX())*((v_pq[1]+pointsx.get(windx).getY())/2) +
+                        (line_p[0] - v_pq[0])*((line_p[1]+v_pq[1])/2)) >= 0 &&
+                    ((pointsx.get(windx).getX() - v_pq[0])*((pointsx.get(windx).getY()+v_pq[1])/2) +
+                            (line_q[0] - pointsx.get(windx).getX())*((line_q[1]+pointsx.get(windx).getY())/2) +
+                            (v_pq[0] - line_q[0])*((v_pq[1]+ line_q[1])/2)) >= 0 &&
+                    (pointsx.get(windx).getY()>= v_pq[1])){
                     wedgepoints.add(pointsx.get(windx));
                     //füge Farbe der Liste hinzu um zu gucken ob alle Farben überhaupt in Wedge drin sind
-                    if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
+                    if(!allwedgecolors.contains(pointsx.get(windx).getColor())){
                         allwedgecolors.add(pointsx.get(windx).getColor());
                     }
                 }
@@ -119,69 +119,69 @@ public class CSET {
             Collections.sort(wedgepoints, new ComparatorPointY());
 
 
-            // Wedge Color-Spanning Abfrage, falls nein gehe zu nächstem Punkt paar
-            if (allwedgecolors.size() != colors.size()) {
-                allwedgecolors.clear();
-                wedgepoints.clear();
-                wedgecolors.clear();
-                continue;
-            }
-            allwedgecolors.clear();
-            wedgecolors.clear();
-
-
-            for (int idx = 0; idx < wedgepoints.size(); idx++) {
-                if (!wedgecolors.contains(wedgepoints.get(idx).getColor())) {
-                    wedgecolors.add(wedgepoints.get(idx).getColor());
+                // Wedge Color-Spanning Abfrage, falls nein gehe zu nächstem Punkt paar
+                if (allwedgecolors.size() != colors.size()){
+                    allwedgecolors.clear();
+                    wedgepoints.clear();
+                    wedgecolors.clear();
+                    continue;
                 }
-                if (wedgecolors.size() == colors.size()) {
-                    trix[0] = (int) v_pq[0];
-                    triy[0] = (int) v_pq[1];
-                    triy[1] = wedgepoints.get(idx).getY();
-                    triy[2] = wedgepoints.get(idx).getY();
-                    trix[1] = (int) ((wedgepoints.get(idx).getY() - b_p) / -Math.sqrt(3));
-                    trix[2] = (int) ((wedgepoints.get(idx).getY() - b_q) / Math.sqrt(3));
-                    //berechne optimale Fläche
-                    triarea = ((trix[2] - trix[1]) * (triy[1] - triy[0])) / 2;
-                    if (triarea <= triopt) {
-                        triopt = triarea;
-                        trixopt[0] = trix[0];
-                        trixopt[1] = trix[1];
-                        trixopt[2] = trix[2];
-                        triyopt[0] = triy[0];
-                        triyopt[1] = triy[1];
-                        triyopt[2] = triy[2];
-                        wedgecolors.clear();
-                        wedgepoints.clear();
-                        break;
+                allwedgecolors.clear();
+                wedgecolors.clear();
+
+
+            for (int idx=0; idx<wedgepoints.size(); idx++ ){
+                    if (!wedgecolors.contains(wedgepoints.get(idx).getColor())){
+                        wedgecolors.add(wedgepoints.get(idx).getColor());
+                    }
+                    if( wedgecolors.size() == colors.size()){
+                        trix[0]=(int) v_pq[0];
+                        triy[0]=(int) v_pq[1];
+                        triy[1]=wedgepoints.get(idx).getY();
+                        triy[2]=wedgepoints.get(idx).getY();
+                        trix[1]=(int) ((wedgepoints.get(idx).getY() - b_p)/-Math.sqrt(3));
+                        trix[2]=(int) ((wedgepoints.get(idx).getY() - b_q)/Math.sqrt(3));
+                        //berechne optimale Fläche
+                        triarea =   ((trix[2]-trix[1]) * (triy[1]-triy[0]))/2;
+                        if (triarea <= triopt){
+                            triopt = triarea;
+                            trixopt[0]= trix[0];
+                            trixopt[1]= trix[1];
+                            trixopt[2]= trix[2];
+                            triyopt[0]= triy[0];
+                            triyopt[1]= triy[1];
+                            triyopt[2]= triy[2];
+                            wedgecolors.clear();
+                            wedgepoints.clear();
+                            break;
+                        }
                     }
                 }
-            }
             wedgecolors.clear();
             wedgepoints.clear();
         }
         System.out.println("Double Point Alg");
 
         //iteriere durch jedes Punktpaar durch
-        for (int p = 0; p < pointsx.size(); p++) {
+        for (int p = 0; p<pointsx.size(); p++){
             // x(p) < x(q) zu jedem Zeiptunkt
-            for (int q = p + 1; q < pointsx.size(); q++) {
-                if (pointsx.get(p).getColor() == pointsx.get(q).getColor()) {
+            for (int q= p + 1 ; q<pointsx.size(); q++){
+                if (pointsx.get(p).getColor() == pointsx.get(q).getColor()){
                     continue;
                 }
 //                System.out.println("Punkt p Nummer: "+ p + " Punkt q Nummer: "+ q );
 
                 //setze Geraden für W_q,p Wedges, y=mx+b <=> b=-mx+y
                 //berechne b_p mit sqrt(3), b_q mit -(sqrt(3))
-                b_p = Math.sqrt(3) * pointsx.get(p).getX() + pointsx.get(p).getY();
-                b_q = -Math.sqrt(3) * pointsx.get(q).getX() + pointsx.get(q).getY();
+                b_p = Math.sqrt(3)*pointsx.get(p).getX()+pointsx.get(p).getY();
+                b_q = -Math.sqrt(3)*pointsx.get(q).getX()+pointsx.get(q).getY();
 
                 //berechne Schnittpunkt aus Geradengleichungen
                 // tan(60)x +b1 = -tan(60)x +b2 <=> 2*tan(60)x +b1 = b2 <=> x = (-b1 + b2)/2*tan(60)
                 // Gerade l_pq hat immer den selben x wert gespeichert in v_pq[0]
                 //v_pq[0] = x         v_pq[1] =y
-                v_pq[0] = (-b_p + b_q) / (2 * -Math.sqrt(3));
-                v_pq[1] = -Math.sqrt(3) * (v_pq[0]) + b_p;
+                v_pq[0]= (-b_p + b_q)/(2*-Math.sqrt(3));
+                v_pq[1]= -Math.sqrt(3)*(v_pq[0]) + b_p;
 
                 //Punktpaar bildet Mittelpunkt, aber einer der unter ist über dem Mittelpunkt der Wedge
 //                if(pointsx.get(p).getY()<= v_pq[1]+1 || pointsx.get(q).getY()<= v_pq[1]+1 ||
@@ -190,17 +190,18 @@ public class CSET {
 //                }
 
 
+
                 //loop to find Points in Wedge_p,q
-                for (int windx = 0; windx < pointsx.size(); windx++) {
+                for (int windx=0; windx < pointsx.size(); windx++) {
                     //checke ob y Koordinate größer ist
                     //checke ob es in Kante die p aufspannt rechts davon liegt, also größer ist, y=mx+b <=> x = (y-b)/m
                     //checke ob es in Kante die b aufspannt links davon liegt, also kleiner ist
 
                     //skip Fall, in dem der Algorithmus den spannenden Wedgepunkt analysiert und checkt ob dieser in Wedge ist
                     //aufgrund Konvertierung und ungenauigkeit von double auf Int ist der Halbebenencheck manchmal zu ungenau
-                    if (windx == p) {
-                        if (v_pq[1] <= pointsx.get(p).getY()) {
-                            System.out.println("Windx: " + windx + " p: " + p + " q: " + q);
+                    if (windx == p){
+                        if( v_pq[1]<= pointsx.get(p).getY()){
+                            System.out.println("Windx: "+ windx + " p: " +p + " q: "+ q);
                             wedgepoints.add(pointsx.get(windx));
                             //füge Farbe der Liste hinzu um zu gucken ob alle Farben überhaupt in Wedge drin sind
                             if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
@@ -224,7 +225,7 @@ public class CSET {
                             continue;
                         }
                     }
-                    if (windx == q && v_pq[1] <= pointsx.get(q).getY()) {
+                    if (windx == q && v_pq[1]<= pointsx.get(q).getY()){
 //                        System.out.println("Windx: "+ windx + " p: " +p + " q: "+ q);
                         wedgepoints.add(pointsx.get(windx));
                         //füge Farbe der Liste hinzu um zu gucken ob alle Farben überhaupt in Wedge drin sind
@@ -254,7 +255,7 @@ public class CSET {
 
 
                         //füge Farbe der Liste hinzu um zu gucken ob alle Farben überhaupt in Wedge drin sind
-                        if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
+                        if(!allwedgecolors.contains(pointsx.get(windx).getColor())){
                             allwedgecolors.add(pointsx.get(windx).getColor());
                         }
                     }
@@ -264,7 +265,7 @@ public class CSET {
                 Collections.sort(wedgepoints, new ComparatorPointY());
 
                 // Wedge Color-Spanning Abfrage, falls nein gehe zu nächstem Punkt paar
-                if (allwedgecolors.size() != colors.size()) {
+                if (allwedgecolors.size() != colors.size()){
                     allwedgecolors.clear();
                     wedgepoints.clear();
                     wedgecolors.clear();
@@ -272,33 +273,33 @@ public class CSET {
                 }
                 allwedgecolors.clear();
                 wedgecolors.clear();
-                for (int idx = 0; idx < wedgepoints.size(); idx++) {
-                    if (!wedgecolors.contains(wedgepoints.get(idx).getColor())) {
+                for (int idx=0; idx<wedgepoints.size(); idx++ ){
+                    if (!wedgecolors.contains(wedgepoints.get(idx).getColor())){
                         wedgecolors.add(wedgepoints.get(idx).getColor());
                     }
-                    if (wedgecolors.size() == colors.size()) {
+                    if( wedgecolors.size() == colors.size()){
 
-                        trix[0] = (int) v_pq[0];
-                        triy[0] = (int) v_pq[1];
-                        triy[1] = wedgepoints.get(idx).getY();
-                        triy[2] = wedgepoints.get(idx).getY();
-                        trix[1] = (int) ((wedgepoints.get(idx).getY() - b_p) / -Math.sqrt(3));
-                        trix[2] = (int) ((wedgepoints.get(idx).getY() - b_q) / Math.sqrt(3));
+                        trix[0]=(int) v_pq[0];
+                        triy[0]=(int) v_pq[1];
+                        triy[1]=wedgepoints.get(idx).getY();
+                        triy[2]=wedgepoints.get(idx).getY();
+                        trix[1]=(int) ((wedgepoints.get(idx).getY() - b_p)/-Math.sqrt(3));
+                        trix[2]=(int) ((wedgepoints.get(idx).getY() - b_q)/Math.sqrt(3));
                         //berechne optimale Fläche
-                        triarea = ((trix[2] - trix[1]) * (triy[1] - triy[0])) / 2;
+                        triarea =   ((trix[2]-trix[1]) * (triy[1]-triy[0]))/2;
                         //System.out.println("Triarea: " +triarea);
-                        if (triarea <= triopt) {
-                            System.out.println("Triarea: " + triarea + "Triopt: " + triopt);
-                            for (int i = 0; i < wedgepoints.size(); i++) {
+                        if (triarea <= triopt){
+                            System.out.println("Triarea: " +triarea+ "Triopt: " +triopt);
+                            for (int i =0;i< wedgepoints.size(); i++){
 //                                System.out.println("XY of Wedgepoint:" + wedgepoints.get(i).getX() +" "+ wedgepoints.get(i).getY());
                             }
                             triopt = triarea;
-                            trixopt[0] = trix[0];
-                            trixopt[1] = trix[1];
-                            trixopt[2] = trix[2];
-                            triyopt[0] = triy[0];
-                            triyopt[1] = triy[1];
-                            triyopt[2] = triy[2];
+                            trixopt[0]= trix[0];
+                            trixopt[1]= trix[1];
+                            trixopt[2]= trix[2];
+                            triyopt[0]= triy[0];
+                            triyopt[1]= triy[1];
+                            triyopt[2]= triy[2];
                             wedgecolors.clear();
                             wedgepoints.clear();
                             break;
@@ -310,17 +311,17 @@ public class CSET {
             }
         }
 
-        if (triopt == 2137483647) {
+        if (triopt == 2137483647){
             return null;
         }
-        Triangle tri = new Triangle(trixopt, triyopt);
+        Triangle tri = new Triangle(trixopt,triyopt);
         return tri;
     }
 
     public static void execute(CoordPanel panel) {
 
-        if (pointsx.size() >= 2) {
-            triangle = AlgorithmCSET();
+        if (pointsx.size()>2) {
+            triangle=AlgorithmCSET();
             panel.setTri(triangle);
             System.out.println("New Iteration");
         }
