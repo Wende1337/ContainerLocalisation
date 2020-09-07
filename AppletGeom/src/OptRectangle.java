@@ -50,7 +50,7 @@ public class OptRectangle {
                 if (pointsx.get(p).getY() < pointsx.get(q).getY()) {
                     continue;
                 }
-                if(pointsx.get(p).getColor() == pointsx.get(q).getColor()){
+                if (pointsx.get(p).getColor() == pointsx.get(q).getColor()) {
                     continue;
                 }
 
@@ -59,42 +59,31 @@ public class OptRectangle {
                 for (int i = 0; i < colors.size(); i++) {
                     cspanning.add(null);
                 }
-
                 //r = rechte Grenze
-                for (int r = 0 ; r < pointsx.size(); r++) {
+                for (int r = 0; r < pointsx.size(); r++) {
                     //1. Fall r_x muss größer als linke Grenze p sein
-<<<<<<< HEAD
-                    if (pointsx.get(r).getX()< pointsx.get(p).getX()){
+                    if (pointsx.get(r).getX() < pointsx.get(p).getX()) {
+                        System.out.println("Fehler 1");
                         continue;
                     }
                     //2. Fall r_y muss über untere Grenze q sein
-                    if (pointsx.get(r).getY()< pointsx.get(q).getY()){
-=======
-                    if (pointsx.get(r).getX() < pointsx.get(p).getX()){
+                    if (pointsx.get(r).getY() < pointsx.get(q).getY()) {
+                        System.out.println("Fehler 1.5");
                         continue;
                     }
-                    //2. Fall r_y muss über untere Grenze q sein
-                    if (pointsx.get(r).getY() < pointsx.get(q).getY()){
-                        continue;
-                    }
-                    if(pointsx.get(r).getColor() == pointsx.get(p).getColor()){
->>>>>>> a3e73a6143606a1a328b03c16c4ed5a363b6ae04
-                        continue;
-                    }
-
 
 
                     //addiere Grenzpunkte p und q hinzu
-                    cspanning.set(colors.indexOf(pointsx.get(p).getColor()),pointsx.get(p).getColor());
-                    cspanning.set(colors.indexOf(pointsx.get(q).getColor()),pointsx.get(q).getColor());
+                    cspanning.set(colors.indexOf(pointsx.get(p).getColor()), pointsx.get(p).getColor());
+                    cspanning.set(colors.indexOf(pointsx.get(q).getColor()), pointsx.get(q).getColor());
 
                     //setze Farbe an Stelle r
-                    cspanning.set(colors.indexOf(pointsx.get(r).getColor()),pointsx.get(r).getColor());
+                    cspanning.set(colors.indexOf(pointsx.get(r).getColor()), pointsx.get(r).getColor());
 
                     //System.out.println("Cspanning: "+cspanning.size() + cspanning);
 
                     //wenn color Spanning
-                    if (!cspanning.contains(null)){
+                    if (!cspanning.contains(null)) {
                         //init. Liste mit Nullwerten der Größe von Color size
                         ccomb.clear();
                         for (int i = 0; i < colors.size(); i++) {
@@ -102,62 +91,66 @@ public class OptRectangle {
                         }
 
                         //s = obere Grenze
-                        for (int s = 0; s<pointsy.size(); s++){
+                        for (int s = 0; s < pointsy.size(); s++) {
                             //1. Fall s_x muss größer als linke Grenze p sein
-<<<<<<< HEAD
-                            if (pointsy.get(s).getX()< pointsx.get(p).getX()){
-                                continue;
-                            }
-                            //2. Fall s_y muss über untere Grenze q,p,r sein
-                            if (pointsy.get(s).getY()< pointsx.get(q).getY()){
-=======
-                            if (pointsy.get(s).getX() < pointsx.get(p).getX()){
+                            if (pointsy.get(s).getX() < pointsx.get(p).getX()) {
+                                System.out.println("Fehler 2");
+
                                 continue;
                             }
                             //2. Fall s_y muss über untere Grenze q sein
-                            if (pointsy.get(s).getY() < pointsx.get(q).getY()){
->>>>>>> a3e73a6143606a1a328b03c16c4ed5a363b6ae04
+                            if (pointsy.get(s).getY() < pointsx.get(q).getY()) {
+                                System.out.println("Fehler 3");
+
                                 continue;
                             }
-
                             //3. Fall s_x muss kleiner als r_x sein
-                            if (pointsy.get(s).getX() > pointsx.get(r).getX()){
+                            if (pointsy.get(s).getX() > pointsx.get(r).getX()) {
+                                System.out.println("Fehler 4");
                                 continue;
                             }
 
-
-                            //System.out.println("Check4");
 
                             //setze Farbe in List
-                            ccomb.set(colors.indexOf(pointsy.get(s).getColor()),pointsy.get(s).getColor());
+                            ccomb.set(colors.indexOf(pointsy.get(s).getColor()), pointsy.get(s).getColor());
 
-                            //System.out.println("Ccomb: "+ccomb.size() + ccomb);
 
                             //wenn Color Spanning
-                            if (!ccomb.contains(null)){
-                              /*  System.out.println("p_x: "+ pointsx.get(p).getX());
-                                System.out.println("p_y: "+ pointsx.get(q).getY());
-                                System.out.println("width: "+ (pointsx.get(r).getX()-pointsx.get(p).getX()));
-                                System.out.println("height: "+ (pointsy.get(s).getY()-pointsx.get(q).getY()));*/
+                            if (!ccomb.contains(null)) {
 
+                                System.out.println("X: "+pointsx.get(p).getX());
+                                System.out.println("Y: "+pointsx.get(q).getY());
+                                System.out.println("Width: "+(pointsx.get(r).getX() - pointsx.get(p).getX()));
+                                System.out.println("r_x: "+pointsx.get(r).getX() +"q_x: "+ pointsx.get(q).getX());
+                                System.out.println("p_x: "+pointsx.get(p).getX() +"s_x: "+ pointsy.get(s).getX());
+                                System.out.println("Height: "+(pointsy.get(s).getY() - pointsx.get(q).getY()));
 
                                 compareRectangle.setX(pointsx.get(p).getX());
                                 compareRectangle.setY(pointsx.get(q).getY());
-                                compareRectangle.setWidth(pointsx.get(r).getX()-pointsx.get(p).getX());
-                                compareRectangle.setHeight(pointsy.get(s).getY()-pointsx.get(q).getY());
+                                compareRectangle.setWidth(pointsx.get(r).getX() - pointsx.get(p).getX());
+                                /*if(pointsx.get(q).getX()>=pointsx.get(r).getX()){
+                                    compareRectangle.setWidth(pointsx.get(q).getX() - pointsx.get(p).getX());
+//                                    System.out.println("bad, Width: "+(pointsx.get(q).getX() - pointsx.get(p).getX()));
+//                                    System.out.println("good, Width: "+(pointsx.get(r).getX() - pointsx.get(p).getX()));
+
+                                }else{
+                                    compareRectangle.setWidth(pointsx.get(r).getX() - pointsx.get(p).getX());
+                                    System.out.println("reached");
+                                }*/
+                                compareRectangle.setHeight(pointsy.get(s).getY() - pointsx.get(q).getY());
 
                                 //vergleiche nach "area" oder "scope"
-                                System.out.println("CompareRect area: "+Rectangle.getArea(compareRectangle)+" Opt Rect area: "+Rectangle.getArea(optimumRectangle));
+                                System.out.println("CompareRect area: " + Rectangle.getArea(compareRectangle) + " Opt Rect area: " + Rectangle.getArea(optimumRectangle));
 
                                 //vergleiche Rechtecke
-                                if (Rectangle.getArea(optimumRectangle)==0){
+                                if (Rectangle.getArea(optimumRectangle) == 0) {
                                     optimumRectangle.setX(compareRectangle.getX());
                                     optimumRectangle.setY(compareRectangle.getY());
                                     optimumRectangle.setWidth(compareRectangle.getWidth());
                                     optimumRectangle.setHeight(compareRectangle.getHeight());
 
                                 }
-                                if(Rectangle.compareRectangles(optimumRectangle,compareRectangle, "area")==compareRectangle){
+                                if (Rectangle.compareRectangles(optimumRectangle, compareRectangle, "area") == compareRectangle) {
                                     optimumRectangle.setX(compareRectangle.getX());
                                     optimumRectangle.setY(compareRectangle.getY());
                                     optimumRectangle.setWidth(compareRectangle.getWidth());
@@ -169,8 +162,105 @@ public class OptRectangle {
                 }
             }
         }
+
+
+        //iteriere durch jedes Punktpaar durch, p= linke, q= untere Grenze
+        for (int p = 0; p < pointsx.size(); p++) {
+            // x(p) < x(q) zu jedem Zeiptunkt
+            // Fall falls die zwei Punkte keinen linkeren unten Eckpunkt bilden
+
+            //init. Liste mit Nullwerten der Größe von Color size
+            cspanning.clear();
+            for (int i = 0; i < colors.size(); i++) {
+                cspanning.add(null);
+            }
+
+            //r = rechte Grenze
+            for (int r = 0; r < pointsx.size(); r++) {
+                //1. Fall r_x muss größer als linke Grenze p sein
+                if (pointsx.get(r).getX() < pointsx.get(p).getX()) {
+                    continue;
+                }
+                //2.Fall r_y muss größer oder gleich p_y sein
+                if (pointsx.get(r).getY() < pointsx.get(p).getY()) {
+                    continue;
+                }
+
+
+
+                //addiere Grenzpunkte p und q hinzu
+                cspanning.set(colors.indexOf(pointsx.get(p).getColor()), pointsx.get(p).getColor());
+
+                //setze Farbe an Stelle r
+                cspanning.set(colors.indexOf(pointsx.get(r).getColor()), pointsx.get(r).getColor());
+
+                //System.out.println("Cspanning: "+cspanning.size() + cspanning);
+
+                //wenn color Spanning
+                if (!cspanning.contains(null)) {
+                    //init. Liste mit Nullwerten der Größe von Color size
+                    ccomb.clear();
+                    for (int i = 0; i < colors.size(); i++) {
+                        ccomb.add(null);
+                    }
+
+                    //s = obere Grenze
+                    for (int s = 0; s < pointsy.size(); s++) {
+                        //1. Fall s_x muss größer als linke Grenze p sein
+                        if (pointsy.get(s).getX() < pointsx.get(p).getX()) {
+                            continue;
+                        }
+                        //2. Fall s_y muss über untere Grenze q sein
+                        if (pointsy.get(s).getY() < pointsx.get(p).getY()) {
+                            continue;
+                        }
+                        //3. Fall s_x muss kleiner als r_x sein
+                        if (pointsy.get(s).getX() > pointsx.get(r).getX()) {
+                            continue;
+                        }
+
+
+                        //setze Farbe in List
+                        ccomb.set(colors.indexOf(pointsy.get(s).getColor()), pointsy.get(s).getColor());
+
+                        //wenn Color Spanning
+                        if (!ccomb.contains(null)) {
+                              /*  System.out.println("p_x: "+ pointsx.get(p).getX());
+                                System.out.println("p_y: "+ pointsx.get(q).getY());
+                                System.out.println("width: "+ (pointsx.get(r).getX()-pointsx.get(p).getX()));
+                                System.out.println("height: "+ (pointsy.get(s).getY()-pointsx.get(q).getY()));*/
+
+
+                            compareRectangle.setX(pointsx.get(p).getX());
+                            compareRectangle.setY(pointsx.get(p).getY());
+                            compareRectangle.setWidth(pointsx.get(r).getX() - pointsx.get(p).getX());
+                            compareRectangle.setHeight(pointsy.get(s).getY() - pointsx.get(p).getY());
+
+                            //vergleiche nach "area" oder "scope"
+                            System.out.println("CompareRect area: " + Rectangle.getArea(compareRectangle) + " Opt Rect area: " + Rectangle.getArea(optimumRectangle));
+
+                            //vergleiche Rechtecke
+                            if (Rectangle.getArea(optimumRectangle) == 0) {
+                                optimumRectangle.setX(compareRectangle.getX());
+                                optimumRectangle.setY(compareRectangle.getY());
+                                optimumRectangle.setWidth(compareRectangle.getWidth());
+                                optimumRectangle.setHeight(compareRectangle.getHeight());
+
+                            }
+                            if (Rectangle.compareRectangles(optimumRectangle, compareRectangle, "area") == compareRectangle) {
+                                optimumRectangle.setX(compareRectangle.getX());
+                                optimumRectangle.setY(compareRectangle.getY());
+                                optimumRectangle.setWidth(compareRectangle.getWidth());
+                                optimumRectangle.setHeight(compareRectangle.getHeight());
+                            }
+                        }
+                    }
+                }
+            }
+        }
         return optimumRectangle;
     }
+
 
     public static void execute(CoordPanel panel) {
 
