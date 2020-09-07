@@ -53,8 +53,6 @@ public class OptRectangle {
             System.out.println("Point i="+i+" X: "+pointsy.get(i).getX()+" Y: "+pointsy.get(i).getY());
         }
 
-
-
         //iteriere durch jedes Punktpaar durch, p= linke, q= untere Grenze
         for (int p = 0; p < pointsx.size(); p++) {
             // x(p) < x(q) zu jedem Zeiptunkt
@@ -97,15 +95,12 @@ public class OptRectangle {
                         continue;
                     }
 
-
                     //addiere Grenzpunkte p und q hinzu
                     cspanning.set(colors.indexOf(pointsx.get(p).getColor()), pointsx.get(p).getColor());
                     cspanning.set(colors.indexOf(pointsx.get(q).getColor()), pointsx.get(q).getColor());
 
                     //setze Farbe an Stelle r
                     cspanning.set(colors.indexOf(pointsx.get(r).getColor()), pointsx.get(r).getColor());
-
-                    //System.out.println("Cspanning: "+cspanning.size() + cspanning);
 
                     //wenn color Spanning
                     if (!cspanning.contains(null)) {
@@ -133,7 +128,6 @@ public class OptRectangle {
                                 continue;
                             }
 
-
                             //setze Farbe in List
                             ccomb.set(colors.indexOf(pointsy.get(s).getColor()), pointsy.get(s).getColor());
 
@@ -149,25 +143,10 @@ public class OptRectangle {
                             //wenn Color Spanning
                             if (!ccomb.contains(null)) {
 
-                                /*System.out.println("X: "+pointsx.get(p).getX());
-                                System.out.println("Y: "+pointsx.get(q).getY());
-                                System.out.println("Width: "+(pointsx.get(r).getX() - pointsx.get(p).getX()));
-                                System.out.println("r_x: "+pointsx.get(r).getX() +"q_x: "+ pointsx.get(q).getX());
-                                System.out.println("p_x: "+pointsx.get(p).getX() +"s_x: "+ pointsy.get(s).getX());
-                                System.out.println("Height: "+(pointsy.get(s).getY() - pointsx.get(q).getY()));*/
 
                                 compareRectangle.setX(pointsx.get(p).getX());
                                 compareRectangle.setY(pointsx.get(q).getY());
                                 compareRectangle.setWidth(pointsx.get(r).getX() - pointsx.get(p).getX());
-                                /*if(pointsx.get(q).getX()>=pointsx.get(r).getX()){
-                                    compareRectangle.setWidth(pointsx.get(q).getX() - pointsx.get(p).getX());
-//                                    System.out.println("bad, Width: "+(pointsx.get(q).getX() - pointsx.get(p).getX()));
-//                                    System.out.println("good, Width: "+(pointsx.get(r).getX() - pointsx.get(p).getX()));
-
-                                }else{
-                                    compareRectangle.setWidth(pointsx.get(r).getX() - pointsx.get(p).getX());
-                                    System.out.println("reached");
-                                }*/
                                 compareRectangle.setHeight(pointsy.get(s).getY() - pointsx.get(q).getY());
 
                                 //vergleiche nach "area" oder "scope"
