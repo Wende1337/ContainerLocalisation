@@ -8,8 +8,7 @@ public class OptRectangle {
 
     private static List<Point> pointsx = CoordPanel.getPoints();
     private static List<Point> pointsy = new ArrayList<Point>(pointsx.size());
-    public static int rectglobalcircum;
-    public static int rectglobalarea;
+
 
     public static Rectangle algo1() {
 
@@ -37,15 +36,18 @@ public class OptRectangle {
             }
         }
 
-        //wenn weniger als 2 Farben
-        if (colors.size() < 2) {
-            return null;
-        }
-
         //Liste die aktuelle Farben zählt
         ArrayList<Color> cspanning = new ArrayList<Color>(colors.size());
         ArrayList<Color> ccomb = new ArrayList<Color>(colors.size());
         //Eckpunkte für die Variablen
+
+        //wenn weniger als 2 Farben
+        if (colors.size() < 2) {
+            colors.clear();
+            ccomb.clear();
+            pointsy.clear();
+            return null;
+        }
 
 
 
@@ -232,7 +234,11 @@ public class OptRectangle {
                 }
             }
         }
-        rectglobalarea=optimumRectangle.getArea();
+        colors.clear();
+        ccomb.clear();
+        pointsy.clear();
+        cspanning.clear();
+
         return optimumRectangle;
     }
 
@@ -242,10 +248,12 @@ public class OptRectangle {
         if (pointsx.size() >= 2) {
             Rectangle rect = new Rectangle(0,0,0,0);
             rect= algo1();
-            panel.setRect(rect);
-            Layout.circum2.setText(Integer.toString(rect.getCircum()));
-            Layout.area2.setText(Integer.toString(rect.getArea()));
-            Layout.time2.setText(Integer.toString(rect.getArea()));
+            if (rect!=null){
+                panel.setRect(rect);
+                Layout.circum2.setText(Integer.toString(rect.getCircum()));
+                Layout.area2.setText(Integer.toString(rect.getArea()));
+                Layout.time2.setText(Integer.toString(rect.getArea()));
+            }
         }
     }
 }

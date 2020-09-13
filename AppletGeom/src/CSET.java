@@ -321,10 +321,12 @@ public class CSET {
 
         if (pointsx.size()>=2) {
             triangle=AlgorithmCSET();
+            if (triangle!= null){
             panel.setTri(triangle);
             Layout.circum3.setText(Integer.toString(triangle.getCircum()));
             Layout.area3.setText(Integer.toString(triangle.getArea()));
             Layout.time3.setText(Integer.toString(triangle.getArea()));
+            }
         }
     }
 }
