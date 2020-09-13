@@ -474,6 +474,7 @@ public class CSETA {
             wedgepoints.clear();
         }
 
+
         Triangle[] cseta = new Triangle[2];
         Triangle tri = new Triangle(trixopt, triyopt);
         Triangle ann = new Triangle(tri_annoptx, tri_annopty);
