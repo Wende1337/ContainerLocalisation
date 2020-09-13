@@ -45,9 +45,11 @@ public class Rectangle {
     }
 
 
-    public static int getArea(Rectangle a){
-        return a.getWidth()*a.getHeight();
+    public int getArea(){
+        return this.getWidth()* this.getHeight();
     }
+
+    public int getCircum() {return this.getHeight()*2 + this.getWidth()*2; }
 
     //Comparing Rectangles after Area or Scope and returning The Rectangle which is smaller
     public static Rectangle compareRectangles(Rectangle a, Rectangle b, String compareType)

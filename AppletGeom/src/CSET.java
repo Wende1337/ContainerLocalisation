@@ -9,12 +9,16 @@ public class CSET {
 
     private static List<Point> pointsx = CoordPanel.getPoints();
     static Triangle triangle = new Triangle(null, null);
+    public static int triglobalcircum;
+    public static int triglobalarea;
+
+
 
 
     public static Triangle AlgorithmCSET() {
 
         //		if List is less than 1
-        if (pointsx.size() <= 2) {
+        if (pointsx.size() < 2) {
             return null;
         }
         //      sort point List after x coordinate
@@ -32,7 +36,6 @@ public class CSET {
                 }
             }
         }
-        System.out.println("Colors: "+colors.size());
 
         //wenn weniger als 2 Farben
         if (colors.size()<2){
@@ -44,6 +47,7 @@ public class CSET {
 
         //Schnittpunkt der Gerade die wir mit dem Punktpaar aufspannen (x,y)
         double[] v_pq = new double[2];
+        //Y-Achsenabschnitt für gerade p und q
         double b_p, b_q =0 ;
         LinkedList<Point> wedgepoints = new LinkedList<Point>();
         LinkedList<Color> allwedgecolors = new LinkedList<>();
@@ -59,7 +63,7 @@ public class CSET {
         int triarea;
         int triopt = 2137483647;
 
-        System.out.println("Single Point Alg");
+
         //iteriere für jeden Punkt einmal
         for (int v = 0; v<pointsx.size(); v++){
             //setze Geraden für W_q,p Wedges, y=mx+b <=> b=-mx+y
@@ -160,7 +164,6 @@ public class CSET {
             wedgecolors.clear();
             wedgepoints.clear();
         }
-        System.out.println("Double Point Alg");
 
         //iteriere durch jedes Punktpaar durch
         for (int p = 0; p<pointsx.size(); p++){
@@ -169,7 +172,6 @@ public class CSET {
                 if (pointsx.get(p).getColor() == pointsx.get(q).getColor()){
                     continue;
                 }
-//                System.out.println("Punkt p Nummer: "+ p + " Punkt q Nummer: "+ q );
 
                 //setze Geraden für W_q,p Wedges, y=mx+b <=> b=-mx+y
                 //berechne b_p mit sqrt(3), b_q mit -(sqrt(3))
@@ -201,7 +203,6 @@ public class CSET {
                     //aufgrund Konvertierung und ungenauigkeit von double auf Int ist der Halbebenencheck manchmal zu ungenau
                     if (windx == p){
                         if( v_pq[1]<= pointsx.get(p).getY()){
-                            System.out.println("Windx: "+ windx + " p: " +p + " q: "+ q);
                             wedgepoints.add(pointsx.get(windx));
                             //füge Farbe der Liste hinzu um zu gucken ob alle Farben überhaupt in Wedge drin sind
                             if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
@@ -226,7 +227,6 @@ public class CSET {
                         }
                     }
                     if (windx == q && v_pq[1]<= pointsx.get(q).getY()){
-//                        System.out.println("Windx: "+ windx + " p: " +p + " q: "+ q);
                         wedgepoints.add(pointsx.get(windx));
                         //füge Farbe der Liste hinzu um zu gucken ob alle Farben überhaupt in Wedge drin sind
                         if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
@@ -287,12 +287,8 @@ public class CSET {
                         trix[2]=(int) ((wedgepoints.get(idx).getY() - b_q)/Math.sqrt(3));
                         //berechne optimale Fläche
                         triarea =   ((trix[2]-trix[1]) * (triy[1]-triy[0]))/2;
-                        //System.out.println("Triarea: " +triarea);
+
                         if (triarea <= triopt){
-                            System.out.println("Triarea: " +triarea+ "Triopt: " +triopt);
-                            for (int i =0;i< wedgepoints.size(); i++){
-//                                System.out.println("XY of Wedgepoint:" + wedgepoints.get(i).getX() +" "+ wedgepoints.get(i).getY());
-                            }
                             triopt = triarea;
                             trixopt[0]= trix[0];
                             trixopt[1]= trix[1];
@@ -314,16 +310,21 @@ public class CSET {
         if (triopt == 2137483647){
             return null;
         }
+
         Triangle tri = new Triangle(trixopt,triyopt);
+        triglobalcircum = tri.getCircum();
+        triglobalarea = tri.getArea();
         return tri;
     }
 
     public static void execute(CoordPanel panel) {
 
-        if (pointsx.size()>2) {
+        if (pointsx.size()>=2) {
             triangle=AlgorithmCSET();
             panel.setTri(triangle);
-            System.out.println("New Iteration");
+            Layout.circum3.setText(Integer.toString(triangle.getCircum()));
+            Layout.area3.setText(Integer.toString(triangle.getArea()));
+            Layout.time3.setText(Integer.toString(triangle.getArea()));
         }
     }
 }

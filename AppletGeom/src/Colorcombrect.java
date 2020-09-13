@@ -10,7 +10,7 @@ public class Colorcombrect {
 
     public static int[] Algorithm() {
 //		if List is empty
-        if (points.size()==0) {
+        if (points.size() == 0) {
             return null;
         }
 
@@ -23,8 +23,8 @@ public class Colorcombrect {
 //        get all point colors
 
         for (int k = 1; k < points.size(); k++) {
-            for (int l = 0; l< colors.size(); l++){
-                if (colors.contains(points.get(k).getColor())==false){
+            for (int l = 0; l < colors.size(); l++) {
+                if (colors.contains(points.get(k).getColor()) == false) {
                     colors.add(points.get(k).getColor());
                 }
             }
@@ -34,21 +34,18 @@ public class Colorcombrect {
 //      initiate Array with all points of different colors in combination, variable for min/max x,y and area,
 //      circumference
         Point[] comb = new Point[colors.size()];
-        int min_x1,min_y1,max_x1,max_y1, area1, circum1;
+        int min_x1, min_y1, max_x1, max_y1, area1, circum1;
 //      variable for min/max x,y and area,circumference
-        int min_x2,min_y2,max_x2,max_y2;
-        min_x2=min_y2=max_x2=max_y2=0;
-        int area2,circum2;
-        area2=circum2=2137483647;
+        int min_x2, min_y2, max_x2, max_y2;
+        min_x2 = min_y2 = max_x2 = max_y2 = 0;
+        int area2, circum2;
+        area2 = circum2 = 2137483647;
         int index = 0;
 
         for (int i = 0; i < points.size(); i++) {
 //            get color index to be synchronized with array "colors"
             index = colors.indexOf(points.get(i).getColor());
             comb[index] = points.get(i);
-
-
-
 
 
 //          loop through comb list to find out if a valid combination is found
@@ -97,10 +94,10 @@ public class Colorcombrect {
                 if (area1 <= area2) {
                     area2 = area1;
                     circum2 = circum1;
-                    min_x2=min_x1;
-                    min_y2=min_y1;
-                    max_x2=max_x1;
-                    max_y2=max_y1;
+                    min_x2 = min_x1;
+                    min_y2 = min_y1;
+                    max_x2 = max_x1;
+                    max_y2 = max_y1;
                 }
 
 
@@ -163,10 +160,10 @@ public class Colorcombrect {
                 if (area1 <= area2) {
                     area2 = area1;
                     circum2 = circum1;
-                    min_x2=min_x1;
-                    min_y2=min_y1;
-                    max_x2=max_x1;
-                    max_y2=max_y1;
+                    min_x2 = min_x1;
+                    min_y2 = min_y1;
+                    max_x2 = max_x1;
+                    max_y2 = max_y1;
                 }
 
 
@@ -175,12 +172,11 @@ public class Colorcombrect {
         }
 
 
-
-        int[] xy_widht_height= new int[4];
-        xy_widht_height[0]=min_x2;
-        xy_widht_height[1]=min_y2;
-        xy_widht_height[2]=max_x2-min_x2;
-        xy_widht_height[3]=max_y2-min_y2;
+        int[] xy_widht_height = new int[4];
+        xy_widht_height[0] = min_x2;
+        xy_widht_height[1] = min_y2;
+        xy_widht_height[2] = max_x2 - min_x2;
+        xy_widht_height[3] = max_y2 - min_y2;
 
 
         return xy_widht_height;
@@ -189,22 +185,19 @@ public class Colorcombrect {
     //function to create rectangle with this algorithm
     public static void execute(CoordPanel panel) {
 
-        if (points.size()!=0) {
-            rect=Colorcombrect.Algorithm();
-            Rectangle rectangle= new Rectangle(rect[0],rect[1],rect[2],rect[3]);
+        if (points.size() != 0) {
+            rect = Colorcombrect.Algorithm();
+            Rectangle rectangle = new Rectangle(rect[0], rect[1], rect[2], rect[3]);
             panel.setRect(rectangle);
+            Layout.circum1.setText(Integer.toString(rectangle.getCircum()));
+            Layout.area1.setText(Integer.toString(rectangle.getArea()));
+            Layout.time1.setText(Integer.toString(rectangle.getArea()));
+
         }
     }
-
-    public static <T> int getNulls(T[] arr){
-        int count = 0;
-        for(T el : arr)
-            if (el != null)
-                ++count;
-        return count;
-    }
-
 }
+
+
 
 
 

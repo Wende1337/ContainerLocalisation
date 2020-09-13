@@ -9,6 +9,24 @@ public class Layout extends JFrame {
     private static final int WIDTH = 1280;
     private static final int HEIGHT = 720;
 
+    // for text fields
+    public static JTextField circum1 = new JTextField("Umfang");
+    public static JTextField area1 = new JTextField("Fläche");
+    public static JTextField time1 = new JTextField("Zeit in s");
+
+    public static JTextField circum2 = new JTextField("Umfang");
+    public static JTextField area2 = new JTextField("Fläche");
+    public static JTextField time2 = new JTextField("Zeit in s");
+
+    public static JTextField circum3 = new JTextField("Umfang");
+    public static JTextField area3 = new JTextField("Fläche");
+    public static JTextField time3 = new JTextField("Zeit in s");
+
+    public static JTextField circum4 = new JTextField("Umfang");
+    public static JTextField area4 = new JTextField("Fläche");
+    public static JTextField time4 = new JTextField("Zeit in s");
+
+
     public Layout(){
 
         this.setTitle("Container Lokalisation");
@@ -73,36 +91,33 @@ public class Layout extends JFrame {
         JPanel bPanel = new JPanel();
         bPanel.setBorder(new LineBorder(Color.GRAY, 2));
         bPanel.setBackground(Color.LIGHT_GRAY);
-        bPanel.setLayout(new GridLayout(2,3,2,2));
+        bPanel.setLayout(new GridLayout(2,4,2,2));
 
             //maybe multiple text Panels for bottom row bottom panel
-            JPanel texttupel0 = new JPanel();
-            texttupel0.setLayout(new GridLayout(1,3,2,2));
-            JTextField text1 = new JTextField("Umfang");
-            JTextField text2 = new JTextField("Fläche");
-            JTextField text3 = new JTextField("Zeit in s");
-            texttupel0.add(text1);
-            texttupel0.add(text2);
-            texttupel0.add(text3);
+            JPanel colorRecttext = new JPanel();
+            colorRecttext.setLayout(new GridLayout(1,3,2,2));
+            colorRecttext.add(circum1);
+            colorRecttext.add(area1);
+            colorRecttext.add(time1);
 
             //maybe multiple text Panels for bottom row bottom panel
-            JPanel texttupel1 = new JPanel();
-            texttupel1.setLayout(new GridLayout(1,3,2,2));
-            JTextField text4 = new JTextField("Umfang");
-            JTextField text5 = new JTextField("Fläche");
-            JTextField text6 = new JTextField("Zeit in s");
-            texttupel1.add(text4);
-            texttupel1.add(text5);
-            texttupel1.add(text6);
+            JPanel optRecttext = new JPanel();
+            optRecttext.setLayout(new GridLayout(1,3,2,2));
+            optRecttext.add(circum2);
+            optRecttext.add(area2);
+            optRecttext.add(time2);
 
-            JPanel texttupel2 = new JPanel();
-            texttupel1.setLayout(new GridLayout(1,4,2,2));
-            JTextField text7 = new JTextField("Umfang");
-            JTextField text8 = new JTextField("Fläche");
-            JTextField text9 = new JTextField("Zeit in s");
-            texttupel1.add(text7);
-            texttupel1.add(text8);
-            texttupel1.add(text9);
+            JPanel csettext = new JPanel();
+            csettext.setLayout(new GridLayout(1,3,2,2));
+            csettext.add(circum3);
+            csettext.add(area3);
+            csettext.add(time3);
+
+            JPanel csetatext = new JPanel();
+            csetatext.setLayout(new GridLayout(1,3,2,2));
+            csetatext.add(circum4);
+            csetatext.add(area4);
+            csetatext.add(time4);
 
         JButton colorCombRectButton = new JButton("Color Combination Rectangle");
         colorCombRectButton.addActionListener(new ColorcombrectButton(coordPanel));
@@ -117,25 +132,15 @@ public class Layout extends JFrame {
         CSETAButton.addActionListener(new CSETAButton(coordPanel));
         bPanel.add(CSETAButton);
 
-        /*
-        bPanel.add(button8);
-        bPanel.add(button9);
-        bPanel.add(button10);
-        bPanel.add(button11);
-        */
-        bPanel.add(texttupel0);
-        bPanel.add(texttupel1);
+
+        bPanel.add(colorRecttext);
+        bPanel.add(optRecttext);
+        bPanel.add(csettext);
+        bPanel.add(csetatext);
+
         mainContainer.add(bPanel, BorderLayout.SOUTH);
-
-//        //find position of any Panel
-//        new javax.swing.Timer(500,new ActionListener(){
-//            @Override
-//            public void actionPerformed(ActionEvent event) {
-//                System.out.println(coordPanel.getBounds());
-//            }
-//        }).start();
-
     }
+
 
 
     public static void main(String[] args) {

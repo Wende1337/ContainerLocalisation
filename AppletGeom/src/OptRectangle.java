@@ -8,6 +8,8 @@ public class OptRectangle {
 
     private static List<Point> pointsx = CoordPanel.getPoints();
     private static List<Point> pointsy = new ArrayList<Point>(pointsx.size());
+    public static int rectglobalcircum;
+    public static int rectglobalarea;
 
     public static Rectangle algo1() {
 
@@ -122,7 +124,7 @@ public class OptRectangle {
 
 
                                 //vergleiche Rechtecke
-                                if (Rectangle.getArea(optimumRectangle) == 0) {
+                                if (optimumRectangle.getArea() == 0) {
                                     optimumRectangle.setX(compareRectangle.getX());
                                     optimumRectangle.setY(compareRectangle.getY());
                                     optimumRectangle.setWidth(compareRectangle.getWidth());
@@ -212,7 +214,7 @@ public class OptRectangle {
 
 
                             //vergleiche Rechtecke
-                            if (Rectangle.getArea(optimumRectangle) == 0) {
+                            if (optimumRectangle.getArea() == 0) {
                                 optimumRectangle.setX(compareRectangle.getX());
                                 optimumRectangle.setY(compareRectangle.getY());
                                 optimumRectangle.setWidth(compareRectangle.getWidth());
@@ -230,6 +232,7 @@ public class OptRectangle {
                 }
             }
         }
+        rectglobalarea=optimumRectangle.getArea();
         return optimumRectangle;
     }
 
@@ -237,7 +240,12 @@ public class OptRectangle {
     public static void execute(CoordPanel panel) {
 
         if (pointsx.size() >= 2) {
-            panel.setRect(algo1());
+            Rectangle rect = new Rectangle(0,0,0,0);
+            rect= algo1();
+            panel.setRect(rect);
+            Layout.circum2.setText(Integer.toString(rect.getCircum()));
+            Layout.area2.setText(Integer.toString(rect.getArea()));
+            Layout.time2.setText(Integer.toString(rect.getArea()));
         }
     }
 }
