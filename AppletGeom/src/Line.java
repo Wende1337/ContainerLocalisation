@@ -25,9 +25,6 @@ public class Line {
         return y1;
     }
 
-    public Point getP1() {
-        return new Point(x1,y1,null);
-    }
 
     public int getX2() {
         return x2;
@@ -35,10 +32,6 @@ public class Line {
 
     public int getY2() {
         return y2;
-    }
-
-    public Point getP2() {
-        return new Point(x2,y2,null);
     }
 
 }

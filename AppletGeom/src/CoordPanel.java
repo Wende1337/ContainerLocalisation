@@ -49,6 +49,10 @@ public class CoordPanel extends JPanel {
             g.drawPolygon(t.getX(),t.getY(),3);
         }
         for (Line l: lines){
+            if (l==null){
+                continue;
+            }
+            g.setColor(Color.BLACK);
             g.drawLine(l.getX1(),l.getY1(),l.getX2(),l.getY2());
         }
     }
@@ -105,12 +109,19 @@ public class CoordPanel extends JPanel {
         tris.set(2,null);
         this.repaint();
     }
+
+    public void emptyLine() {
+        for (int i=0; i<4; i++) {
+            lines.set(i,null);
+        }
+    }
     
     public void emptyAll() {
     	points.clear();
     	rects.clear();
     	emptyTri_Ann();
     	emptyTri();
+    	emptyLine();
     	this.repaint();
     }
     

@@ -9,8 +9,8 @@ public class OptRectangle {
 
     private static List<Point> pointsx = CoordPanel.getPoints();
     private static List<Point> pointsy = new ArrayList<Point>(pointsx.size());
-    private static int step;
-    private int step = 0;
+    private static int step=-1;
+
 
 
     public static Rectangle algo1() {
@@ -150,12 +150,11 @@ public class OptRectangle {
         }
 
 
-        //iteriere durch jedes Punktpaar durch, p= linke, q= untere Grenze
+        //iteriere durch jedes Punktpaar durch, p= linke, p= untere Grenze
         for (int p = 0; p < pointsx.size(); p++) {
-            // x(p) < x(q) zu jedem Zeiptunkt
             // Fall falls die zwei Punkte keinen linkeren unten Eckpunkt bilden
-
             //init. Liste mit Nullwerten der Größe von Color size
+
             cspanning.clear();
             for (int i = 0; i < colors.size(); i++) {
                 cspanning.add(null);
@@ -261,7 +260,7 @@ public class OptRectangle {
 
     //SELBER ALGORITHMUS BEGINNT MIT STEPS
 
-    public static Rectangle algo1step(CoordPanel panel, int out_step) {
+    public static void algo1step(CoordPanel panel, int out_step) {
 
         //Rectangle for Optimum and Comparing with Optimum
         Rectangle optimumRectangle = new Rectangle(0, 0, 0, 0);
@@ -297,28 +296,29 @@ public class OptRectangle {
             colors.clear();
             ccomb.clear();
             pointsy.clear();
-            return null;
         }
 
 
 
         //iteriere durch jedes Punktpaar durch, p= linke, q= untere Grenze
-        P:
+        P1:
         for (int p = 0; p < pointsx.size(); p++) {
+            step+=1;
             if (step == out_step){
                 Line pline = new Line(pointsx.get(p).getX(),0,pointsx.get(p).getX(),5000);
                 panel.setLines(0,pline );
-                step+=1;
-                break P;
+                step=0;
+                break P1;
             }
 
             // x(p) < x(q) zu jedem Zeiptunkt
             for (int q = 0; q < pointsx.size(); q++) {
+                step+=1;
                 if (step == out_step){
-                    Line pline = new Line(pointsx.get(p).getX(),0,pointsx.get(p).getX(),5000);
-                    panel.setLines(0,pline );
-                    step+=1;
-                    break P;
+                    Line qline = new Line(0,pointsx.get(q).getY(),5000,pointsx.get(q).getY());
+                    panel.setLines(1, qline );
+                    step=0;
+                    break P1;
                 }
                 // Fall falls die zwei Punkte keinen linkeren unten Eckpunkt bilden
                 if (pointsx.get(q).getY() > pointsx.get(p).getY()) {
@@ -339,6 +339,14 @@ public class OptRectangle {
 
                 //r = rechte Grenze
                 for (int r = 0; r < pointsx.size(); r++) {
+                    step+=1;
+                    if (step == out_step){
+                        Line rline = new Line(pointsx.get(q).getX(),0,pointsx.get(q).getX(),5000);
+                        panel.setLines(2, rline );
+                        step=0;
+                        break P1;
+                    }
+
                     //1. Fall r_x muss größer als linke Grenze p sein
                     if (pointsx.get(r).getX() <= pointsx.get(p).getX()) {
                         continue;
@@ -365,6 +373,14 @@ public class OptRectangle {
 
                         //s = obere Grenze
                         for (int s = 0; s < pointsy.size(); s++) {
+                            step+=1;
+                            if (step == out_step){
+                                Line sline = new Line(0,pointsy.get(s).getY(),5000,pointsy.get(s).getY());
+                                panel.setLines(3, sline );
+                                step=0;
+                                break P1;
+                            }
+
                             //1. Fall s_x muss größer als linke Grenze p sein
                             if (pointsy.get(s).getX() < pointsx.get(p).getX()) {
                                 continue;
@@ -390,6 +406,7 @@ public class OptRectangle {
                                 compareRectangle.setWidth(pointsx.get(r).getX() - pointsx.get(p).getX());
                                 compareRectangle.setHeight(pointsy.get(s).getY() - pointsx.get(q).getY());
 
+                                panel.setRect(compareRectangle);
 
                                 //vergleiche Rechtecke
                                 if (optimumRectangle.getArea() == 0) {
@@ -411,14 +428,25 @@ public class OptRectangle {
                 }
             }
         }
+        step = 0;
 
 
-        //iteriere durch jedes Punktpaar durch, p= linke, q= untere Grenze
+        //iteriere durch jedes Punktpaar durch, p= linke, p= untere Grenze
+        P2:
         for (int p = 0; p < pointsx.size(); p++) {
-            // x(p) < x(q) zu jedem Zeiptunkt
             // Fall falls die zwei Punkte keinen linkeren unten Eckpunkt bilden
-
             //init. Liste mit Nullwerten der Größe von Color size
+
+            step+=1;
+            if (step == out_step){
+                Line p1line = new Line(0, pointsx.get(p).getY(),5000,pointsx.get(p).getY());
+                Line p2line = new Line(pointsx.get(p).getY(),0,pointsx.get(p).getY(),5000);
+                panel.setLines(0, p1line );
+                panel.setLines(1, p2line );
+                step=0;
+                break P2;
+            }
+
             cspanning.clear();
             for (int i = 0; i < colors.size(); i++) {
                 cspanning.add(null);
@@ -426,6 +454,13 @@ public class OptRectangle {
 
             //r = rechte Grenze
             for (int r = 0; r < pointsx.size(); r++) {
+                step+=1;
+                if (step == out_step){
+                    Line rline = new Line(pointsx.get(r).getY(),0,pointsx.get(r).getY(),5000);
+                    panel.setLines(2, rline );
+                    step=0;
+                    break P2;
+                }
                 //1. Fall r_x muss größer als linke Grenze p sein
                 if (pointsx.get(r).getX() < pointsx.get(p).getX()) {
                     continue;
@@ -455,6 +490,13 @@ public class OptRectangle {
 
                     //s = obere Grenze
                     for (int s = 0; s < pointsy.size(); s++) {
+                        step+=1;
+                        if (step == out_step){
+                            Line sline = new Line(0,pointsy.get(s).getY(),5000,pointsy.get(s).getY());
+                            panel.setLines(3, sline );
+                            step=0;
+                            break P2;
+                        }
                         //1. Fall s_x muss größer als linke Grenze p sein
                         if (pointsy.get(s).getX() < pointsx.get(p).getX()) {
                             continue;
@@ -480,6 +522,7 @@ public class OptRectangle {
                             compareRectangle.setWidth(pointsx.get(r).getX() - pointsx.get(p).getX());
                             compareRectangle.setHeight(pointsy.get(s).getY() - pointsx.get(p).getY());
 
+                            panel.setRect(compareRectangle);
 
                             //vergleiche Rechtecke
                             if (optimumRectangle.getArea() == 0) {
@@ -505,6 +548,8 @@ public class OptRectangle {
         pointsy.clear();
         cspanning.clear();
 
-        return optimumRectangle;
+
+        OptRectStepButton.resetStep();
+        panel.setRect(optimumRectangle);
     }
 }

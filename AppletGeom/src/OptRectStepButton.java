@@ -6,8 +6,7 @@ import java.awt.event.ActionListener;
 public class OptRectStepButton implements ActionListener{
 
     private CoordPanel panel;
-    private static boolean OptRect;
-
+    private static int out_step=0;
 
     public OptRectStepButton(CoordPanel panel) {
         super();
@@ -16,24 +15,12 @@ public class OptRectStepButton implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        computeOptRect();
-        if (OptRect == true ) {
-            OptRectangle.execute(panel);
-        }
-
-
-        if (OptRect == false) {
-            panel.emptyRects();
-        }
-        System.out.println(getOptRect());
+        OptRectangle.algo1step(panel, out_step);
+        out_step+=1;
     }
 
-    public void computeOptRect() {
-        OptRect = !OptRect;
-    }
-
-    public static boolean getOptRect() {
-        return OptRect;
+    public static void resetStep(){
+        out_step=0;
     }
 
 }
