@@ -39,7 +39,7 @@ public class CSETA {
         }
 
         //wenn weniger als 2 Farben
-        if (colors.size() < 2) {
+        if (colors.size() <= 2) {
             return null;
         }
 
@@ -162,7 +162,7 @@ public class CSETA {
                     trix[1]=(int) ((wedgepoints.get(idx).getY() - b_p)/-Math.sqrt(3));
                     trix[2]=(int) ((wedgepoints.get(idx).getY() - b_q)/Math.sqrt(3));
                     //berechne optimale Fläche
-                    triarea =   ((trix[2]-trix[1]) * (triy[1]-triy[0]))/2;
+                    triarea =   Math.abs(((trix[2]-trix[1]) * (triy[1]-triy[0]))/2);
                     //make Distance Array size of total colors k
                     for (int i = 0; i < colors.size(); i++) {
                         D.add(null);
@@ -179,7 +179,6 @@ public class CSETA {
                         //get alpha y coord
                         if(wedgepoints.get(s).getX() <= v_pq[0] ) {
                             α =   -Math.sqrt(3) * v_pq[0] + (Math.sqrt(3) * wedgepoints.get(s).getX() + wedgepoints.get(s).getY());
-
                         } else {
                             α =   Math.sqrt(3) * v_pq[0] + (-Math.sqrt(3) * wedgepoints.get(s).getX() + wedgepoints.get(s).getY());
                         }
@@ -230,8 +229,8 @@ public class CSETA {
                     tri_ann[5] = wedgepoints.get(idx).getY()-width;
 
                     // y=mx+b      b=-mx+y     x=(y-b)/m
-                    bp_mid=(int)(Math.sqrt(3)*tri_ann[0]+tri_ann[1]);
-                    bq_mid=(int)(-Math.sqrt(3)*tri_ann[0]+tri_ann[1]);
+                    bp_mid=(Math.sqrt(3)*tri_ann[0]+tri_ann[1]);
+                    bq_mid=(-Math.sqrt(3)*tri_ann[0]+tri_ann[1]);
                     tri_ann[2] =(int)((tri_ann[3]-bp_mid)/-Math.sqrt(3));
                     tri_ann[4] =(int)((tri_ann[5]-bq_mid)/Math.sqrt(3));
 
@@ -368,7 +367,7 @@ public class CSETA {
                         trix[1] = (int) ((wedgepoints.get(idx).getY() - b_p) / -Math.sqrt(3));
                         trix[2] = (int) ((wedgepoints.get(idx).getY() - b_q) / Math.sqrt(3));
                         //berechne optimale Fläche
-                        triarea = ((trix[2] - trix[1]) * (triy[1] - triy[0])) / 2;
+                        triarea = Math.abs(((trix[2] - trix[1]) * (triy[1] - triy[0])) / 2);
 
                         //make Distance Array size of total colors k
                         for (int i = 0; i < colors.size(); i++) {
@@ -438,8 +437,8 @@ public class CSETA {
                         tri_ann[5] = wedgepoints.get(idx).getY()-width;
 
                         // y=mx+b      b=-mx+y     x=(y-b)/m
-                        bp_mid=(int)(Math.sqrt(3)*tri_ann[0]+tri_ann[1]);
-                        bq_mid=(int)(-Math.sqrt(3)*tri_ann[0]+tri_ann[1]);
+                        bp_mid=(Math.sqrt(3)*tri_ann[0]+tri_ann[1]);
+                        bq_mid=(-Math.sqrt(3)*tri_ann[0]+tri_ann[1]);
                         tri_ann[2] =(int)((tri_ann[3]-bp_mid)/-Math.sqrt(3));
                         tri_ann[4] =(int)((tri_ann[5]-bq_mid)/Math.sqrt(3));
 
@@ -609,8 +608,6 @@ public class CSETA {
                         }
                     }
 
-                    System.out.println("D: "+ D);
-
                     if (width == 0) {
                         D.clear();
                         continue;
@@ -626,16 +623,14 @@ public class CSETA {
                     tri_ann[5] = wedgepoints.get(idx).getY()+width;
 
                     // y=mx+b      b=-mx+y     x=(y-b)/m
-                    bp_mid=(int)(-Math.sqrt(3)*tri_ann[0]+tri_ann[1]);
-                    bq_mid=(int)(Math.sqrt(3)*tri_ann[0]+tri_ann[1]);
+                    bp_mid=(-Math.sqrt(3)*tri_ann[0]+tri_ann[1]);
+                    bq_mid=(Math.sqrt(3)*tri_ann[0]+tri_ann[1]);
                     tri_ann[2] =(int)((tri_ann[3]-bp_mid)/Math.sqrt(3));
                     tri_ann[4] =(int)((tri_ann[5]-bq_mid)/-Math.sqrt(3));
 
 
                     //berechne Fläche und ziehe von Triarea ab
                     triannulus = (Math.abs(tri_ann[4] - tri_ann[2]) * Math.abs(tri_ann[3] - tri_ann[1])) / 2;
-
-                    System.out.println("triarea: "+ triarea + "triannulus: "+ triannulus);
 
                     triarea = triarea - triannulus;
 
@@ -820,7 +815,6 @@ public class CSETA {
                             }
                         }
 
-                        System.out.println("D: " + D);
 
                         if (width == 0) {
                             D.clear();
@@ -837,16 +831,14 @@ public class CSETA {
                         tri_ann[5] = wedgepoints.get(idx).getY() + width;
 
                         // y=mx+b      b=-mx+y     x=(y-b)/m
-                        bp_mid = (int) (-Math.sqrt(3) * tri_ann[0] + tri_ann[1]);
-                        bq_mid = (int) (Math.sqrt(3) * tri_ann[0] + tri_ann[1]);
+                        bp_mid =  (-Math.sqrt(3) * tri_ann[0] + tri_ann[1]);
+                        bq_mid =  (Math.sqrt(3) * tri_ann[0] + tri_ann[1]);
                         tri_ann[2] = (int) ((tri_ann[3] - bp_mid) / Math.sqrt(3));
                         tri_ann[4] = (int) ((tri_ann[5] - bq_mid) / -Math.sqrt(3));
 
 
                         //berechne Fläche und ziehe von Triarea ab
                         triannulus = (Math.abs(tri_ann[4] - tri_ann[2]) * Math.abs(tri_ann[3] - tri_ann[1])) / 2;
-
-                        System.out.println("triarea: " + triarea + "triannulus: " + triannulus);
 
                         triarea = triarea - triannulus;
 
@@ -894,9 +886,12 @@ public class CSETA {
 
         if (pointsx.size() >= 2) {
             tri_ann = AlgorithmCSETA();
-            panel.setTri_Ann(tri_ann);
-            Layout.circum4.setText(Integer.toString(Math.abs(triglobalcircum)));
-            Layout.area4.setText(Integer.toString(Math.abs(triglobalarea)));
+            if (tri_ann!=null){
+                tri_ann = AlgorithmCSETA();
+                panel.setTri_Ann(tri_ann);
+                Layout.circum4.setText(Integer.toString(Math.abs(triglobalcircum)));
+                Layout.area4.setText(Integer.toString(Math.abs(triglobalarea)));
+            }
         }
     }
 }

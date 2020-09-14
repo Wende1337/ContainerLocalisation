@@ -3,6 +3,8 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class Layout extends JFrame {
 
@@ -31,17 +33,8 @@ public class Layout extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JButton Resetall = new JButton("Reset All");
-        JButton button2 = new JButton("Button2");
-        JButton rcolorButton = new JButton("Random Color");
-        rcolorButton.addActionListener(new ColorButton());
-        JButton MovePointButton = new JButton("Move Point");
-        JButton button5 = new JButton("Button5");
-        JButton button6 = new JButton("Button6");
-        JButton button7 = new JButton("Button7");
-        JButton button8 = new JButton("Button8");
-        JButton button9 = new JButton("Button9");
-        JButton button10 = new JButton("Button10");
-        JButton button11 = new JButton("Button11");
+        Resetall.setFocusPainted(false);
+
 
 
         Container mainContainer = this.getContentPane();
@@ -69,17 +62,50 @@ public class Layout extends JFrame {
                 coordPanel.emptyAll();
                 }
         });
-        topPanel.add(button2);
+
         mainContainer.add(topPanel, BorderLayout.NORTH);
 
         //Middle West Panel
         JPanel mwPanel = new JPanel();
         mwPanel.setBorder(new LineBorder(Color.GRAY, 2));
         mwPanel.setBackground(Color.LIGHT_GRAY);
-        mwPanel.setLayout(new BoxLayout(mwPanel, BoxLayout.Y_AXIS));
+        mwPanel.setLayout(new GridLayout(2,0,1,1));
+
+        JButton rcolorButton = new JButton("Random Color");
+        rcolorButton.addActionListener(new ColorButton());
+        rcolorButton.setFocusPainted(false);
         mwPanel.add(rcolorButton);
-        mwPanel.add(MovePointButton);
-        mwPanel.add(button5);
+
+        /*button5.setBackground(new Color(255,0,0));
+        button5.setBorderPainted(false);
+        button5.setOpaque(true);
+        mwPanel.add(button5);*/
+
+        JPanel colorPalette = new JPanel();
+        colorPalette.setLayout(new GridLayout(6,2,0,0));
+
+        JButton cbtn;
+        int[] cidx = {0,9,4,6,1,11,5,10,2,8,7,3};
+
+        for (int i=0; i<12; i++){
+            cbtn = new JButton();
+            int finalI = i;
+            cbtn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    ColorButton.setColor(cidx[finalI]);
+                }
+            });
+            cbtn.setBackground(ColorButton.getColor(cidx[i]));
+            cbtn.setFocusPainted(false);
+            cbtn.setOpaque(true);
+            colorPalette.add(cbtn);
+            System.out.println("added");
+        }
+
+
+        mwPanel.add(colorPalette);
+
         mainContainer.add(mwPanel, BorderLayout.WEST);
 
 
@@ -113,15 +139,19 @@ public class Layout extends JFrame {
 
         JButton colorCombRectButton = new JButton("Color Combination Rectangle");
         colorCombRectButton.addActionListener(new ColorcombrectButton(coordPanel));
+        colorCombRectButton.setFocusPainted(false);
         bPanel.add(colorCombRectButton);
         JButton OptRectButton = new JButton("Optimum Rectangle");
         OptRectButton.addActionListener(new OptRectangleButton(coordPanel));
+        OptRectButton.setFocusPainted(false);
         bPanel.add(OptRectButton);
         JButton CSETButton = new JButton ("CSET");
         CSETButton.addActionListener(new CSETButton(coordPanel));
+        CSETButton.setFocusPainted(false);
         bPanel.add(CSETButton);
         JButton CSETAButton = new JButton ("CSETA");
         CSETAButton.addActionListener(new CSETAButton(coordPanel));
+        CSETAButton.setFocusPainted(false);
         bPanel.add(CSETAButton);
 
 
