@@ -69,7 +69,7 @@ public class Layout extends JFrame {
         JPanel mwPanel = new JPanel();
         mwPanel.setBorder(new LineBorder(Color.GRAY, 2));
         mwPanel.setBackground(Color.LIGHT_GRAY);
-        mwPanel.setLayout(new GridLayout(2,0,1,1));
+        mwPanel.setLayout(new GridLayout(2,0,0,0));
 
         JButton rcolorButton = new JButton("Random Color");
         rcolorButton.addActionListener(new ColorButton());
@@ -100,7 +100,6 @@ public class Layout extends JFrame {
             cbtn.setFocusPainted(false);
             cbtn.setOpaque(true);
             colorPalette.add(cbtn);
-            System.out.println("added");
         }
 
 

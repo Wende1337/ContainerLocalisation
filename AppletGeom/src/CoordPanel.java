@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.geom.Line2D;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,6 +10,7 @@ public class CoordPanel extends JPanel {
     private static List<Point> points = new LinkedList<Point>();
     private static List<Rectangle> rects = new LinkedList<Rectangle>();
     private static List<Triangle> tris = new LinkedList<Triangle>();
+    private static List<Line> lines = new LinkedList<>();
 
 
 
@@ -19,6 +21,10 @@ public class CoordPanel extends JPanel {
         for (int i=0; i<3; i++) {
             tris.add(null);
         }
+        for (int i=0; i<4; i++) {
+            lines.add(null);
+        }
+
     }
 
     public static List<Point> getPoints() {
@@ -42,11 +48,19 @@ public class CoordPanel extends JPanel {
             g.setColor(Color.BLACK);
             g.drawPolygon(t.getX(),t.getY(),3);
         }
+        for (Line l: lines){
+            g.drawLine(l.getX1(),l.getY1(),l.getX2(),l.getY2());
+        }
     }
 
     
     public void addPoint(Point point){
         points.add(point);
+        this.repaint();
+    }
+
+    public void setLines( int idx, Line line){
+        lines.set(idx, line);
         this.repaint();
     }
 
