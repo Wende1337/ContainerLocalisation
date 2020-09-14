@@ -15,16 +15,13 @@ public class Line {
 
     }
 
-
     public int getX1() {
         return x1;
     }
 
-
     public int getY1() {
         return y1;
     }
-
 
     public int getX2() {
         return x2;
@@ -33,5 +30,4 @@ public class Line {
     public int getY2() {
         return y2;
     }
-
 }

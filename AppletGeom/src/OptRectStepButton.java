@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 public class OptRectStepButton implements ActionListener{
 
     private CoordPanel panel;
-    private static int out_step=0;
+    private static int out_step=1;
 
     public OptRectStepButton(CoordPanel panel) {
         super();
@@ -19,7 +19,7 @@ public class OptRectStepButton implements ActionListener{
         out_step+=1;
     }
 
-    public static void resetStep(){
+    public static void resetOut_Step(){
         out_step=0;
     }
 
