@@ -785,5 +785,8 @@ public class CSET {
         return null;
     }
 
+    public static void resetStep(){
+        step=0;
+    }
 }
 

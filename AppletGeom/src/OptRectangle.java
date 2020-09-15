@@ -413,4 +413,8 @@ public class OptRectangle {
         return null;
     }
 
+    public static void resetStep(){
+        step=0;
+    }
+
 }

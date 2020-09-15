@@ -122,7 +122,10 @@ public class CoordPanel extends JPanel {
     	emptyTri_Ann();
     	emptyTri();
     	emptyLine();
+    	OptRectangle.resetStep();
+    	CSET.resetStep();
     	OptRectStepButton.resetOut_Step();
+    	CSETStepButton.resetOut_Step();
     	this.repaint();
     }
     
