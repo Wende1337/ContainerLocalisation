@@ -581,7 +581,6 @@ public class CSET {
         LinkedList<Color> allwedgecolors = new LinkedList<>();
         ArrayList<Color> wedgecolors = new ArrayList<>();
 
-        System.out.println("outstep: "+ out_step);
         if (out_step==0) {
             panel.setLines(0, null);
             panel.setLines(1, null);
@@ -593,7 +592,6 @@ public class CSET {
         //gespiegelt
         if (tri.getY()[0] >= tri.getY()[1]) {
 
-            System.out.println("nach oben geöffnet");
 
             b_p = -Math.sqrt(3) * tri.getX()[1] + tri.getY()[1];
             b_q = Math.sqrt(3) * tri.getX()[2] + tri.getY()[2];
@@ -603,7 +601,6 @@ public class CSET {
             if (out_step==1) {
                 Line pline = new Line(0,(int)b_p,tri.getX()[0],tri.getY()[0]);
                 panel.setLines(0, pline);
-                System.out.println("pline print");
                 return null;
             }
             step++;
@@ -611,7 +608,6 @@ public class CSET {
             if (out_step==2) {
                 Line qline = new Line(5000, y_q , tri.getX()[0],tri.getY()[0]);
                 panel.setLines(1, qline);
-                System.out.println("qline print");
                 return null;
             }
             step++;
@@ -627,9 +623,6 @@ public class CSET {
                 //skip Fall, in dem der Algorithmus den spannenden Wedgepunkt analysiert und checkt ob dieser in Wedge ist
                 //aufgrund Konvertierung und ungenauigkeit von double auf Int ist der Halbebenencheck manchmal zu ungenau
 
-                System.out.println("Höhe: "+pointsx.get(windx).getY()+" <= "+ tri.getY()[0]);
-                System.out.println("P Line: "+pointsx.get(windx).getX()+" >= "+(pointsx.get(windx).getY() - b_p) / Math.sqrt(3));
-                System.out.println("Q Line: "+pointsx.get(windx).getX()+" <= "+ (pointsx.get(windx).getY() - b_q) / -Math.sqrt(3));
 
                 //Halbebenenschnitt hat bei Punktepaar nicht so gut funktioniert wie in Geradengleichung einsetzen.
                 if (pointsx.get(windx).getY() <= tri.getY()[0] &&
@@ -648,14 +641,12 @@ public class CSET {
             //sortiere nach Y
             Collections.sort(wedgepoints, new ComparatorPointY());
 
-            System.out.println("allwedgecolors: "+ allwedgecolors.size() + " colors: "+ colors.size());
 
             // Wedge Color-Spanning Abfrage, falls nein gehe zu nächstem Punkt paar
             if (allwedgecolors.size() != colors.size()) {
                 allwedgecolors.clear();
                 wedgepoints.clear();
                 wedgecolors.clear();
-                System.out.println("not color spanning");
                 return null;
             }
 
@@ -670,7 +661,6 @@ public class CSET {
                     Line wline = new Line(0, wedgepoints.get(idx).getY(),5000, wedgepoints.get(idx).getY());
                     panel.setLines(2, wline);
                     step = 0;
-                    System.out.println("wline changed: " + wedgepoints.get(idx).getY());
                     return null;
                 }
 
@@ -687,7 +677,6 @@ public class CSET {
         //nach unten geöffnet
         if (tri.getY()[0] < tri.getY()[1]) {
 
-            System.out.println("nach unten geöffnet");
 
             b_p = Math.sqrt(3) * tri.getX()[1] + tri.getY()[1];
             b_q = -Math.sqrt(3) * tri.getX()[2] + tri.getY()[2];
@@ -697,7 +686,6 @@ public class CSET {
             if (out_step==1) {
                 Line pline = new Line(0,(int)b_p,tri.getX()[0],tri.getY()[0]);
                 panel.setLines(0, pline);
-                System.out.println("pline print");
                 return null;
             }
             step++;
@@ -705,7 +693,6 @@ public class CSET {
             if (out_step==2) {
                 Line qline = new Line(5000, y_q , tri.getX()[0],tri.getY()[0]);
                 panel.setLines(1, qline);
-                System.out.println("qline print");
                 return null;
             }
             step++;
@@ -719,9 +706,6 @@ public class CSET {
                 //aufgrund Konvertierung und ungenauigkeit von double auf Int ist der Halbebenencheck manchmal zu ungenau
 
 
-                System.out.println("Höhe: "+pointsx.get(windx).getY()+" >= "+ tri.getY()[0]);
-                System.out.println("P Line: "+pointsx.get(windx).getX()+" >= "+(pointsx.get(windx).getY() - b_p) / -Math.sqrt(3));
-                System.out.println("Q Line: "+pointsx.get(windx).getX()+" <= "+ (pointsx.get(windx).getY() - b_q) / Math.sqrt(3));
 
                 //Halbebenenschnitt hat bei Punktepaar nicht so gut funktioniert wie in Geradengleichung einsetzen.
                 if (pointsx.get(windx).getY() >= tri.getY()[0] &&
@@ -740,14 +724,12 @@ public class CSET {
             //sortiere nach Y
             Collections.sort(wedgepoints, new ComparatorPointY());
 
-            System.out.println("allwedgecolors: "+ allwedgecolors.size() + " colors: "+ colors.size());
 
             // Wedge Color-Spanning Abfrage, falls nein gehe zu nächstem Punkt paar
             if (allwedgecolors.size() != colors.size()) {
                 allwedgecolors.clear();
                 wedgepoints.clear();
                 wedgecolors.clear();
-                System.out.println("not color spanning");
                 return null;
             }
 
@@ -762,7 +744,6 @@ public class CSET {
                     Line wline = new Line(0, wedgepoints.get(idx).getY(),5000, wedgepoints.get(idx).getY());
                     panel.setLines(2, wline);
                     step = 0;
-                    System.out.println("wline changed: " + wedgepoints.get(idx).getY());
                     return null;
                 }
 

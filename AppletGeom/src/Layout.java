@@ -166,10 +166,17 @@ public class Layout extends JFrame {
         bPanel.add(CSETButtons);
 
 
+        JPanel CSETAButtons = new JPanel();
+        CSETAButtons.setLayout(new GridLayout(0,2,2,2));
         JButton CSETAButton = new JButton ("CSETA");
         CSETAButton.addActionListener(new CSETAButton(coordPanel));
         CSETAButton.setFocusPainted(false);
-        bPanel.add(CSETAButton);
+        JButton CSETAStepButton = new JButton("Step");
+        CSETAStepButton.addActionListener(new CSETAStepButton(coordPanel));
+        CSETAStepButton.setFocusPainted(false);
+        CSETAButtons.add(CSETAButton);
+        CSETAButtons.add(CSETAStepButton);
+        bPanel.add(CSETAButtons);
 
 
         bPanel.add(colorRecttext);

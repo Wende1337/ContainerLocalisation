@@ -14,6 +14,7 @@ public class CSETA {
     static Triangle[] tri_ann = new Triangle[2];
     public static int triglobalcircum;
     public static int triglobalarea;
+    private static int step;
 
 
     public static Triangle[] AlgorithmCSETA() {
@@ -49,15 +50,14 @@ public class CSETA {
         //Schnittpunkt der Gerade die wir mit dem Punktpaar aufspannen (x,y)
         double[] v_pq = new double[2];
         double b_p, b_q, bp_mid, bq_mid;
-        double q_x, mid_x, mid_y;
-        double min_d, µ, α = 0;
+        double min_d, µ, α, width = 0;
 
         ArrayList<Point> wedgepoints = new ArrayList<Point>();
         LinkedList<Color> allwedgecolors = new LinkedList<>();
         ArrayList<Color> wedgecolors = new ArrayList<>();
 
         //initiliaze Distance Array for Annulus compute
-        ArrayList<Integer> D = new ArrayList<Integer>(colors.size());
+        ArrayList<Double> D = new ArrayList<Double>(colors.size());
 
         //Punkte auf den Geraden p und q
         double[] line_p = new double[2];
@@ -74,11 +74,9 @@ public class CSETA {
         int[] tri_annopty = new int[3];
 
 
-        int triarea, triannarea, triannulus, width = 0;
-        ;
+        int triarea, triannarea, triannulus = 0;
         int triopt = 2137483647;
         //Variablen für Trigonometrie und Annulus
-        double b, b1, b2, d, e;
 
         //iteriere für jeden Punkt einmal GESPIEGELT
         for (int v = 0; v < pointsx.size(); v++) {
@@ -155,12 +153,12 @@ public class CSETA {
                     wedgecolors.add(wedgepoints.get(idx).getColor());
                 }
                 if (wedgecolors.size() == colors.size()) {
-                    trix[0] = (int) v_pq[0];
-                    triy[0] = (int) v_pq[1];
+                    trix[0] = (int) Math.round(v_pq[0]);
+                    triy[0] = (int) Math.round(v_pq[1]);
                     triy[1] = wedgepoints.get(idx).getY();
                     triy[2] = wedgepoints.get(idx).getY();
-                    trix[1] = (int) ((wedgepoints.get(idx).getY() - b_p) / Math.sqrt(3));
-                    trix[2] = (int) ((wedgepoints.get(idx).getY() - b_q) / -Math.sqrt(3));
+                    trix[1] = (int) Math.round((wedgepoints.get(idx).getY() - b_p) / Math.sqrt(3));
+                    trix[2] = (int) Math.round((wedgepoints.get(idx).getY() - b_q) / -Math.sqrt(3));
                     //berechne optimale Fläche
                     triarea = Math.abs(((trix[2] - trix[1]) * (triy[1] - triy[0])) / 2);
 
@@ -170,9 +168,10 @@ public class CSETA {
                     }
 
                     //compute annulus with distances saved in D, clear wedgecolor sizes to check colorspanning
-                    for (int s = wedgepoints.size() - 1; s >= idx; s--) {
-                        if (wedgepoints.get(s) == pointsx.get(v)) {
-                            D.set(colors.indexOf(wedgepoints.get(s).getColor()), null);
+                    for (int s = wedgepoints.size() - 1; s > idx; s--) {
+
+                        //Wenn die Ränderfarben die selbe Farbe wie der Annuluskandidat haben überspringe
+                        if(wedgepoints.get(s).getColor() == wedgepoints.get(idx).getColor() || wedgepoints.get(s).getColor() == pointsx.get(v).getColor()){
                             continue;
                         }
 
@@ -191,7 +190,7 @@ public class CSETA {
                         //wenn der Eintrag in D null oder größer ist überschreibe mit mü
                         if (D.get(colors.indexOf(wedgepoints.get(s).getColor())) == null || (µ <= D.get(colors.indexOf(wedgepoints.get(s).getColor())))) {
                             min_d = µ;
-                            D.set(colors.indexOf(wedgepoints.get(s).getColor()), (int) min_d);
+                            D.set(colors.indexOf(wedgepoints.get(s).getColor()), min_d);
                         }
                     }
 
@@ -202,7 +201,7 @@ public class CSETA {
                     //make null entries 0 so they wont be considered
                     for (int i = 0; i < D.size(); i++) {
                         if (D.get(i) == null) {
-                            D.set(i, 0);
+                            D.set(i, 0.0);
                         }
                     }
                     //reset width, might not be reset from former iteration
@@ -224,16 +223,16 @@ public class CSETA {
 
 
                     //xy von Punkt 1 oben in [0,1] , xy von Punkt 1 links unten in [2,3] , xy von Punkt 1 rechts unten in [4,5]
-                    tri_ann[0] = (int) v_pq[0];
-                    tri_ann[1] = (int) v_pq[1] - width * 2;
-                    tri_ann[3] = wedgepoints.get(idx).getY() + width;
-                    tri_ann[5] = wedgepoints.get(idx).getY() + width;
+                    tri_ann[0] = (int) Math.round( v_pq[0]);
+                    tri_ann[1] = (int) Math.round(v_pq[1] - (int)width * 2);
+                    tri_ann[3] = wedgepoints.get(idx).getY() + (int)Math.round(width);
+                    tri_ann[5] = wedgepoints.get(idx).getY() + (int)Math.round(width);
 
                     // y=mx+b      b=-mx+y     x=(y-b)/m
                     bp_mid = (-Math.sqrt(3) * tri_ann[0] + tri_ann[1]);
                     bq_mid = (Math.sqrt(3) * tri_ann[0] + tri_ann[1]);
-                    tri_ann[2] = (int) ((tri_ann[3] - bp_mid) / Math.sqrt(3));
-                    tri_ann[4] = (int) ((tri_ann[5] - bq_mid) / -Math.sqrt(3));
+                    tri_ann[2] = (int)Math.round( (tri_ann[3] - bp_mid) / Math.sqrt(3));
+                    tri_ann[4] = (int)Math.round( (tri_ann[5] - bq_mid) / -Math.sqrt(3));
 
 
                     //berechne Fläche und ziehe von Triarea ab
@@ -242,6 +241,8 @@ public class CSETA {
                     triarea = triarea - triannulus;
 
                     if (triarea <= triopt) {
+                        System.out.println("width: "+width);
+
                         triopt = triarea;
                         trixopt[0] = trix[0];
                         trixopt[1] = trix[1];
@@ -361,12 +362,12 @@ public class CSETA {
                         wedgecolors.add(wedgepoints.get(idx).getColor());
                     }
                     if (wedgecolors.size() == colors.size()) {
-                        trix[0] = (int) v_pq[0];
-                        triy[0] = (int) v_pq[1];
+                        trix[0] = (int) Math.round(v_pq[0]);
+                        triy[0] = (int) Math.round(v_pq[1]);
                         triy[1] = wedgepoints.get(idx).getY();
                         triy[2] = wedgepoints.get(idx).getY();
-                        trix[1] = (int) ((wedgepoints.get(idx).getY() - b_p) / Math.sqrt(3));
-                        trix[2] = (int) ((wedgepoints.get(idx).getY() - b_q) / -Math.sqrt(3));
+                        trix[1] = (int) Math.round((wedgepoints.get(idx).getY() - b_p) / Math.sqrt(3));
+                        trix[2] = (int) Math.round((wedgepoints.get(idx).getY() - b_q) / -Math.sqrt(3));
                         //berechne optimale Fläche
                         triarea = Math.abs(((trix[2] - trix[1]) * (triy[1] - triy[0])) / 2);
 
@@ -376,9 +377,10 @@ public class CSETA {
                         }
 
                         //compute annulus with distances saved in D, clear wedgecolor sizes to check colorspanning
-                        for (int s = wedgepoints.size() - 1; s >= idx; s--) {
-                            if (wedgepoints.get(s) == pointsx.get(p) || wedgepoints.get(s) == pointsx.get(q)) {
-                                D.set(colors.indexOf(wedgepoints.get(s).getColor()), null);
+                        for (int s = wedgepoints.size() - 1; s > idx; s--) {
+
+                            //Wenn die Ränderfarben die selbe Farbe wie der Annuluskandidat haben überspringe
+                            if(wedgepoints.get(s).getColor() == wedgepoints.get(idx).getColor() || wedgepoints.get(s).getColor() == pointsx.get(p).getColor() || wedgepoints.get(s).getColor() == pointsx.get(q).getColor()){
                                 continue;
                             }
 
@@ -397,7 +399,7 @@ public class CSETA {
                             //wenn der Eintrag in D null oder größer ist überschreibe mit mü
                             if (D.get(colors.indexOf(wedgepoints.get(s).getColor())) == null || (µ <= D.get(colors.indexOf(wedgepoints.get(s).getColor())))) {
                                 min_d = µ;
-                                D.set(colors.indexOf(wedgepoints.get(s).getColor()), (int) min_d);
+                                D.set(colors.indexOf(wedgepoints.get(s).getColor()),  min_d);
                             }
                         }
 
@@ -408,7 +410,7 @@ public class CSETA {
                         //make null entries 0 so they wont be considered
                         for (int i = 0; i < D.size(); i++) {
                             if (D.get(i) == null) {
-                                D.set(i, 0);
+                                D.set(i, 0.0);
                             }
                         }
                         //reset width, might not be reset from former iteration
@@ -431,16 +433,16 @@ public class CSETA {
 
 
                         //xy von Punkt 1 oben in [0,1] , xy von Punkt 1 links unten in [2,3] , xy von Punkt 1 rechts unten in [4,5]
-                        tri_ann[0] = (int) v_pq[0];
-                        tri_ann[1] = (int) v_pq[1] - width * 2;
-                        tri_ann[3] = wedgepoints.get(idx).getY() + width;
-                        tri_ann[5] = wedgepoints.get(idx).getY() + width;
+                        tri_ann[0] = (int) Math.round(v_pq[0]);
+                        tri_ann[1] = (int) Math.round(v_pq[1] - width * 2);
+                        tri_ann[3] = wedgepoints.get(idx).getY() + (int)Math.round(width);
+                        tri_ann[5] = wedgepoints.get(idx).getY() + (int)Math.round(width);
 
                         // y=mx+b      b=-mx+y     x=(y-b)/m
                         bp_mid = (-Math.sqrt(3) * tri_ann[0] + tri_ann[1]);
                         bq_mid = (Math.sqrt(3) * tri_ann[0] + tri_ann[1]);
-                        tri_ann[2] = (int) ((tri_ann[3] - bp_mid) / Math.sqrt(3));
-                        tri_ann[4] = (int) ((tri_ann[5] - bq_mid) / -Math.sqrt(3));
+                        tri_ann[2] = (int) Math.round((tri_ann[3] - bp_mid) / Math.sqrt(3));
+                        tri_ann[4] = (int) Math.round((tri_ann[5] - bq_mid) / -Math.sqrt(3));
 
 
                         //berechne Fläche und ziehe von Triarea ab
@@ -449,6 +451,7 @@ public class CSETA {
                         triarea = triarea - triannulus;
 
                         if (triarea <= triopt) {
+                            System.out.println("width: "+width);
                             triopt = triarea;
                             trixopt[0] = trix[0];
                             trixopt[1] = trix[1];
@@ -548,12 +551,12 @@ public class CSETA {
                     wedgecolors.add(wedgepoints.get(idx).getColor());
                 }
                 if (wedgecolors.size() == colors.size()) {
-                    trix[0] = (int) v_pq[0];
-                    triy[0] = (int) v_pq[1];
+                    trix[0] = (int) Math.round(v_pq[0]);
+                    triy[0] = (int) Math.round(v_pq[1]);
                     triy[1] = wedgepoints.get(idx).getY();
                     triy[2] = wedgepoints.get(idx).getY();
-                    trix[1] = (int) ((wedgepoints.get(idx).getY() - b_p) / -Math.sqrt(3));
-                    trix[2] = (int) ((wedgepoints.get(idx).getY() - b_q) / Math.sqrt(3));
+                    trix[1] = (int) Math.round((wedgepoints.get(idx).getY() - b_p) / -Math.sqrt(3));
+                    trix[2] = (int) Math.round((wedgepoints.get(idx).getY() - b_q) / Math.sqrt(3));
                     //berechne optimale Fläche
                     triarea = Math.abs(((trix[2] - trix[1]) * (triy[1] - triy[0])) / 2);
                     //make Distance Array size of total colors k
@@ -562,11 +565,13 @@ public class CSETA {
                     }
 
                     //compute annulus with distances saved in D, clear wedgecolor sizes to check colorspanning
-                    for (int s = 0; s <= idx; s++) {
-                        if (wedgepoints.get(s) == pointsx.get(v)) {
-                            D.set(colors.indexOf(wedgepoints.get(s).getColor()), null);
+                    for (int s = 0; s < idx; s++) {
+
+                        //Wenn die Ränderfarben die selbe Farbe wie der Annuluskandidat haben überspringe
+                        if(wedgepoints.get(s).getColor() == wedgepoints.get(idx).getColor() || wedgepoints.get(s).getColor() == pointsx.get(v).getColor()){
                             continue;
                         }
+
 
                         // Schnittpunkt der Linie durch die Spitze des Dreiecks und Gerade von r ist v_pq[0]
                         //get alpha y coord
@@ -583,7 +588,7 @@ public class CSETA {
                         //wenn der Eintrag in D null oder größer ist überschreibe mit mü
                         if (D.get(colors.indexOf(wedgepoints.get(s).getColor())) == null || (µ <= D.get(colors.indexOf(wedgepoints.get(s).getColor())))) {
                             min_d = µ;
-                            D.set(colors.indexOf(wedgepoints.get(s).getColor()), (int) min_d);
+                            D.set(colors.indexOf(wedgepoints.get(s).getColor()), min_d);
                         }
                     }
 
@@ -594,7 +599,7 @@ public class CSETA {
                     //make null entries 0 so they wont be considered
                     for (int i = 0; i < D.size(); i++) {
                         if (D.get(i) == null) {
-                            D.set(i, 0);
+                            D.set(i, 0.0);
                         }
                     }
                     //reset width, might not be reset from former iteration
@@ -616,16 +621,16 @@ public class CSETA {
 
 
                     //xy von Punkt 1 oben in [0,1] , xy von Punkt 1 links unten in [2,3] , xy von Punkt 1 rechts unten in [4,5]
-                    tri_ann[0] = (int) v_pq[0];
-                    tri_ann[1] = (int) v_pq[1] + width * 2;
-                    tri_ann[3] = wedgepoints.get(idx).getY() - width;
-                    tri_ann[5] = wedgepoints.get(idx).getY() - width;
+                    tri_ann[0] = (int) Math.round(v_pq[0]);
+                    tri_ann[1] = (int) Math.round(v_pq[1] + width * 2);
+                    tri_ann[3] = wedgepoints.get(idx).getY() - (int)Math.round(width);
+                    tri_ann[5] = wedgepoints.get(idx).getY() - (int)Math.round(width);
 
                     // y=mx+b      b=-mx+y     x=(y-b)/m
                     bp_mid = (Math.sqrt(3) * tri_ann[0] + tri_ann[1]);
                     bq_mid = (-Math.sqrt(3) * tri_ann[0] + tri_ann[1]);
-                    tri_ann[2] = (int) ((tri_ann[3] - bp_mid) / -Math.sqrt(3));
-                    tri_ann[4] = (int) ((tri_ann[5] - bq_mid) / Math.sqrt(3));
+                    tri_ann[2] = (int) Math.round((tri_ann[3] - bp_mid) / -Math.sqrt(3));
+                    tri_ann[4] = (int) Math.round((tri_ann[5] - bq_mid) / Math.sqrt(3));
 
 
                     //berechne Fläche und ziehe von Triarea ab
@@ -634,6 +639,8 @@ public class CSETA {
                     triarea = triarea - triannulus;
 
                     if (triarea <= triopt) {
+                        System.out.println("width: "+width);
+
                         triopt = triarea;
                         trixopt[0] = trix[0];
                         trixopt[1] = trix[1];
@@ -753,12 +760,12 @@ public class CSETA {
 
                     //check if color spanning
                     if (wedgecolors.size() == colors.size()) {
-                        trix[0] = (int) v_pq[0];
-                        triy[0] = (int) v_pq[1];
+                        trix[0] = (int) Math.round(v_pq[0]);
+                        triy[0] = (int) Math.round(v_pq[1]);
                         triy[1] = wedgepoints.get(idx).getY();
                         triy[2] = wedgepoints.get(idx).getY();
-                        trix[1] = (int) ((wedgepoints.get(idx).getY() - b_p) / -Math.sqrt(3));
-                        trix[2] = (int) ((wedgepoints.get(idx).getY() - b_q) / Math.sqrt(3));
+                        trix[1] = (int) Math.round((wedgepoints.get(idx).getY() - b_p) / -Math.sqrt(3));
+                        trix[2] = (int) Math.round((wedgepoints.get(idx).getY() - b_q) / Math.sqrt(3));
                         //berechne optimale Fläche
                         triarea = Math.abs(((trix[2] - trix[1]) * (triy[1] - triy[0])) / 2);
 
@@ -768,13 +775,12 @@ public class CSETA {
                         }
 
                         //compute annulus with distances saved in D, clear wedgecolor sizes to check colorspanning
-                        for (int s = 0; s <= idx; s++) {
+                        for (int s = 0; s < idx; s++) {
 
-                            if (wedgepoints.get(s) == pointsx.get(p) || wedgepoints.get(s) == pointsx.get(q)) {
-                                D.set(colors.indexOf(wedgepoints.get(s).getColor()), null);
+                            //Wenn die Ränderfarben die selbe Farbe wie der Annuluskandidat haben überspringe
+                            if(wedgepoints.get(s).getColor() == wedgepoints.get(idx).getColor() || wedgepoints.get(s).getColor() == pointsx.get(p).getColor() || wedgepoints.get(s).getColor() == pointsx.get(q).getColor()){
                                 continue;
                             }
-
 
                             // Schnittpunkt der Linie durch die Spitze des Dreiecks und Gerade von r ist v_pq[0]
                             //get alpha y coord
@@ -792,7 +798,7 @@ public class CSETA {
                             //wenn der Eintrag in D null oder größer ist überschreibe mit mü
                             if (D.get(colors.indexOf(wedgepoints.get(s).getColor())) == null || (µ <= D.get(colors.indexOf(wedgepoints.get(s).getColor())))) {
                                 min_d = µ;
-                                D.set(colors.indexOf(wedgepoints.get(s).getColor()), (int) min_d);
+                                D.set(colors.indexOf(wedgepoints.get(s).getColor()),  min_d);
                             }
                         }
 
@@ -803,7 +809,7 @@ public class CSETA {
                         //make null entries 0 so they wont be considered
                         for (int i = 0; i < D.size(); i++) {
                             if (D.get(i) == null) {
-                                D.set(i, 0);
+                                D.set(i, 0.0);
                             }
                         }
                         //reset width, might not be reset from former iteration
@@ -824,16 +830,16 @@ public class CSETA {
                         D.clear();
 
                         //xy von Punkt 1 oben in [0,1] , xy von Punkt 1 links unten in [2,3] , xy von Punkt 1 rechts unten in [4,5]
-                        tri_ann[0] = (int) v_pq[0];
-                        tri_ann[1] = (int) v_pq[1] + width * 2;
-                        tri_ann[3] = wedgepoints.get(idx).getY() - width;
-                        tri_ann[5] = wedgepoints.get(idx).getY() - width;
+                        tri_ann[0] = (int) Math.round(v_pq[0]);
+                        tri_ann[1] = (int) Math.round(v_pq[1] + width * 2);
+                        tri_ann[3] = wedgepoints.get(idx).getY() - (int)Math.round(width);
+                        tri_ann[5] = wedgepoints.get(idx).getY() - (int)Math.round(width);
 
                         // y=mx+b      b=-mx+y     x=(y-b)/m
                         bp_mid = (Math.sqrt(3) * tri_ann[0] + tri_ann[1]);
                         bq_mid = (-Math.sqrt(3) * tri_ann[0] + tri_ann[1]);
-                        tri_ann[2] = (int) ((tri_ann[3] - bp_mid) / -Math.sqrt(3));
-                        tri_ann[4] = (int) ((tri_ann[5] - bq_mid) / Math.sqrt(3));
+                        tri_ann[2] = (int) Math.round((tri_ann[3] - bp_mid) / -Math.sqrt(3));
+                        tri_ann[4] = (int) Math.round((tri_ann[5] - bq_mid) / Math.sqrt(3));
 
 
                         //berechne Fläche und ziehe von Triarea ab
@@ -842,6 +848,7 @@ public class CSETA {
                         triarea = triarea - triannulus;
 
                         if (triarea <= triopt) {
+                            System.out.println("width: "+width);
                             triopt = triarea;
                             trixopt[0] = trix[0];
                             trixopt[1] = trix[1];
@@ -893,4 +900,362 @@ public class CSETA {
 
         }
     }
+
+    public static Triangle[] AlgorithmCSETAstep (CoordPanel panel, int out_step) {
+
+        panel.emptyTri_Ann();
+        step = 0;
+        panel.emptyTri();
+        Triangle[] tri = new Triangle[2];
+        tri = AlgorithmCSETA();
+
+        //      sort point List after x coordinate
+        Collections.sort(pointsx, new ComparatorPointX());
+
+        //List for Colors
+        List<Color> colors = new LinkedList<Color>();
+        colors.add(pointsx.get(0).getColor());
+        //        get all point colors
+
+        for (int k = 1; k < pointsx.size(); k++) {
+            for (int l = 0; l < colors.size(); l++) {
+                if (colors.contains(pointsx.get(k).getColor()) == false) {
+                    colors.add(pointsx.get(k).getColor());
+                }
+            }
+        }
+
+        //wenn weniger als 2 Farben
+        if (colors.size()<2){
+            return null;
+        }
+
+        //Rectangle for Optimum and Comparing with Optimum
+        Triangle optTri = new Triangle(null, null);
+        double b_p, b_q = 0;
+        int y_q ;
+        //Schnittpunkt der Gerade die wir mit dem Punktpaar aufspannen (x,y)
+        double bp_mid, bq_mid;
+        double µ, α = 0;
+
+        ArrayList<Point> wedgepoints = new ArrayList<Point>();
+        LinkedList<Color> allwedgecolors = new LinkedList<>();
+        ArrayList<Color> wedgecolors = new ArrayList<>();
+
+
+
+        //um die zwei Dreiecke zu setzen, Eintrag 0 und 1 für C_out oben corner, 1 und 2 für links etc.. siehe unten für Indizierung.
+        int[] trix_ann = new int[3];
+        int[] triy_ann = new int[3];
+
+        if (out_step==0) {
+            panel.setLines(0, null);
+            panel.setLines(1, null);
+            panel.setLines(2, null);
+            panel.setLines(3, null);
+            return null;
+        }
+
+        //2 Fälle: Dreieck nach oben geöffnet, Dreieck nach unten geöffnet
+        //gespiegelt
+        if (tri[0].getY()[0] >= tri[0].getY()[1]) {
+
+
+            b_p = -Math.sqrt(3) * tri[0].getX()[1] + tri[0].getY()[1];
+            b_q = Math.sqrt(3) * tri[0].getX()[2] + tri[0].getY()[2];
+
+            y_q=(int) Math.round(-Math.sqrt(3) * 5000 + b_q);
+
+            if (out_step==1) {
+                Line pline = new Line(0,(int)Math.round(b_p),tri[0].getX()[0],tri[0].getY()[0]);
+                panel.setLines(0, pline);
+                return null;
+            }
+            step++;
+
+            if (out_step==2) {
+                Line qline = new Line(5000, y_q , tri[0].getX()[0],tri[0].getY()[0]);
+                panel.setLines(1, qline);
+                return null;
+            }
+            step++;
+
+
+
+            //loop to find Points in Wedge_p,q
+            for (int windx = 0; windx < pointsx.size(); windx++) {
+                //checke ob y Koordinate größer ist
+                //checke ob es in Kante die p aufspannt rechts davon liegt, also größer ist, y=mx+b <=> x = (y-b)/m
+                //checke ob es in Kante die b aufspannt links davon liegt, also kleiner ist
+
+                //skip Fall, in dem der Algorithmus den spannenden Wedgepunkt analysiert und checkt ob dieser in Wedge ist
+                //aufgrund Konvertierung und ungenauigkeit von double auf Int ist der Halbebenencheck manchmal zu ungenau
+
+
+                //Halbebenenschnitt hat bei Punktepaar nicht so gut funktioniert wie in Geradengleichung einsetzen.
+                if (pointsx.get(windx).getY() <= tri[0].getY()[0] &&
+                        pointsx.get(windx).getX() >= (pointsx.get(windx).getY() - b_p) / Math.sqrt(3) &&
+                        pointsx.get(windx).getX() <= 2+(pointsx.get(windx).getY() - b_q) / -Math.sqrt(3)) {
+                    wedgepoints.add(pointsx.get(windx));
+
+                    //füge Farbe der Liste hinzu um zu gucken ob alle Farben überhaupt in Wedge drin sind
+                    if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
+                        allwedgecolors.add(pointsx.get(windx).getColor());
+                    }
+                }
+            }
+
+            //sortiere nach Y
+            Collections.sort(wedgepoints, new ComparatorPointY());
+
+
+            // Wedge Color-Spanning Abfrage, falls nein gehe zu nächstem Punkt paar
+            if (allwedgecolors.size() != colors.size()) {
+                allwedgecolors.clear();
+                wedgepoints.clear();
+                wedgecolors.clear();
+                return null;
+            }
+
+            allwedgecolors.clear();
+            wedgecolors.clear();
+            for (int idx = wedgepoints.size() - 1; idx >= 0; idx--) {
+                if (!wedgecolors.contains(wedgepoints.get(idx).getColor())) {
+                    wedgecolors.add(wedgepoints.get(idx).getColor());
+                }
+                step += 1;
+                if (step == out_step) {
+                    Line wline = new Line(0, wedgepoints.get(idx).getY(),5000, wedgepoints.get(idx).getY());
+                    panel.setLines(2, wline);
+                    step = 0;
+                    return null;
+                }
+
+
+                if (wedgecolors.size() == colors.size()) {
+
+                        //compute annulus with distances saved in D, clear wedgecolor sizes to check colorspanning
+                        for (int s = wedgepoints.size() - 1; s > idx; s--) {
+
+                            //Wenn die Ränderfarben die selbe Farbe wie der Annuluskandidat haben überspringe
+                            if(wedgepoints.get(s).getColor() == wedgepoints.get(idx).getColor()){
+                                continue;
+                            }
+
+                            // Schnittpunkt der Linie durch die Spitze des Dreiecks und Gerade von r ist v_pq[0]
+                            //get alpha y coord
+                            if (wedgepoints.get(s).getX() <= tri[0].getX()[0]) {
+                                α = Math.sqrt(3) * tri[0].getX()[0] + (-Math.sqrt(3) * wedgepoints.get(s).getX() + wedgepoints.get(s).getY());
+
+                            } else {
+                                α = -Math.sqrt(3) * tri[0].getX()[0] + (Math.sqrt(3) * wedgepoints.get(s).getX() + wedgepoints.get(s).getY());
+                            }
+
+
+                            //µ = min distance of top corner to annulus or base to annulus
+                            µ = Math.min(Math.abs(wedgepoints.get(idx).getY() - wedgepoints.get(s).getY()), Math.abs((α - tri[0].getY()[0]) / 2));
+
+                            //if µ is annulus of point that defines p or q
+                            if(µ <= 0.3){
+                                continue;
+                            }
+
+                            step += 1;
+                            if (step == out_step) {
+                                Line sline = new Line(0, wedgepoints.get(s).getY(),5000, wedgepoints.get(s).getY());
+                                panel.setLines(3, sline);
+                                panel.setTri_annStep(null);
+                                step = 0;
+                                return null;
+                            }
+
+                            System.out.println("width: "+ µ);
+                            //xy von Punkt 1 oben in [0,1] , xy von Punkt 1 links unten in [2,3] , xy von Punkt 1 rechts unten in [4,5]
+                            trix_ann[0] = tri[0].getX()[0];
+                            triy_ann[0] = (int) Math.round(tri[0].getY()[0] - µ * 2);
+                            triy_ann[1] = wedgepoints.get(idx).getY() + (int)Math.round(µ);
+                            triy_ann[2] = wedgepoints.get(idx).getY() + (int)Math.round(µ);
+
+                            // y=mx+b      b=-mx+y     x=(y-b)/m
+                            bp_mid = (-Math.sqrt(3) * trix_ann[0] + triy_ann[0]);
+                            bq_mid = (Math.sqrt(3) * trix_ann[0] + triy_ann[0]);
+                            trix_ann[1] = (int) Math.round((triy_ann[1] - bp_mid) / Math.sqrt(3));
+                            trix_ann[2] = (int) Math.round((triy_ann[2] - bq_mid) / -Math.sqrt(3));
+
+
+                            step += 1;
+                            if (step == out_step) {
+                                Triangle ann = new Triangle(trix_ann,triy_ann);
+                                panel.setTri_annStep(ann);
+                                step = 0;
+                                System.out.println("Annulus added");
+                                return null;
+                            }
+                }
+            }
+        }
+        }
+
+        wedgecolors.clear();
+        wedgepoints.clear();
+
+        //nach unten geöffnet
+        if (tri[0].getY()[0] < tri[0].getY()[1]) {
+
+
+            b_p = Math.sqrt(3) * tri[0].getX()[1] + tri[0].getY()[1];
+            b_q = -Math.sqrt(3) * tri[0].getX()[2] + tri[0].getY()[2];
+
+            y_q=(int) Math.round((Math.sqrt(3) * 5000 + b_q));
+
+            if (out_step==1) {
+                Line pline = new Line(0,(int)Math.round(b_p),tri[0].getX()[0],tri[0].getY()[0]);
+                panel.setLines(0, pline);
+                return null;
+            }
+            step++;
+
+            if (out_step==2) {
+                Line qline = new Line(5000, y_q , tri[0].getX()[0],tri[0].getY()[0]);
+                panel.setLines(1, qline);
+                return null;
+            }
+            step++;
+
+            //loop to find Points in Wedge_p,q
+            for (int windx = 0; windx < pointsx.size(); windx++) {
+                //checke ob y Koordinate größer ist
+                //checke ob es in Kante die p aufspannt rechts davon liegt, also größer ist, y=mx+b <=> x = (y-b)/m
+                //checke ob es in Kante die b aufspannt links davon liegt, also kleiner ist
+
+                //aufgrund Konvertierung und ungenauigkeit von double auf Int ist der Halbebenencheck manchmal zu ungenau
+
+
+                //Halbebenenschnitt hat bei Punktepaar nicht so gut funktioniert wie in Geradengleichung einsetzen.
+                if (pointsx.get(windx).getY() >= tri[0].getY()[0] &&
+                        pointsx.get(windx).getX() >= (pointsx.get(windx).getY() - b_p) / -Math.sqrt(3) &&
+                        pointsx.get(windx).getX() <= 2+(pointsx.get(windx).getY() - b_q) / Math.sqrt(3)) {
+                    wedgepoints.add(pointsx.get(windx));
+
+
+
+
+                    //füge Farbe der Liste hinzu um zu gucken ob alle Farben überhaupt in Wedge drin sind
+                    if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
+                        allwedgecolors.add(pointsx.get(windx).getColor());
+                    }
+                }
+            }
+
+            //sortiere nach Y
+            Collections.sort(wedgepoints, new ComparatorPointY());
+
+
+            // Wedge Color-Spanning Abfrage, falls nein gehe zu nächstem Punkt paar
+            if (allwedgecolors.size() != colors.size()) {
+                allwedgecolors.clear();
+                wedgepoints.clear();
+                wedgecolors.clear();
+                return null;
+            }
+
+            allwedgecolors.clear();
+            wedgecolors.clear();
+            for (int idx=0; idx<wedgepoints.size(); idx++ ){
+                if (!wedgecolors.contains(wedgepoints.get(idx).getColor())) {
+                    wedgecolors.add(wedgepoints.get(idx).getColor());
+                }
+                step += 1;
+                if (step == out_step) {
+                    Line wline = new Line(0, wedgepoints.get(idx).getY(),5000, wedgepoints.get(idx).getY());
+                    panel.setLines(2, wline);
+                    step = 0;
+                    return null;
+                }
+
+
+                //Annulus berechnen
+                if (wedgecolors.size() == colors.size()) {
+
+
+                    //compute annulus with distances saved in D, clear wedgecolor sizes to check colorspanning
+                    for (int s = 0; s < idx; s++) {
+
+                        //Wenn die Ränderfarben die selbe Farbe wie der Annuluskandidat haben überspringe
+                        if(wedgepoints.get(s).getColor() == wedgepoints.get(idx).getColor()){
+                            continue;
+                        }
+
+
+                        // Schnittpunkt der Linie durch die Spitze des Dreiecks und Gerade von r ist v_pq[0]
+                        //get alpha y coord
+                        if (wedgepoints.get(s).getX() <= tri[0].getX()[0]) {
+                            α = -Math.sqrt(3) * tri[0].getX()[0] + (Math.sqrt(3) * wedgepoints.get(s).getX() + wedgepoints.get(s).getY());
+                        } else {
+                            α = Math.sqrt(3) * tri[0].getX()[0] + (-Math.sqrt(3) * wedgepoints.get(s).getX() + wedgepoints.get(s).getY());
+                        }
+
+
+                        //µ = min distance of top corner to annulus or base to annulus
+                        µ = Math.min(Math.abs(wedgepoints.get(idx).getY() - wedgepoints.get(s).getY()), Math.abs((α - tri[0].getY()[0]) / 2));
+
+                        //if µ is annulus of point that defines p or q
+                        if(µ <= 0.3){
+                            continue;
+                        }
+
+                        step += 1;
+                        if (step == out_step) {
+                            Line sline = new Line(0, wedgepoints.get(s).getY(),5000, wedgepoints.get(s).getY());
+                            panel.setLines(3, sline);
+                            panel.setTri_annStep(null);
+                            step = 0;
+                            return null;
+                        }
+
+                        System.out.println("width: "+ µ);
+
+                        //xy von Punkt 1 oben in [0,1] , xy von Punkt 1 links unten in [2,3] , xy von Punkt 1 rechts unten in [4,5]
+                        trix_ann[0] = tri[0].getX()[0];
+                        triy_ann[0] = (int) Math.round(tri[0].getY()[0] + µ * 2);
+                        triy_ann[1] = wedgepoints.get(idx).getY() - (int)µ;
+                        triy_ann[2] = wedgepoints.get(idx).getY() - (int)µ;
+
+                        // y=mx+b      b=-mx+y     x=(y-b)/m
+                        bp_mid = (Math.sqrt(3) * trix_ann[0] + triy_ann[0]);
+                        bq_mid = (-Math.sqrt(3) * trix_ann[0] + triy_ann[0]);
+                        trix_ann[1] = (int) Math.round((triy_ann[1] - bp_mid) / -Math.sqrt(3));
+                        trix_ann[2] = (int) Math.round((triy_ann[2] - bq_mid) / Math.sqrt(3));
+
+                        step += 1;
+                        if (step == out_step) {
+                            Triangle ann = new Triangle(trix_ann,triy_ann);
+                            panel.setTri_annStep(ann);
+                            step = 0;
+                            return null;
+                        }
+
+                    }
+                }
+            }
+        }
+
+        wedgecolors.clear();
+        wedgepoints.clear();
+
+        CSETAStepButton.resetOut_Step();
+        step=0;
+        panel.setLines(0, null);
+        panel.setLines(1, null);
+        panel.setLines(2, null);
+        panel.setLines(3, null);
+        panel.setTri_annStep(null);
+        panel.setTri_Ann(tri);
+        return null;
+    }
+
+    public static void resetStep(){
+        step=0;
+    }
 }
+

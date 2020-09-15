@@ -18,7 +18,7 @@ public class CoordPanel extends JPanel {
         super();
         this.setBorder(new LineBorder(Color.WHITE, 2));
         this.setBackground(Color.WHITE);
-        for (int i=0; i<3; i++) {
+        for (int i=0; i<4; i++) {
             tris.add(null);
         }
         for (int i=0; i<4; i++) {
@@ -55,6 +55,10 @@ public class CoordPanel extends JPanel {
             g.setColor(Color.BLACK);
             g.drawLine(l.getX1(),l.getY1(),l.getX2(),l.getY2());
         }
+        if (lines.get(3)!=null){
+            g.setColor(Color.RED);
+            g.drawLine(lines.get(3).getX1(),lines.get(3).getY1(),lines.get(3).getX2(),lines.get(3).getY2());
+        }
     }
 
     
@@ -85,6 +89,11 @@ public class CoordPanel extends JPanel {
     public void setTri_Ann(Triangle[] tri){
         tris.set(1,tri[0]);
         tris.set(2,tri[1]);
+        this.repaint();
+    }
+
+    public void setTri_annStep(Triangle tri){
+        tris.set(3,tri);
         this.repaint();
     }
 
