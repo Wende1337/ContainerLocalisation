@@ -11,6 +11,8 @@ public class CSET {
     static Triangle triangle = new Triangle(null, null);
     public static int triglobalcircum;
     public static int triglobalarea;
+    private static int step;
+
 
 
 
@@ -538,4 +540,250 @@ public class CSET {
             }
         }
     }
+
+    public static Triangle AlgorithmCSETstep (CoordPanel panel, int out_step) {
+
+        step = 0;
+        panel.emptyTri();
+        Triangle tri = new Triangle(null, null);
+        tri = AlgorithmCSET();
+
+        //      sort point List after x coordinate
+        Collections.sort(pointsx, new ComparatorPointX());
+
+        //List for Colors
+        List<Color> colors = new LinkedList<Color>();
+        colors.add(pointsx.get(0).getColor());
+        //        get all point colors
+
+        for (int k = 1; k < pointsx.size(); k++) {
+            for (int l = 0; l < colors.size(); l++) {
+                if (colors.contains(pointsx.get(k).getColor()) == false) {
+                    colors.add(pointsx.get(k).getColor());
+                }
+            }
+        }
+
+        //wenn weniger als 2 Farben
+        if (colors.size()<2){
+            return null;
+        }
+
+        //Rectangle for Optimum and Comparing with Optimum
+        Triangle optTri = new Triangle(null, null);
+        double b_p, b_q = 0;
+        int x_q,y_q;
+
+
+        //sortieren nach x und nach y
+        Collections.sort(pointsx, new ComparatorPointX());
+        LinkedList<Point> wedgepoints = new LinkedList<Point>();
+        LinkedList<Color> allwedgecolors = new LinkedList<>();
+        ArrayList<Color> wedgecolors = new ArrayList<>();
+
+        System.out.println("outstep: "+ out_step);
+        if (out_step==0) {
+            panel.setLines(0, null);
+            panel.setLines(1, null);
+            panel.setLines(2, null);
+            return null;
+        }
+
+        //2 Fälle: Dreieck nach oben geöffnet, Dreieck nach unten geöffnet
+        //gespiegelt
+        if (tri.getY()[0] >= tri.getY()[1]) {
+
+            System.out.println("nach oben geöffnet");
+
+            b_p = -Math.sqrt(3) * tri.getX()[1] + tri.getY()[1];
+            b_q = Math.sqrt(3) * tri.getX()[2] + tri.getY()[2];
+
+            y_q=(int) (-Math.sqrt(3) * 5000 + b_q);
+
+            if (out_step==1) {
+                Line pline = new Line(0,(int)b_p,tri.getX()[0],tri.getY()[0]);
+                panel.setLines(0, pline);
+                System.out.println("pline print");
+                return null;
+            }
+            step++;
+
+            if (out_step==2) {
+                Line qline = new Line(5000, y_q , tri.getX()[0],tri.getY()[0]);
+                panel.setLines(1, qline);
+                System.out.println("qline print");
+                return null;
+            }
+            step++;
+
+
+
+            //loop to find Points in Wedge_p,q
+            for (int windx = 0; windx < pointsx.size(); windx++) {
+                //checke ob y Koordinate größer ist
+                //checke ob es in Kante die p aufspannt rechts davon liegt, also größer ist, y=mx+b <=> x = (y-b)/m
+                //checke ob es in Kante die b aufspannt links davon liegt, also kleiner ist
+
+                //skip Fall, in dem der Algorithmus den spannenden Wedgepunkt analysiert und checkt ob dieser in Wedge ist
+                //aufgrund Konvertierung und ungenauigkeit von double auf Int ist der Halbebenencheck manchmal zu ungenau
+
+                System.out.println("Höhe: "+pointsx.get(windx).getY()+" <= "+ tri.getY()[0]);
+                System.out.println("P Line: "+pointsx.get(windx).getX()+" >= "+(pointsx.get(windx).getY() - b_p) / Math.sqrt(3));
+                System.out.println("Q Line: "+pointsx.get(windx).getX()+" <= "+ (pointsx.get(windx).getY() - b_q) / -Math.sqrt(3));
+
+                //Halbebenenschnitt hat bei Punktepaar nicht so gut funktioniert wie in Geradengleichung einsetzen.
+                if (pointsx.get(windx).getY() <= tri.getY()[0] &&
+                        pointsx.get(windx).getX() >= (pointsx.get(windx).getY() - b_p) / Math.sqrt(3) &&
+                        pointsx.get(windx).getX() <= 1+(pointsx.get(windx).getY() - b_q) / -Math.sqrt(3)) {
+                    wedgepoints.add(pointsx.get(windx));
+
+
+                    //füge Farbe der Liste hinzu um zu gucken ob alle Farben überhaupt in Wedge drin sind
+                    if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
+                        allwedgecolors.add(pointsx.get(windx).getColor());
+                    }
+                }
+            }
+
+            //sortiere nach Y
+            Collections.sort(wedgepoints, new ComparatorPointY());
+
+            System.out.println("allwedgecolors: "+ allwedgecolors.size() + " colors: "+ colors.size());
+
+            // Wedge Color-Spanning Abfrage, falls nein gehe zu nächstem Punkt paar
+            if (allwedgecolors.size() != colors.size()) {
+                allwedgecolors.clear();
+                wedgepoints.clear();
+                wedgecolors.clear();
+                System.out.println("not color spanning");
+                return null;
+            }
+
+            allwedgecolors.clear();
+            wedgecolors.clear();
+            for (int idx = wedgepoints.size() - 1; idx >= 0; idx--) {
+                if (!wedgecolors.contains(wedgepoints.get(idx).getColor())) {
+                    wedgecolors.add(wedgepoints.get(idx).getColor());
+                }
+                step += 1;
+                if (step == out_step) {
+                    Line wline = new Line(0, wedgepoints.get(idx).getY(),5000, wedgepoints.get(idx).getY());
+                    panel.setLines(2, wline);
+                    step = 0;
+                    System.out.println("wline changed: " + wedgepoints.get(idx).getY());
+                    return null;
+                }
+
+
+                if (wedgecolors.size() == colors.size()) {
+                    break;
+                    }
+                }
+            }
+
+        wedgecolors.clear();
+        wedgepoints.clear();
+
+        //nach unten geöffnet
+        if (tri.getY()[0] < tri.getY()[1]) {
+
+            System.out.println("nach unten geöffnet");
+
+            b_p = Math.sqrt(3) * tri.getX()[1] + tri.getY()[1];
+            b_q = -Math.sqrt(3) * tri.getX()[2] + tri.getY()[2];
+
+            y_q=(int) (Math.sqrt(3) * 5000 + b_q);
+
+            if (out_step==1) {
+                Line pline = new Line(0,(int)b_p,tri.getX()[0],tri.getY()[0]);
+                panel.setLines(0, pline);
+                System.out.println("pline print");
+                return null;
+            }
+            step++;
+
+            if (out_step==2) {
+                Line qline = new Line(5000, y_q , tri.getX()[0],tri.getY()[0]);
+                panel.setLines(1, qline);
+                System.out.println("qline print");
+                return null;
+            }
+            step++;
+
+            //loop to find Points in Wedge_p,q
+            for (int windx = 0; windx < pointsx.size(); windx++) {
+                //checke ob y Koordinate größer ist
+                //checke ob es in Kante die p aufspannt rechts davon liegt, also größer ist, y=mx+b <=> x = (y-b)/m
+                //checke ob es in Kante die b aufspannt links davon liegt, also kleiner ist
+
+                //aufgrund Konvertierung und ungenauigkeit von double auf Int ist der Halbebenencheck manchmal zu ungenau
+
+
+                System.out.println("Höhe: "+pointsx.get(windx).getY()+" >= "+ tri.getY()[0]);
+                System.out.println("P Line: "+pointsx.get(windx).getX()+" >= "+(pointsx.get(windx).getY() - b_p) / -Math.sqrt(3));
+                System.out.println("Q Line: "+pointsx.get(windx).getX()+" <= "+ (pointsx.get(windx).getY() - b_q) / Math.sqrt(3));
+
+                //Halbebenenschnitt hat bei Punktepaar nicht so gut funktioniert wie in Geradengleichung einsetzen.
+                if (pointsx.get(windx).getY() >= tri.getY()[0] &&
+                        pointsx.get(windx).getX() >= (pointsx.get(windx).getY() - b_p) / -Math.sqrt(3) &&
+                        pointsx.get(windx).getX() <= 1+(pointsx.get(windx).getY() - b_q) / Math.sqrt(3)) {
+                    wedgepoints.add(pointsx.get(windx));
+
+
+                    //füge Farbe der Liste hinzu um zu gucken ob alle Farben überhaupt in Wedge drin sind
+                    if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
+                        allwedgecolors.add(pointsx.get(windx).getColor());
+                    }
+                }
+            }
+
+            //sortiere nach Y
+            Collections.sort(wedgepoints, new ComparatorPointY());
+
+            System.out.println("allwedgecolors: "+ allwedgecolors.size() + " colors: "+ colors.size());
+
+            // Wedge Color-Spanning Abfrage, falls nein gehe zu nächstem Punkt paar
+            if (allwedgecolors.size() != colors.size()) {
+                allwedgecolors.clear();
+                wedgepoints.clear();
+                wedgecolors.clear();
+                System.out.println("not color spanning");
+                return null;
+            }
+
+            allwedgecolors.clear();
+            wedgecolors.clear();
+            for (int idx=0; idx<wedgepoints.size(); idx++ ){
+                if (!wedgecolors.contains(wedgepoints.get(idx).getColor())) {
+                    wedgecolors.add(wedgepoints.get(idx).getColor());
+                }
+                step += 1;
+                if (step == out_step) {
+                    Line wline = new Line(0, wedgepoints.get(idx).getY(),5000, wedgepoints.get(idx).getY());
+                    panel.setLines(2, wline);
+                    step = 0;
+                    System.out.println("wline changed: " + wedgepoints.get(idx).getY());
+                    return null;
+                }
+
+
+                if (wedgecolors.size() == colors.size()) {
+                    break;
+                }
+            }
+        }
+
+        wedgecolors.clear();
+        wedgepoints.clear();
+
+        CSETStepButton.resetOut_Step();
+        step=0;
+        panel.setLines(0, null);
+        panel.setLines(1, null);
+        panel.setLines(2, null);
+        panel.setTri(tri);
+        return null;
+    }
+
 }
+

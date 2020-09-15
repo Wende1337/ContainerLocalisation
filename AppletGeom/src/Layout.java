@@ -153,11 +153,18 @@ public class Layout extends JFrame {
         OptRectButtons.add(OptRectStepButton);
         bPanel.add(OptRectButtons);
 
-
+        JPanel CSETButtons = new JPanel();
+        CSETButtons.setLayout(new GridLayout(0,2,2,2));
         JButton CSETButton = new JButton ("CSET");
         CSETButton.addActionListener(new CSETButton(coordPanel));
         CSETButton.setFocusPainted(false);
-        bPanel.add(CSETButton);
+        JButton CSETStepButton = new JButton("Step");
+        CSETStepButton.addActionListener(new CSETStepButton(coordPanel));
+        CSETStepButton.setFocusPainted(false);
+        CSETButtons.add(CSETButton);
+        CSETButtons.add(CSETStepButton);
+        bPanel.add(CSETButtons);
+
 
         JButton CSETAButton = new JButton ("CSETA");
         CSETAButton.addActionListener(new CSETAButton(coordPanel));

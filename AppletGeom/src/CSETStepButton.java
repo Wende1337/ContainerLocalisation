@@ -3,19 +3,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class OptRectStepButton implements ActionListener{
+public class CSETStepButton implements ActionListener{
 
     private CoordPanel panel;
     private static int out_step=1;
 
-    public OptRectStepButton(CoordPanel panel) {
+    public CSETStepButton(CoordPanel panel) {
         super();
         this.panel = panel;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        OptRectangle.algo1step(panel, out_step);
+        System.out.println("outstep: "+out_step);
+        CSET.AlgorithmCSETstep(panel, out_step);
         out_step+=1;
     }
 
