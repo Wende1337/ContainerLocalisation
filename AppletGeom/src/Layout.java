@@ -193,15 +193,4 @@ public class Layout extends JFrame {
         Layout mainLayout = new Layout();
         mainLayout.setVisible(true);
     }
-
-
-
-
-
-
-
-
-
-
-
 }
