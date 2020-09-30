@@ -134,8 +134,10 @@ public class CoordPanel extends JPanel {
     	emptyLine();
 
     	CSET.resetStep();
+        CSETA.resetStep();
     	OptRectStepButton.resetOut_Step();
     	CSETStepButton.resetOut_Step();
+        CSETAStepButton.resetOut_Step();
     	this.repaint();
     }
     
