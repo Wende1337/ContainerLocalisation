@@ -530,7 +530,7 @@ public class CSET {
     }
 
     public static void execute(CoordPanel panel) {
-
+        long startTime = System.nanoTime();
         if (pointsx.size()>=2) {
             triangle=AlgorithmCSET();
             if (triangle!= null){
@@ -539,6 +539,8 @@ public class CSET {
             Layout.area3.setText(Integer.toString(Math.abs(triangle.getArea())));
             }
         }
+        long stopTime = System.nanoTime();
+        System.out.println(stopTime - startTime);
     }
 
     public static Triangle AlgorithmCSETstep (CoordPanel panel, int out_step) {

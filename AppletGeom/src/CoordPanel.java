@@ -128,10 +128,11 @@ public class CoordPanel extends JPanel {
     public void emptyAll() {
     	points.clear();
     	rects.clear();
+
     	emptyTri_Ann();
     	emptyTri();
     	emptyLine();
-    	OptRectangle.resetStep();
+
     	CSET.resetStep();
     	OptRectStepButton.resetOut_Step();
     	CSETStepButton.resetOut_Step();
