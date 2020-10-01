@@ -95,15 +95,11 @@ public class PointMouseListener extends MouseAdapter{
     
     
     public static void setrandomColor(Color randomColor) {
-//        int R = (int) (Math.random() * 256);
-//        int G = (int) (Math.random() * 256);
-//        int B = (int) (Math.random() * 256);
-//        Color randomColor = new Color(R, G, B);
         color = randomColor;
     }
 
 
-	// check if a point is in range
+	// check if a point is in range of mouse
 	public static Point inReach(int x, int y) {
 		int eucliddist = 10000000;
 		for (Point p: points) {

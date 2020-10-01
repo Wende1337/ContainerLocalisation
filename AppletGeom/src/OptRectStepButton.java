@@ -23,5 +23,8 @@ public class OptRectStepButton implements ActionListener{
     public static void resetOut_Step(){
         out_step=-1;
     }
+    public static void increment_Step(){
+        out_step+=1;
+    }
 
 }

@@ -530,17 +530,17 @@ public class CSET {
     }
 
     public static void execute(CoordPanel panel) {
-        long startTime = System.nanoTime();
         if (pointsx.size()>=2) {
+            long startTime = System.nanoTime();
             triangle=AlgorithmCSET();
+            long stopTime = System.nanoTime();
             if (triangle!= null){
             panel.setTri(triangle);
-            Layout.circum3.setText(Integer.toString(Math.abs(triangle.getCircum())));
-            Layout.area3.setText(Integer.toString(Math.abs(triangle.getArea())));
+            Layout.circum2.setText(Integer.toString(Math.abs(triangle.getCircum())));
+            Layout.area2.setText(Integer.toString(Math.abs(triangle.getArea())));
+            System.out.println(stopTime - startTime);
             }
         }
-        long stopTime = System.nanoTime();
-        System.out.println(stopTime - startTime);
     }
 
     public static Triangle AlgorithmCSETstep (CoordPanel panel, int out_step) {
@@ -574,7 +574,7 @@ public class CSET {
         //Rectangle for Optimum and Comparing with Optimum
         Triangle optTri = new Triangle(null, null);
         double b_p, b_q = 0;
-        int x_q,y_q;
+        int y_q;
 
 
         //sortieren nach x und nach y
@@ -761,6 +761,7 @@ public class CSET {
 
         CSETStepButton.resetOut_Step();
         step=0;
+        System.out.println("step: "+ step + " out_step: "+ out_step);
         panel.setLines(0, null);
         panel.setLines(1, null);
         panel.setLines(2, null);

@@ -14,15 +14,16 @@ public class Layout extends JFrame {
     // for text fields
     public static JTextField circum1 = new JTextField("Umfang");
     public static JTextField area1 = new JTextField("Fläche");
+    public static JTextField time1 = new JTextField("Zeit in ns");
+
 
     public static JTextField circum2 = new JTextField("Umfang");
     public static JTextField area2 = new JTextField("Fläche");
+    public static JTextField time2 = new JTextField("Zeit in ns");
 
     public static JTextField circum3 = new JTextField("Umfang");
     public static JTextField area3 = new JTextField("Fläche");
-
-    public static JTextField circum4 = new JTextField("Umfang");
-    public static JTextField area4 = new JTextField("Fläche");
+    public static JTextField time3 = new JTextField("Zeit in ns");
 
 
     public Layout(){
@@ -114,32 +115,28 @@ public class Layout extends JFrame {
         bPanel.setBackground(Color.LIGHT_GRAY);
         bPanel.setLayout(new GridLayout(2,4,2,2));
 
-            //maybe multiple text Panels for bottom row bottom panel
-            JPanel colorRecttext = new JPanel();
-            colorRecttext.setLayout(new GridLayout(1,3,2,2));
-            colorRecttext.add(circum1);
-            colorRecttext.add(area1);
 
             //maybe multiple text Panels for bottom row bottom panel
             JPanel optRecttext = new JPanel();
             optRecttext.setLayout(new GridLayout(1,2,2,2));
-            optRecttext.add(circum2);
-            optRecttext.add(area2);
+            optRecttext.add(circum1);
+            optRecttext.add(area1);
+            optRecttext.add(time1);
 
             JPanel csettext = new JPanel();
             csettext.setLayout(new GridLayout(1,2,2,2));
-            csettext.add(circum3);
-            csettext.add(area3);
+            csettext.add(circum2);
+            csettext.add(area2);
+            csettext.add(time2);
 
-            JPanel csetatext = new JPanel();
+
+        JPanel csetatext = new JPanel();
             csetatext.setLayout(new GridLayout(1,2,2,2));
-            csetatext.add(circum4);
-            csetatext.add(area4);
+            csetatext.add(circum3);
+            csetatext.add(area3);
+            csetatext.add(time3);
 
-        JButton colorCombRectButton = new JButton("Color Combination Rectangle");
-        colorCombRectButton.addActionListener(new ColorcombrectButton(coordPanel));
-        colorCombRectButton.setFocusPainted(false);
-        bPanel.add(colorCombRectButton);
+
 
         JPanel OptRectButtons = new JPanel();
         OptRectButtons.setLayout(new GridLayout(0,2,2,2));
@@ -179,7 +176,7 @@ public class Layout extends JFrame {
         bPanel.add(CSETAButtons);
 
 
-        bPanel.add(colorRecttext);
+
         bPanel.add(optRecttext);
         bPanel.add(csettext);
         bPanel.add(csetatext);

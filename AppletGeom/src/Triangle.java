@@ -29,7 +29,7 @@ public class Triangle {
     }
 
     public int getArea(){
-        return ((this.getX()[2]-this.getX()[1]) * (this.getY()[1]-this.getY()[0]))/2;
+        return (Math.abs((this.getX()[2]-this.getX()[1]) * (this.getY()[1]-this.getY()[0]))/2);
     }
 
     public int getCircum(){

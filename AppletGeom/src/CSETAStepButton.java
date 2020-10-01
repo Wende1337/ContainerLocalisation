@@ -15,7 +15,6 @@ public class CSETAStepButton implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("outstep: "+out_step);
         CSETA.AlgorithmCSETAstep(panel, out_step);
         out_step+=1;
     }

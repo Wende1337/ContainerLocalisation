@@ -889,17 +889,17 @@ public class CSETA {
     }
 
     public static void execute(CoordPanel panel) {
-        long startTime = System.nanoTime();
         if (pointsx.size() >= 2) {
+            long startTime = System.nanoTime();
             tri_ann = AlgorithmCSETA();
+            long stopTime = System.nanoTime();
             if (tri_ann != null) {
                 panel.setTri_Ann(tri_ann);
-                Layout.circum4.setText(Integer.toString(Math.abs(triglobalcircum)));
-                Layout.area4.setText(Integer.toString(Math.abs(triglobalarea)));
+                Layout.circum3.setText(Integer.toString(Math.abs(triglobalcircum)));
+                Layout.area3.setText(Integer.toString(Math.abs(triglobalarea)));
+                Layout.time3.setText(Long.toString(stopTime-startTime));
             }
         }
-        long stopTime = System.nanoTime();
-        System.out.println(stopTime - startTime);
     }
 
     public static Triangle[] AlgorithmCSETAstep (CoordPanel panel, int out_step) {
@@ -927,7 +927,7 @@ public class CSETA {
         }
 
         //wenn weniger als 2 Farben
-        if (colors.size()<2){
+        if (colors.size()<=2){
             return null;
         }
 

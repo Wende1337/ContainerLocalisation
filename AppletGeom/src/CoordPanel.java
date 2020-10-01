@@ -39,7 +39,7 @@ public class CoordPanel extends JPanel {
         }
         for (Rectangle r: rects){
             g.setColor(Color.BLACK);
-            g.drawRect((int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight());
+            g.drawRect( r.getX(),  r.getY(),  r.getWidth(),  r.getHeight());
         }
         for (Triangle t: tris){
             if (t==null){
@@ -133,14 +133,13 @@ public class CoordPanel extends JPanel {
     	emptyTri();
     	emptyLine();
 
+    	OptRectangle.resetStep();
     	CSET.resetStep();
         CSETA.resetStep();
     	OptRectStepButton.resetOut_Step();
+    	OptRectangle.resetPointsy();
     	CSETStepButton.resetOut_Step();
         CSETAStepButton.resetOut_Step();
     	this.repaint();
     }
-    
-    
-    
 }
