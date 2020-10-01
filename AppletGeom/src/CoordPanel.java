@@ -14,6 +14,7 @@ public class CoordPanel extends JPanel {
 
 
 
+
     public CoordPanel() {
         super();
         this.setBorder(new LineBorder(Color.WHITE, 2));
@@ -24,7 +25,6 @@ public class CoordPanel extends JPanel {
         for (int i=0; i<4; i++) {
             lines.add(null);
         }
-
     }
 
     public static List<Point> getPoints() {

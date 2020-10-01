@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Array;
@@ -9,13 +10,12 @@ import java.util.ArrayList;
 public class Layout extends JFrame {
 
     private static final int WIDTH = 1280;
-    private static final int HEIGHT = 720;
+    private static final int HEIGHT = 900;
 
     // for text fields
     public static JTextField circum1 = new JTextField("Umfang");
     public static JTextField area1 = new JTextField("Fläche");
     public static JTextField time1 = new JTextField("Zeit in ns");
-
 
     public static JTextField circum2 = new JTextField("Umfang");
     public static JTextField area2 = new JTextField("Fläche");
@@ -24,6 +24,11 @@ public class Layout extends JFrame {
     public static JTextField circum3 = new JTextField("Umfang");
     public static JTextField area3 = new JTextField("Fläche");
     public static JTextField time3 = new JTextField("Zeit in ns");
+
+    //for number Generation:
+    public static JTextField point_num =  new JTextField("Anzahl an Punkten");
+    public static JTextField color_num =  new JTextField("#verschiedene Farben");
+
 
 
     public Layout(){
@@ -35,7 +40,6 @@ public class Layout extends JFrame {
 
         JButton Resetall = new JButton("Reset All");
         Resetall.setFocusPainted(false);
-
 
 
         Container mainContainer = this.getContentPane();
@@ -64,6 +68,17 @@ public class Layout extends JFrame {
                 }
         });
 
+        JPanel genPointsPanel = new JPanel();
+        genPointsPanel.setLayout(new GridLayout(1,3,2,2));
+        genPointsPanel.add(point_num);
+        genPointsPanel.add(color_num);
+        JButton GeneratePointButton = new JButton("Generate Points");
+        GeneratePointButton.addActionListener(new GeneratePoints(coordPanel));
+        GeneratePointButton.setFocusPainted(false);
+        genPointsPanel.add(GeneratePointButton);
+
+        topPanel.add(genPointsPanel);
+
         mainContainer.add(topPanel, BorderLayout.NORTH);
 
         //Middle West Panel
@@ -77,10 +92,6 @@ public class Layout extends JFrame {
         rcolorButton.setFocusPainted(false);
         mwPanel.add(rcolorButton);
 
-        /*button5.setBackground(new Color(255,0,0));
-        button5.setBorderPainted(false);
-        button5.setOpaque(true);
-        mwPanel.add(button5);*/
 
         JPanel colorPalette = new JPanel();
         colorPalette.setLayout(new GridLayout(6,2,0,0));
@@ -118,20 +129,20 @@ public class Layout extends JFrame {
 
             //maybe multiple text Panels for bottom row bottom panel
             JPanel optRecttext = new JPanel();
-            optRecttext.setLayout(new GridLayout(1,2,2,2));
+            optRecttext.setLayout(new GridLayout(1,3,2,2));
             optRecttext.add(circum1);
             optRecttext.add(area1);
             optRecttext.add(time1);
 
             JPanel csettext = new JPanel();
-            csettext.setLayout(new GridLayout(1,2,2,2));
+            csettext.setLayout(new GridLayout(1,3,2,2));
             csettext.add(circum2);
             csettext.add(area2);
             csettext.add(time2);
 
 
         JPanel csetatext = new JPanel();
-            csetatext.setLayout(new GridLayout(1,2,2,2));
+            csetatext.setLayout(new GridLayout(1,3,2,2));
             csetatext.add(circum3);
             csetatext.add(area3);
             csetatext.add(time3);
@@ -176,10 +187,11 @@ public class Layout extends JFrame {
         bPanel.add(CSETAButtons);
 
 
-
         bPanel.add(optRecttext);
         bPanel.add(csettext);
         bPanel.add(csetatext);
+
+
 
         mainContainer.add(bPanel, BorderLayout.SOUTH);
     }
@@ -189,5 +201,16 @@ public class Layout extends JFrame {
     public static void main(String[] args) {
         Layout mainLayout = new Layout();
         mainLayout.setVisible(true);
+    }
+
+    public static void setFrameSize(int[] i){
+
+    }
+
+    public static int[] getFrameSize(){
+        int[] xy = new int[2];
+        xy[0]=Layout.WIDTH;
+        xy[1]=Layout.HEIGHT;
+        return xy;
     }
 }
