@@ -538,7 +538,7 @@ public class CSET {
             panel.setTri(triangle);
             Layout.circum2.setText(Integer.toString(Math.abs(triangle.getCircum())));
             Layout.area2.setText(Integer.toString(Math.abs(triangle.getArea())));
-            System.out.println(stopTime - startTime);
+            Layout.time2.setText(Long.toString(stopTime-startTime));
             }
         }
     }
