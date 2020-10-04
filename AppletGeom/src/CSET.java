@@ -7,7 +7,7 @@ import java.util.List;
 public class CSET {
 
 
-    private static List<Point> pointsx = CoordPanel.getPoints();
+    private static ArrayList<Point> pointsx = CoordPanel.getPoints();
     static Triangle triangle = new Triangle(null, null);
     public static int triglobalcircum;
     public static int triglobalarea;
@@ -27,7 +27,7 @@ public class CSET {
         Collections.sort(pointsx, new ComparatorPointX());
 
         //List for Colors
-        List<Color> colors = new ArrayList<Color>();
+        ArrayList<Color> colors = new ArrayList<Color>(pointsx.size());
         colors.add(pointsx.get(0).getColor());
         //        get all point colors
 
@@ -51,9 +51,9 @@ public class CSET {
         double[] v_pq = new double[2];
         //Y-Achsenabschnitt für gerade p und q
         double b_p, b_q =0 ;
-        ArrayList<Point> wedgepoints = new ArrayList<Point>();
-        ArrayList<Color> allwedgecolors = new ArrayList<>();
-        ArrayList<Color> wedgecolors = new ArrayList<>();
+        ArrayList<Point> wedgepoints = new ArrayList<Point>(pointsx.size());
+        ArrayList<Color> allwedgecolors = new ArrayList<>(colors.size());
+        ArrayList<Color> wedgecolors = new ArrayList<>(colors.size());
         int[] trix = new int[3];
         int[] triy = new int[3];
         //temporary placeholder for corner point
@@ -554,7 +554,7 @@ public class CSET {
         Collections.sort(pointsx, new ComparatorPointX());
 
         //List for Colors
-        List<Color> colors = new ArrayList<Color>();
+        List<Color> colors = new ArrayList<Color>(pointsx.size());
         colors.add(pointsx.get(0).getColor());
         //        get all point colors
 
@@ -579,9 +579,9 @@ public class CSET {
 
         //sortieren nach x und nach y
         Collections.sort(pointsx, new ComparatorPointX());
-        ArrayList<Point> wedgepoints = new ArrayList<Point>();
-        ArrayList<Color> allwedgecolors = new ArrayList<>();
-        ArrayList<Color> wedgecolors = new ArrayList<>();
+        ArrayList<Point> wedgepoints = new ArrayList<Point>(pointsx.size());
+        ArrayList<Color> allwedgecolors = new ArrayList<>(colors.size());
+        ArrayList<Color> wedgecolors = new ArrayList<>(colors.size());
 
         if (out_step==0) {
             panel.setLines(0, null);

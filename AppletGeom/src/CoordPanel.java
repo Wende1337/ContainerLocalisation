@@ -2,14 +2,14 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
 
+//2D Panel für Darstellung der Punkte und Container in Panel
 public class CoordPanel extends JPanel {
 
     private static ArrayList<Point> points = new ArrayList<Point>();
-    private static ArrayList<Rectangle> rects = new ArrayList<Rectangle>();
-    private static ArrayList<Triangle> tris = new ArrayList<Triangle>();
-    private static ArrayList<Line> lines = new ArrayList<>();
+    private static ArrayList<Rectangle> rects = new ArrayList<Rectangle>(5);
+    private static ArrayList<Triangle> tris = new ArrayList<Triangle>(5);
+    private static ArrayList<Line> lines = new ArrayList<>(5);
 
 
 
@@ -26,7 +26,7 @@ public class CoordPanel extends JPanel {
         }
     }
 
-    public static List<Point> getPoints() {
+    public static ArrayList<Point> getPoints() {
         return points;
     }
 

@@ -7,8 +7,8 @@ import java.util.List;
 public class OptRectangle {
 
 
-    private static List<Point> pointsx = CoordPanel.getPoints();
-    private static List<Point> pointsy = new ArrayList<Point>(pointsx.size());
+    private static ArrayList<Point> pointsx = CoordPanel.getPoints();
+    private static ArrayList<Point> pointsy = new ArrayList<Point>(pointsx.size());
     //Für Step Algorithmus
     private static int step ;
     private static int s_ending_y=21000000;
@@ -32,7 +32,7 @@ public class OptRectangle {
         Collections.sort(pointsy, new ComparatorPointY());
 
         //List for Colors
-        ArrayList<Color> colors = new ArrayList<Color>();
+        ArrayList<Color> colors = new ArrayList<Color>(pointsx.size());
         colors.add(pointsx.get(0).getColor());
         //        get all point colors
         for (int k = 1; k < pointsx.size(); k++) {
@@ -285,7 +285,7 @@ public class OptRectangle {
         Collections.sort(pointsy, new ComparatorPointY());
 
         //List for Colors
-        ArrayList<Color> colors = new ArrayList<Color>();
+        ArrayList<Color> colors = new ArrayList<Color>(pointsx.size());
         colors.add(pointsx.get(0).getColor());
         //        get all point colors
         for (int k = 1; k < pointsx.size(); k++) {

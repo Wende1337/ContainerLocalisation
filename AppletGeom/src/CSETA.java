@@ -1,16 +1,14 @@
 import org.w3c.dom.ls.LSOutput;
 
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.*;
-import java.util.List;
 
 
 //Color Spanning Equilateral Triangular Annulus
 public class CSETA {
 
 
-    private static List<Point> pointsx = CoordPanel.getPoints();
+    private static ArrayList<Point> pointsx = CoordPanel.getPoints();
     static Triangle[] tri_ann = new Triangle[2];
     public static int triglobalcircum;
     public static int triglobalarea;
@@ -27,7 +25,7 @@ public class CSETA {
         Collections.sort(pointsx, new ComparatorPointX());
 
         //List for Colors
-        ArrayList<Color> colors = new ArrayList<>();
+        ArrayList<Color> colors = new ArrayList<>(pointsx.size());
         colors.add(pointsx.get(0).getColor());
         //        get all point colors
 
@@ -52,9 +50,9 @@ public class CSETA {
         double b_p, b_q, bp_mid, bq_mid;
         double min_d, µ, α, width = 0;
 
-        ArrayList<Point> wedgepoints = new ArrayList<Point>();
-        ArrayList<Color> allwedgecolors = new ArrayList<>();
-        ArrayList<Color> wedgecolors = new ArrayList<>();
+        ArrayList<Point> wedgepoints = new ArrayList<Point>(pointsx.size());
+        ArrayList<Color> allwedgecolors = new ArrayList<>(colors.size());
+        ArrayList<Color> wedgecolors = new ArrayList<>(colors.size());
 
         //initiliaze Distance Array for Annulus compute
         ArrayList<Double> D = new ArrayList<Double>(colors.size());
@@ -914,7 +912,7 @@ public class CSETA {
         Collections.sort(pointsx, new ComparatorPointX());
 
         //List for Colors
-        List<Color> colors = new ArrayList<Color>();
+        ArrayList<Color> colors = new ArrayList<Color>(pointsx.size());
         colors.add(pointsx.get(0).getColor());
         //        get all point colors
 
@@ -939,9 +937,9 @@ public class CSETA {
         double bp_mid, bq_mid;
         double µ, α = 0;
 
-        ArrayList<Point> wedgepoints = new ArrayList<Point>();
-        ArrayList<Color> allwedgecolors = new ArrayList<>();
-        ArrayList<Color> wedgecolors = new ArrayList<>();
+        ArrayList<Point> wedgepoints = new ArrayList<Point>(pointsx.size());
+        ArrayList<Color> allwedgecolors = new ArrayList<>(colors.size());
+        ArrayList<Color> wedgecolors = new ArrayList<>(colors.size());
 
 
 
