@@ -212,5 +212,6 @@ public class Layout extends JFrame {
         xy[0]=Layout.WIDTH;
         xy[1]=Layout.HEIGHT;
         return xy;
+
     }
 }

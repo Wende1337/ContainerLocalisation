@@ -46,7 +46,8 @@ public class OptRectangle {
         //Liste die aktuelle Farben zählt
         ArrayList<Color> cspanning = new ArrayList<Color>(colors.size());
         ArrayList<Color> ccomb = new ArrayList<Color>(colors.size());
-        //Eckpunkte für die Variablen
+        //untere Grenze q
+        int lower_bound;
 
         //wenn weniger als 2 Farben
         if (colors.size() < 2) {
@@ -78,7 +79,7 @@ public class OptRectangle {
                 }
                 int s_ending_Size = pointsy.size();
                 //r = rechte Grenze
-                for (int r = q; r < pointsx.size(); r++) {
+                for (int r = p; r < pointsx.size(); r++) {
                     //1. Fall r_x muss größer als linke Grenze p sein
                     if (pointsx.get(r).getX() <= pointsx.get(p).getX()) {
                         continue;
@@ -103,8 +104,8 @@ public class OptRectangle {
                             ccomb.add(null);
                         }
 
-                        //s = obere Grenze
-                        for (int s = p; s < s_ending_Size; s++) {
+                        //obere Grenze
+                        for (int s = 0; s < s_ending_Size; s++) {
                             //1. Fall s_x muss größer als linke Grenze p sein
                             if (pointsy.get(s).getX() < pointsx.get(p).getX()) {
                                 continue;
@@ -194,7 +195,7 @@ public class OptRectangle {
                     }
 
                     //s = obere Grenze
-                    for (int s = p; s < s_ending_Size ; s++) {
+                    for (int s = 0; s < s_ending_Size ; s++) {
                         //1. Fall s_x muss größer als linke Grenze p sein
                         if (pointsy.get(s).getX() < pointsx.get(p).getX()) {
                             continue;
