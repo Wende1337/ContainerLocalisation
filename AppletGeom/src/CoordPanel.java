@@ -1,16 +1,15 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.geom.Line2D;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CoordPanel extends JPanel {
 
-    private static List<Point> points = new LinkedList<Point>();
-    private static List<Rectangle> rects = new LinkedList<Rectangle>();
-    private static List<Triangle> tris = new LinkedList<Triangle>();
-    private static List<Line> lines = new LinkedList<>();
+    private static ArrayList<Point> points = new ArrayList<Point>();
+    private static ArrayList<Rectangle> rects = new ArrayList<Rectangle>();
+    private static ArrayList<Triangle> tris = new ArrayList<Triangle>();
+    private static ArrayList<Line> lines = new ArrayList<>();
 
 
 

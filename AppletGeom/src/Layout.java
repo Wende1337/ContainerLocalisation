@@ -33,7 +33,7 @@ public class Layout extends JFrame {
 
     public Layout(){
 
-        this.setTitle("Container Lokalisation");
+        this.setTitle("Container Localisation");
         this.setSize(WIDTH,HEIGHT);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

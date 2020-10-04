@@ -27,7 +27,7 @@ public class CSET {
         Collections.sort(pointsx, new ComparatorPointX());
 
         //List for Colors
-        List<Color> colors = new LinkedList<Color>();
+        List<Color> colors = new ArrayList<Color>();
         colors.add(pointsx.get(0).getColor());
         //        get all point colors
 
@@ -51,8 +51,8 @@ public class CSET {
         double[] v_pq = new double[2];
         //Y-Achsenabschnitt für gerade p und q
         double b_p, b_q =0 ;
-        LinkedList<Point> wedgepoints = new LinkedList<Point>();
-        LinkedList<Color> allwedgecolors = new LinkedList<>();
+        ArrayList<Point> wedgepoints = new ArrayList<Point>();
+        ArrayList<Color> allwedgecolors = new ArrayList<>();
         ArrayList<Color> wedgecolors = new ArrayList<>();
         int[] trix = new int[3];
         int[] triy = new int[3];
@@ -554,7 +554,7 @@ public class CSET {
         Collections.sort(pointsx, new ComparatorPointX());
 
         //List for Colors
-        List<Color> colors = new LinkedList<Color>();
+        List<Color> colors = new ArrayList<Color>();
         colors.add(pointsx.get(0).getColor());
         //        get all point colors
 
@@ -579,8 +579,8 @@ public class CSET {
 
         //sortieren nach x und nach y
         Collections.sort(pointsx, new ComparatorPointX());
-        LinkedList<Point> wedgepoints = new LinkedList<Point>();
-        LinkedList<Color> allwedgecolors = new LinkedList<>();
+        ArrayList<Point> wedgepoints = new ArrayList<Point>();
+        ArrayList<Color> allwedgecolors = new ArrayList<>();
         ArrayList<Color> wedgecolors = new ArrayList<>();
 
         if (out_step==0) {

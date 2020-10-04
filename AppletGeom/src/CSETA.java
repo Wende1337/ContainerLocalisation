@@ -53,7 +53,7 @@ public class CSETA {
         double min_d, µ, α, width = 0;
 
         ArrayList<Point> wedgepoints = new ArrayList<Point>();
-        LinkedList<Color> allwedgecolors = new LinkedList<>();
+        ArrayList<Color> allwedgecolors = new ArrayList<>();
         ArrayList<Color> wedgecolors = new ArrayList<>();
 
         //initiliaze Distance Array for Annulus compute
@@ -914,7 +914,7 @@ public class CSETA {
         Collections.sort(pointsx, new ComparatorPointX());
 
         //List for Colors
-        List<Color> colors = new LinkedList<Color>();
+        List<Color> colors = new ArrayList<Color>();
         colors.add(pointsx.get(0).getColor());
         //        get all point colors
 
@@ -940,7 +940,7 @@ public class CSETA {
         double µ, α = 0;
 
         ArrayList<Point> wedgepoints = new ArrayList<Point>();
-        LinkedList<Color> allwedgecolors = new LinkedList<>();
+        ArrayList<Color> allwedgecolors = new ArrayList<>();
         ArrayList<Color> wedgecolors = new ArrayList<>();
 
 

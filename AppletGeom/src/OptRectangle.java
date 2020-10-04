@@ -32,7 +32,7 @@ public class OptRectangle {
         Collections.sort(pointsy, new ComparatorPointY());
 
         //List for Colors
-        List<Color> colors = new LinkedList<Color>();
+        ArrayList<Color> colors = new ArrayList<Color>();
         colors.add(pointsx.get(0).getColor());
         //        get all point colors
         for (int k = 1; k < pointsx.size(); k++) {
@@ -285,7 +285,7 @@ public class OptRectangle {
         Collections.sort(pointsy, new ComparatorPointY());
 
         //List for Colors
-        List<Color> colors = new LinkedList<Color>();
+        ArrayList<Color> colors = new ArrayList<Color>();
         colors.add(pointsx.get(0).getColor());
         //        get all point colors
         for (int k = 1; k < pointsx.size(); k++) {
