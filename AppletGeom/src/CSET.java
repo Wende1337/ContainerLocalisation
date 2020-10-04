@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 
 //Color Spanning Equilateral Triangular Annulus
@@ -554,7 +553,7 @@ public class CSET {
         Collections.sort(pointsx, new ComparatorPointX());
 
         //List for Colors
-        List<Color> colors = new ArrayList<Color>(pointsx.size());
+        ArrayList<Color> colors = new ArrayList<Color>(pointsx.size());
         colors.add(pointsx.get(0).getColor());
         //        get all point colors
 
