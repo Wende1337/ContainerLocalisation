@@ -590,7 +590,7 @@ public class CSET {
         }
 
         //2 Fälle: Dreieck nach oben geöffnet, Dreieck nach unten geöffnet
-        //gespiegelt
+        //nach oben geöffnet
         if (tri.getY()[0] >= tri.getY()[1]) {
 
 

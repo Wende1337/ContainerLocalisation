@@ -21,7 +21,7 @@ public class OptRectangle {
         step=0;
         //Rectangle for Optimum and Comparing with Optimum
         Rectangle optimumRectangle = new Rectangle(0, 0, 0, 0);
-        Rectangle compareRectangle = new Rectangle(0, 0, 0, 0);
+        Rectangle currentRectangle = new Rectangle(0, 0, 0, 0);
 
         //sortieren nach x und nach y
         Collections.sort(pointsx, new ComparatorPointX());
@@ -46,8 +46,7 @@ public class OptRectangle {
         //Liste die aktuelle Farben zählt
         ArrayList<Color> cspanning = new ArrayList<Color>(colors.size());
         ArrayList<Color> ccomb = new ArrayList<Color>(colors.size());
-        //untere Grenze q
-        int lower_bound;
+
 
         //wenn weniger als 2 Farben
         if (colors.size() < 2) {
@@ -129,25 +128,25 @@ public class OptRectangle {
 
 
 
-                                compareRectangle.setX(pointsx.get(p).getX());
-                                compareRectangle.setY(pointsx.get(q).getY());
-                                compareRectangle.setWidth(pointsx.get(r).getX() - pointsx.get(p).getX());
-                                compareRectangle.setHeight(pointsy.get(s).getY() - pointsx.get(q).getY());
+                                currentRectangle.setX(pointsx.get(p).getX());
+                                currentRectangle.setY(pointsx.get(q).getY());
+                                currentRectangle.setWidth(pointsx.get(r).getX() - pointsx.get(p).getX());
+                                currentRectangle.setHeight(pointsy.get(s).getY() - pointsx.get(q).getY());
 
 
                                 //vergleiche Rechtecke
                                 if (optimumRectangle.getArea() == 0) {
-                                    optimumRectangle.setX(compareRectangle.getX());
-                                    optimumRectangle.setY(compareRectangle.getY());
-                                    optimumRectangle.setWidth(compareRectangle.getWidth());
-                                    optimumRectangle.setHeight(compareRectangle.getHeight());
+                                    optimumRectangle.setX(currentRectangle.getX());
+                                    optimumRectangle.setY(currentRectangle.getY());
+                                    optimumRectangle.setWidth(currentRectangle.getWidth());
+                                    optimumRectangle.setHeight(currentRectangle.getHeight());
 
                                 }
-                                if (Rectangle.compareRectangles(optimumRectangle, compareRectangle, "area") == compareRectangle) {
-                                    optimumRectangle.setX(compareRectangle.getX());
-                                    optimumRectangle.setY(compareRectangle.getY());
-                                    optimumRectangle.setWidth(compareRectangle.getWidth());
-                                    optimumRectangle.setHeight(compareRectangle.getHeight());
+                                if (Rectangle.compareRectangles(optimumRectangle, currentRectangle, "area") == currentRectangle) {
+                                    optimumRectangle.setX(currentRectangle.getX());
+                                    optimumRectangle.setY(currentRectangle.getY());
+                                    optimumRectangle.setWidth(currentRectangle.getWidth());
+                                    optimumRectangle.setHeight(currentRectangle.getHeight());
                                 }
                             }
                         }
@@ -218,25 +217,25 @@ public class OptRectangle {
                                 s_ending_Size = s;
 
 
-                            compareRectangle.setX(pointsx.get(p).getX());
-                            compareRectangle.setY(pointsx.get(p).getY());
-                            compareRectangle.setWidth(pointsx.get(r).getX() - pointsx.get(p).getX());
-                            compareRectangle.setHeight(pointsy.get(s).getY() - pointsx.get(p).getY());
+                            currentRectangle.setX(pointsx.get(p).getX());
+                            currentRectangle.setY(pointsx.get(p).getY());
+                            currentRectangle.setWidth(pointsx.get(r).getX() - pointsx.get(p).getX());
+                            currentRectangle.setHeight(pointsy.get(s).getY() - pointsx.get(p).getY());
 
 
                             //vergleiche Rechtecke
                             if (optimumRectangle.getArea() == 0) {
-                                optimumRectangle.setX(compareRectangle.getX());
-                                optimumRectangle.setY(compareRectangle.getY());
-                                optimumRectangle.setWidth(compareRectangle.getWidth());
-                                optimumRectangle.setHeight(compareRectangle.getHeight());
+                                optimumRectangle.setX(currentRectangle.getX());
+                                optimumRectangle.setY(currentRectangle.getY());
+                                optimumRectangle.setWidth(currentRectangle.getWidth());
+                                optimumRectangle.setHeight(currentRectangle.getHeight());
 
                             }
-                            if (Rectangle.compareRectangles(optimumRectangle, compareRectangle, "area") == compareRectangle) {
-                                optimumRectangle.setX(compareRectangle.getX());
-                                optimumRectangle.setY(compareRectangle.getY());
-                                optimumRectangle.setWidth(compareRectangle.getWidth());
-                                optimumRectangle.setHeight(compareRectangle.getHeight());
+                            if (Rectangle.compareRectangles(optimumRectangle, currentRectangle, "area") == currentRectangle) {
+                                optimumRectangle.setX(currentRectangle.getX());
+                                optimumRectangle.setY(currentRectangle.getY());
+                                optimumRectangle.setWidth(currentRectangle.getWidth());
+                                optimumRectangle.setHeight(currentRectangle.getHeight());
                             }
                         }
                     }
@@ -409,6 +408,7 @@ public class OptRectangle {
                         if (step == out_step) {
                             for (int dif=0; dif<step_dif-1;dif++){
                                 OptRectStepButton.increment_Step();
+                                System.out.println("step incremented");
                             }
                             Line sline = new Line(0, pointsy.get(s).getY(), 5000, pointsy.get(s).getY());
                             panel.setLines(3, sline);

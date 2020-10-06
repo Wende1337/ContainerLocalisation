@@ -150,6 +150,7 @@ public class CSETA {
                 if (!wedgecolors.contains(wedgepoints.get(idx).getColor())) {
                     wedgecolors.add(wedgepoints.get(idx).getColor());
                 }
+
                 if (wedgecolors.size() == colors.size()) {
                     trix[0] = (int) Math.round(v_pq[0]);
                     triy[0] = (int) Math.round(v_pq[1]);
@@ -168,10 +169,6 @@ public class CSETA {
                     //compute annulus with distances saved in D, clear wedgecolor sizes to check colorspanning
                     for (int s = wedgepoints.size() - 1; s > idx; s--) {
 
-                        //Wenn die Ränderfarben die selbe Farbe wie der Annuluskandidat haben überspringe
-                        if(wedgepoints.get(s).getColor() == wedgepoints.get(idx).getColor() || wedgepoints.get(s).getColor() == pointsx.get(v).getColor()){
-                            continue;
-                        }
 
                         // Schnittpunkt der Linie durch die Spitze des Dreiecks und Gerade von r ist v_pq[0]
                         //get alpha y coord
@@ -212,7 +209,7 @@ public class CSETA {
                         }
                     }
 
-                    if (width == 0) {
+                    if (width <= 0.01) {
                         D.clear();
                         continue;
                     }
@@ -239,7 +236,6 @@ public class CSETA {
                     triarea = triarea - triannulus;
 
                     if (triarea <= triopt) {
-                        System.out.println("width: "+width);
 
                         triopt = triarea;
                         trixopt[0] = trix[0];
@@ -319,15 +315,7 @@ public class CSETA {
                             continue;
                         }
                     }
-                    if (windx == q && v_pq[1] >= pointsx.get(q).getY()) {
-                        wedgepoints.add(pointsx.get(windx));
 
-                        //füge Farbe der Liste hinzu um zu gucken ob alle Farben überhaupt in Wedge drin sind
-                        if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
-                            allwedgecolors.add(pointsx.get(windx).getColor());
-                        }
-                        continue;
-                    }
 
                     //Halbebenenschnitt hat bei Punktepaar nicht so gut funktioniert wie in Geradengleichung einsetzen.
                     if (pointsx.get(windx).getY() <= v_pq[1] &&
@@ -377,10 +365,6 @@ public class CSETA {
                         //compute annulus with distances saved in D, clear wedgecolor sizes to check colorspanning
                         for (int s = wedgepoints.size() - 1; s > idx; s--) {
 
-                            //Wenn die Ränderfarben die selbe Farbe wie der Annuluskandidat haben überspringe
-                            if(wedgepoints.get(s).getColor() == wedgepoints.get(idx).getColor() || wedgepoints.get(s).getColor() == pointsx.get(p).getColor() || wedgepoints.get(s).getColor() == pointsx.get(q).getColor()){
-                                continue;
-                            }
 
                             // Schnittpunkt der Linie durch die Spitze des Dreiecks und Gerade von r ist v_pq[0]
                             //get alpha y coord
@@ -422,7 +406,7 @@ public class CSETA {
                         }
 
 
-                        if (width == 0) {
+                        if (width <= 0.01) {
                             D.clear();
                             continue;
                         }
@@ -449,7 +433,6 @@ public class CSETA {
                         triarea = triarea - triannulus;
 
                         if (triarea <= triopt) {
-                            System.out.println("width: "+width);
                             triopt = triarea;
                             trixopt[0] = trix[0];
                             trixopt[1] = trix[1];
@@ -565,10 +548,11 @@ public class CSETA {
                     //compute annulus with distances saved in D, clear wedgecolor sizes to check colorspanning
                     for (int s = 0; s < idx; s++) {
 
+
                         //Wenn die Ränderfarben die selbe Farbe wie der Annuluskandidat haben überspringe
-                        if(wedgepoints.get(s).getColor() == wedgepoints.get(idx).getColor() || wedgepoints.get(s).getColor() == pointsx.get(v).getColor()){
-                            continue;
-                        }
+//                        if(wedgepoints.get(s).getColor() == wedgepoints.get(idx).getColor() || wedgepoints.get(s).getColor() == pointsx.get(v).getColor()){
+//                            continue;
+//                        }
 
 
                         // Schnittpunkt der Linie durch die Spitze des Dreiecks und Gerade von r ist v_pq[0]
@@ -610,7 +594,7 @@ public class CSETA {
                         }
                     }
 
-                    if (width == 0) {
+                    if (width <= 0.01) {
                         D.clear();
                         continue;
                     }
@@ -637,7 +621,6 @@ public class CSETA {
                     triarea = triarea - triannulus;
 
                     if (triarea <= triopt) {
-                        System.out.println("width: "+width);
 
                         triopt = triarea;
                         trixopt[0] = trix[0];
@@ -682,10 +665,14 @@ public class CSETA {
                 v_pq[0] = (-b_p + b_q) / (2 * -Math.sqrt(3));
                 v_pq[1] = -Math.sqrt(3) * (v_pq[0]) + b_p;
 
+                if (v_pq[1]>= pointsx.get(p).getY() || v_pq[1]>= pointsx.get(q).getY()){
+                    continue;
+                }
+
 
                 for (int windx = 0; windx < pointsx.size(); windx++) {
                     //checke ob y Koordinate größer ist
-                    //checke ob es in Kante die p aufspannt rechts davon liegt, also größer ist, y=mx+b <=> x = (y-b)/m
+                    //checke ob es in Kante die p aufspannt rechts davon liegt, also größer ist
                     //checke ob es in Kante die b aufspannt links davon liegt, also kleiner ist
 
                     //skip Fall, in dem der Algorithmus den spannenden Wedgepunkt analysiert und checkt ob dieser in Wedge ist
@@ -704,7 +691,6 @@ public class CSETA {
                     }
                     if (windx == q) {
                         if (v_pq[1] <= pointsx.get(q).getY()) {
-
                             wedgepoints.add(pointsx.get(windx));
                             //füge Farbe der Liste hinzu um zu gucken ob alle Farben überhaupt in Wedge drin sind
                             if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
@@ -715,14 +701,7 @@ public class CSETA {
                             continue;
                         }
                     }
-                    if (windx == q && v_pq[1] <= pointsx.get(q).getY()) {
-                        wedgepoints.add(pointsx.get(windx));
-                        //füge Farbe der Liste hinzu um zu gucken ob alle Farben überhaupt in Wedge drin sind
-                        if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
-                            allwedgecolors.add(pointsx.get(windx).getColor());
-                        }
-                        continue;
-                    }
+
 
                     //Halbebenenschnitt hat bei Punktepaar nicht so gut funktioniert wie in Geradengleichung einsetzen.
                     if (pointsx.get(windx).getY() >= v_pq[1] &&
@@ -775,10 +754,6 @@ public class CSETA {
                         //compute annulus with distances saved in D, clear wedgecolor sizes to check colorspanning
                         for (int s = 0; s < idx; s++) {
 
-                            //Wenn die Ränderfarben die selbe Farbe wie der Annuluskandidat haben überspringe
-                            if(wedgepoints.get(s).getColor() == wedgepoints.get(idx).getColor() || wedgepoints.get(s).getColor() == pointsx.get(p).getColor() || wedgepoints.get(s).getColor() == pointsx.get(q).getColor()){
-                                continue;
-                            }
 
                             // Schnittpunkt der Linie durch die Spitze des Dreiecks und Gerade von r ist v_pq[0]
                             //get alpha y coord
@@ -820,7 +795,7 @@ public class CSETA {
                             }
                         }
 
-                        if (width == 0) {
+                        if (width <= 0.01) {
                             D.clear();
                             continue;
                         }
@@ -846,7 +821,6 @@ public class CSETA {
                         triarea = triarea - triannulus;
 
                         if (triarea <= triopt) {
-                            System.out.println("width: "+width);
                             triopt = triarea;
                             trixopt[0] = trix[0];
                             trixopt[1] = trix[1];
@@ -987,14 +961,13 @@ public class CSETA {
                 //checke ob es in Kante die p aufspannt rechts davon liegt, also größer ist, y=mx+b <=> x = (y-b)/m
                 //checke ob es in Kante die b aufspannt links davon liegt, also kleiner ist
 
-                //skip Fall, in dem der Algorithmus den spannenden Wedgepunkt analysiert und checkt ob dieser in Wedge ist
                 //aufgrund Konvertierung und ungenauigkeit von double auf Int ist der Halbebenencheck manchmal zu ungenau
 
 
                 //Halbebenenschnitt hat bei Punktepaar nicht so gut funktioniert wie in Geradengleichung einsetzen.
                 if (pointsx.get(windx).getY() <= tri[0].getY()[0] &&
-                        pointsx.get(windx).getX() >= (pointsx.get(windx).getY() - b_p) / Math.sqrt(3) &&
-                        pointsx.get(windx).getX() <= 2+(pointsx.get(windx).getY() - b_q) / -Math.sqrt(3)) {
+                        pointsx.get(windx).getX() >= (pointsx.get(windx).getY() - b_p) / Math.sqrt(3)-0.9 &&
+                        pointsx.get(windx).getX() <= 0.9+(pointsx.get(windx).getY() - b_q) / -Math.sqrt(3)) {
                     wedgepoints.add(pointsx.get(windx));
 
                     //füge Farbe der Liste hinzu um zu gucken ob alle Farben überhaupt in Wedge drin sind
@@ -1036,11 +1009,6 @@ public class CSETA {
                         //compute annulus with distances saved in D, clear wedgecolor sizes to check colorspanning
                         for (int s = wedgepoints.size() - 1; s > idx; s--) {
 
-                            //Wenn die Ränderfarben die selbe Farbe wie der Annuluskandidat haben überspringe
-                            if(wedgepoints.get(s).getColor() == wedgepoints.get(idx).getColor()){
-                                continue;
-                            }
-
                             // Schnittpunkt der Linie durch die Spitze des Dreiecks und Gerade von r ist v_pq[0]
                             //get alpha y coord
                             if (wedgepoints.get(s).getX() <= tri[0].getX()[0]) {
@@ -1055,7 +1023,7 @@ public class CSETA {
                             µ = Math.min(Math.abs(wedgepoints.get(idx).getY() - wedgepoints.get(s).getY()), Math.abs((α - tri[0].getY()[0]) / 2));
 
                             //if µ is annulus of point that defines p or q
-                            if(µ <= 0.3){
+                            if(µ <= 0.01){
                                 continue;
                             }
 
@@ -1068,7 +1036,6 @@ public class CSETA {
                                 return null;
                             }
 
-                            System.out.println("width: "+ µ);
                             //xy von Punkt 1 oben in [0,1] , xy von Punkt 1 links unten in [2,3] , xy von Punkt 1 rechts unten in [4,5]
                             trix_ann[0] = tri[0].getX()[0];
                             triy_ann[0] = (int) Math.round(tri[0].getY()[0] - µ * 2);
@@ -1087,7 +1054,6 @@ public class CSETA {
                                 Triangle ann = new Triangle(trix_ann,triy_ann);
                                 panel.setTri_annStep(ann);
                                 step = 0;
-                                System.out.println("Annulus added");
                                 return null;
                             }
                 }
@@ -1132,8 +1098,8 @@ public class CSETA {
 
                 //Halbebenenschnitt hat bei Punktepaar nicht so gut funktioniert wie in Geradengleichung einsetzen.
                 if (pointsx.get(windx).getY() >= tri[0].getY()[0] &&
-                        pointsx.get(windx).getX() >= (pointsx.get(windx).getY() - b_p) / -Math.sqrt(3) &&
-                        pointsx.get(windx).getX() <= 2+(pointsx.get(windx).getY() - b_q) / Math.sqrt(3)) {
+                        pointsx.get(windx).getX() >= (pointsx.get(windx).getY() - b_p) / -Math.sqrt(3)-0.9 &&
+                        pointsx.get(windx).getX() <= 0.9+(pointsx.get(windx).getY() - b_q) / Math.sqrt(3)) {
                     wedgepoints.add(pointsx.get(windx));
 
 
@@ -1180,10 +1146,6 @@ public class CSETA {
                     //compute annulus with distances saved in D, clear wedgecolor sizes to check colorspanning
                     for (int s = 0; s < idx; s++) {
 
-                        //Wenn die Ränderfarben die selbe Farbe wie der Annuluskandidat haben überspringe
-                        if(wedgepoints.get(s).getColor() == wedgepoints.get(idx).getColor()){
-                            continue;
-                        }
 
 
                         // Schnittpunkt der Linie durch die Spitze des Dreiecks und Gerade von r ist v_pq[0]
@@ -1199,7 +1161,7 @@ public class CSETA {
                         µ = Math.min(Math.abs(wedgepoints.get(idx).getY() - wedgepoints.get(s).getY()), Math.abs((α - tri[0].getY()[0]) / 2));
 
                         //if µ is annulus of point that defines p or q
-                        if(µ <= 0.3){
+                        if(µ == 0.0){
                             continue;
                         }
 
@@ -1212,7 +1174,6 @@ public class CSETA {
                             return null;
                         }
 
-                        System.out.println("width: "+ µ);
 
                         //xy von Punkt 1 oben in [0,1] , xy von Punkt 1 links unten in [2,3] , xy von Punkt 1 rechts unten in [4,5]
                         trix_ann[0] = tri[0].getX()[0];
@@ -1256,5 +1217,6 @@ public class CSETA {
     public static void resetStep(){
         step=0;
     }
+
 }
 
