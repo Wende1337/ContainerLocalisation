@@ -60,15 +60,15 @@ public class OptRectangle {
         //iteriere durch jedes Punktpaar durch, p= linke, q= untere Grenze
         for (int p = 0; p < pointsx.size(); p++) {
             // x(p) < x(q) zu jedem Zeiptunkt
-            for (int q = 0; q < pointsx.size(); q++) {
+            for (int q = 0; q < pointsy.size(); q++) {
                 // Fall falls die zwei Punkte keinen linkeren unten Eckpunkt bilden
-                if (pointsx.get(q).getY() > pointsx.get(p).getY()) {
+                if (pointsy.get(q).getY() > pointsx.get(p).getY()) {
                     continue;
                 }
-                if (pointsx.get(q).getX() < pointsx.get(p).getX()) {
+                if (pointsy.get(q).getX() < pointsx.get(p).getX()) {
                     continue;
                 }
-                if (pointsx.get(p).getColor() == pointsx.get(q).getColor()) {
+                if (pointsx.get(p).getColor() == pointsy.get(q).getColor()) {
                     continue;
                 }
 
@@ -85,13 +85,13 @@ public class OptRectangle {
                         continue;
                     }
                     //2. Fall r_y muss über untere Grenze q sein
-                    if (pointsx.get(r).getY() < pointsx.get(q).getY()) {
+                    if (pointsx.get(r).getY() < pointsy.get(q).getY()) {
                         continue;
                     }
 
                     //addiere Grenzpunkte p und q hinzu
                     cspanning.set(colors.indexOf(pointsx.get(p).getColor()), pointsx.get(p).getColor());
-                    cspanning.set(colors.indexOf(pointsx.get(q).getColor()), pointsx.get(q).getColor());
+                    cspanning.set(colors.indexOf(pointsy.get(q).getColor()), pointsy.get(q).getColor());
 
                     //setze Farbe an Stelle r
                     cspanning.set(colors.indexOf(pointsx.get(r).getColor()), pointsx.get(r).getColor());
@@ -105,13 +105,13 @@ public class OptRectangle {
                         }
 
                         //obere Grenze
-                        for (int s = 0; s < s_ending_Size; s++) {
+                        for (int s = q; s < s_ending_Size; s++) {
                             //1. Fall s_x muss größer als linke Grenze p sein
                             if (pointsy.get(s).getX() < pointsx.get(p).getX()) {
                                 continue;
                             }
                             //2. Fall s_y muss über untere Grenze q sein
-                            if (pointsy.get(s).getY() < pointsx.get(q).getY()) {
+                            if (pointsy.get(s).getY() < pointsy.get(q).getY()) {
                                 continue;
                             }
                             //3. Fall s_x muss kleiner als r_x sein
@@ -130,9 +130,9 @@ public class OptRectangle {
 
 
                                 currentRectangle.setX(pointsx.get(p).getX());
-                                currentRectangle.setY(pointsx.get(q).getY());
+                                currentRectangle.setY(pointsy.get(q).getY());
                                 currentRectangle.setWidth(pointsx.get(r).getX() - pointsx.get(p).getX());
-                                currentRectangle.setHeight(pointsy.get(s).getY() - pointsx.get(q).getY());
+                                currentRectangle.setHeight(pointsy.get(s).getY() - pointsy.get(q).getY());
 
 
                                 //vergleiche Rechtecke
