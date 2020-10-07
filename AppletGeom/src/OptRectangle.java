@@ -13,7 +13,7 @@ public class OptRectangle {
     private static int step ;
     private static int s_ending_y=21000000;
     private static int s_ending_x=21000000;
-    private static int step_dif;
+    private static Color s_color_glob=null;
 
 
 
@@ -47,6 +47,7 @@ public class OptRectangle {
         //Liste die aktuelle Farben zählt
         ArrayList<Color> cspanning = new ArrayList<Color>(colors.size());
         ArrayList<Color> ccomb = new ArrayList<Color>(colors.size());
+        Color s_color=null;
 
 
         //wenn weniger als 2 Farben
@@ -78,6 +79,7 @@ public class OptRectangle {
                     cspanning.add(null);
                 }
                 int s_ending_Size = pointsy.size();
+                s_color=null;
                 //r = rechte Grenze
                 for (int r = p; r < pointsx.size(); r++) {
                     //1. Fall r_x muss größer als linke Grenze p sein
@@ -89,12 +91,19 @@ public class OptRectangle {
                         continue;
                     }
 
+
                     //addiere Grenzpunkte p und q hinzu
                     cspanning.set(colors.indexOf(pointsx.get(p).getColor()), pointsx.get(p).getColor());
                     cspanning.set(colors.indexOf(pointsy.get(q).getColor()), pointsy.get(q).getColor());
 
                     //setze Farbe an Stelle r
                     cspanning.set(colors.indexOf(pointsx.get(r).getColor()), pointsx.get(r).getColor());
+
+                    if(s_color!= null && pointsx.get(r).getColor()!= s_color){
+                        System.out.println("s_colo: "+s_color+" != "+" r color: "+ pointsx.get(r).getColor());
+                        System.out.println("skip");
+                        continue;
+                    }
 
                     //wenn color Spanning
                     if (!cspanning.contains(null)) {
@@ -120,12 +129,14 @@ public class OptRectangle {
                             }
 
 
+
                             //setze Farbe in List
                             ccomb.set(colors.indexOf(pointsy.get(s).getColor()), pointsy.get(s).getColor());
 
                             //wenn Color Spanning
                             if (!ccomb.contains(null)) {
-                                    s_ending_Size = s;
+                                s_ending_Size = s;
+                                s_color=pointsy.get(s).getColor();
 
 
 
@@ -357,6 +368,12 @@ public class OptRectangle {
 
             System.out.println("outstep: "+ out_step+ " step: "+ (step+1));
 
+            if(s_color_glob!= null && pointsx.get(r).getColor()!= s_color_glob){
+                step+=1;
+                continue;
+            }
+
+
             step += 1;
             if (step == out_step) {
                 Line rline = new Line(pointsx.get(r).getX(), 0, pointsx.get(r).getX(), 5000);
@@ -366,6 +383,8 @@ public class OptRectangle {
                 step = 0;
                 return null;
             }
+
+
 
             //wenn color Spanning
             if (!cspanning.contains(null)) {
@@ -394,7 +413,8 @@ public class OptRectangle {
                     ccomb.set(colors.indexOf(pointsy.get(s).getColor()), pointsy.get(s).getColor());
 
                     if (!ccomb.contains(null)) {
-                    s_ending_Size=s;
+                        s_ending_Size=s;
+                        s_color_glob=pointsy.get(s).getColor();
                     }
                     step += 1;
                     if (step == out_step) {
@@ -412,6 +432,7 @@ public class OptRectangle {
         s_ending_x=21000000;
 
         step=0;
+        s_color_glob=null;
         panel.setLines(0, null);
         panel.setLines(1, null);
         panel.setLines(2, null);
@@ -422,6 +443,7 @@ public class OptRectangle {
 
     public static void resetStep(){
         step=0;
+        s_color_glob=null;
     }
     public static void resetPointsy(){
         pointsy.clear();
