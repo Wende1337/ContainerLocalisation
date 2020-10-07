@@ -12,6 +12,7 @@ public class OptRectangle {
     //Für Step Algorithmus
     private static int step ;
     private static int s_ending_y=21000000;
+    private static int s_ending_x=21000000;
     private static int step_dif;
 
 
@@ -298,7 +299,7 @@ public class OptRectangle {
         //Liste die aktuelle Farben zählt
         ArrayList<Color> cspanning = new ArrayList<Color>(colors.size());
         ArrayList<Color> ccomb = new ArrayList<Color>(colors.size());
-
+        int s_ending_Size = pointsy.size();
 
 
         //wenn weniger als 2 Farben
@@ -376,7 +377,7 @@ public class OptRectangle {
 
 
                 //s = obere Grenze
-                for (int s = 0; s < pointsy.size(); s++) {
+                for (int s = 0; s <= s_ending_Size; s++) {
                     //1. Fall s_x muss größer als linke Grenze p sein
                     if (pointsy.get(s).getX() < rect.getX()) {
                         continue;
@@ -389,40 +390,18 @@ public class OptRectangle {
                     if (pointsy.get(s).getX() > pointsx.get(r).getX()) {
                         continue;
                     }
-                    if (pointsy.get(s).getY() > s_ending_y) {
-                        step+=1;
-                        if( step==out_step){
-                            step=0;
-                            return null;
-                        }
-                        continue;
-                    }
-
-
-                    //check color spanning
+                    //setze Farbe in List
                     ccomb.set(colors.indexOf(pointsy.get(s).getColor()), pointsy.get(s).getColor());
+
                     if (!ccomb.contains(null)) {
-                        step_dif=pointsy.size()-s;
-                        s_ending_y=pointsy.get(s).getY();
-                        step += 1;
-                        if (step == out_step) {
-                            for (int dif=0; dif<step_dif-1;dif++){
-                                OptRectStepButton.increment_Step();
-                                System.out.println("step incremented");
-                            }
-                            Line sline = new Line(0, pointsy.get(s).getY(), 5000, pointsy.get(s).getY());
-                            panel.setLines(3, sline);
-                            step = 0;
-                            return null;
-                        }
-                    } else {
-                        step += 1;
-                        if (step == out_step) {
-                            Line sline = new Line(0, pointsy.get(s).getY(), 5000, pointsy.get(s).getY());
-                            panel.setLines(3, sline);
-                            step = 0;
-                            return null;
-                        }
+                    s_ending_Size=s;
+                    }
+                    step += 1;
+                    if (step == out_step) {
+                        Line sline = new Line(0, pointsy.get(s).getY(), 5000, pointsy.get(s).getY());
+                        panel.setLines(3, sline);
+                        step = 0;
+                        return null;
                     }
                 }
             }
@@ -430,6 +409,8 @@ public class OptRectangle {
         ccomb.clear();
         OptRectStepButton.resetOut_Step();
         s_ending_y=21000000;
+        s_ending_x=21000000;
+
         step=0;
         panel.setLines(0, null);
         panel.setLines(1, null);

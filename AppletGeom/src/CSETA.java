@@ -999,6 +999,8 @@ public class CSETA {
                 if (step == out_step) {
                     Line wline = new Line(0, wedgepoints.get(idx).getY(),5000, wedgepoints.get(idx).getY());
                     panel.setLines(2, wline);
+                    panel.setLines(3, null);
+                    panel.setTri_annStep(null);
                     step = 0;
                     return null;
                 }
@@ -1134,6 +1136,8 @@ public class CSETA {
                 if (step == out_step) {
                     Line wline = new Line(0, wedgepoints.get(idx).getY(),5000, wedgepoints.get(idx).getY());
                     panel.setLines(2, wline);
+                    panel.setLines(3, null);
+                    panel.setTri_annStep(null);
                     step = 0;
                     return null;
                 }
