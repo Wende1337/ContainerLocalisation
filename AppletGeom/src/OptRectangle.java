@@ -14,7 +14,7 @@ public class OptRectangle {
     private static int step ;
     private static int s_ending_y=21000000;
     private static int s_ending_x=21000000;
-    private static Color s_color_glob=null;
+    private static Color s_color=null;
 
 
 
@@ -101,8 +101,8 @@ public class OptRectangle {
                     cspanning.set(colors.indexOf(pointsx.get(r).getColor()), pointsx.get(r).getColor());
 
                     if(s_color!= null && pointsx.get(r).getColor()!= s_color){
-                        System.out.println("s_colo: "+s_color+" != "+" r color: "+ pointsx.get(r).getColor());
-                        System.out.println("skip");
+//                        System.out.println("s_colo: "+s_color+" != "+" r color: "+ pointsx.get(r).getColor());
+//                        System.out.println("skip");
                         continue;
                     }
 
@@ -160,6 +160,7 @@ public class OptRectangle {
                                     optimumRectangle.setY(currentRectangle.getY());
                                     optimumRectangle.setWidth(currentRectangle.getWidth());
                                     optimumRectangle.setHeight(currentRectangle.getHeight());
+                                    break;
                                 }
                             }
                         }
@@ -179,6 +180,7 @@ public class OptRectangle {
                 cspanning.add(null);
             }
             int s_ending_Size = pointsy.size();
+            s_color=null;
             //r = rechte Grenze
             for (int r = p; r < pointsx.size(); r++) {
                 //1. Fall r_x muss größer als linke Grenze p sein
@@ -197,6 +199,11 @@ public class OptRectangle {
                 //setze Farbe an Stelle r
                 cspanning.set(colors.indexOf(pointsx.get(r).getColor()), pointsx.get(r).getColor());
 
+                if(s_color!= null && pointsx.get(r).getColor()!= s_color){
+//                    System.out.println("s_colo: "+s_color+" != "+" r color: "+ pointsx.get(r).getColor());
+//                    System.out.println("skip");
+                    continue;
+                }
 
                 //wenn color Spanning
                 if (!cspanning.contains(null)) {
@@ -228,6 +235,7 @@ public class OptRectangle {
                         //wenn Color Spanning
                         if (!ccomb.contains(null)) {
                             s_ending_Size = s;
+                            s_color=pointsy.get(s).getColor();
 
 
                             currentRectangle.setX(pointsx.get(p).getX());
@@ -249,6 +257,7 @@ public class OptRectangle {
                                 optimumRectangle.setY(currentRectangle.getY());
                                 optimumRectangle.setWidth(currentRectangle.getWidth());
                                 optimumRectangle.setHeight(currentRectangle.getHeight());
+                                break;
                             }
                         }
                     }
@@ -286,6 +295,7 @@ public class OptRectangle {
         panel.emptyRects();
         Rectangle rect;
         rect = algo1();
+        Color s_color=null;
 
 
         //sortieren nach x und nach y
@@ -371,15 +381,13 @@ public class OptRectangle {
             step += 1;
             if (step == out_step) {
                 Line rline = new Line(pointsx.get(r).getX(), 0, pointsx.get(r).getX(), 5000);
-                System.out.println("new r set");
                 panel.setLines(2, rline);
                 panel.setLines(3, null);
                 step = 0;
                 return null;
             }
 
-            if(s_color_glob!= null && pointsx.get(r).getColor()!= s_color_glob){
-                System.out.println("continued");
+            if(s_color!= null && pointsx.get(r).getColor()!= s_color){
                 continue;
             }
 
@@ -395,7 +403,7 @@ public class OptRectangle {
 
 
                 //s = obere Grenze
-                for (int s = 0; s <= s_ending_Size; s++) {
+                for (int s = 0; s < s_ending_Size; s++) {
                     //1. Fall s_x muss größer als linke Grenze p sein
                     if (pointsy.get(s).getX() < rect.getX()) {
                         continue;
@@ -419,10 +427,9 @@ public class OptRectangle {
                         return null;
                     }
                     if (!ccomb.contains(null)) {
-                        s_ending_Size=s;
-                        s_color_glob=pointsy.get(s).getColor();
+                        s_ending_Size=s+1;
+                        s_color=pointsy.get(s).getColor();
                         ccomb.clear();
-                        System.out.println("color spanning");
                         break;
                     }
                 }
@@ -434,7 +441,7 @@ public class OptRectangle {
         s_ending_x=21000000;
 
         step=0;
-        s_color_glob=null;
+        s_color=null;
         panel.setLines(0, null);
         panel.setLines(1, null);
         panel.setLines(2, null);
@@ -445,7 +452,6 @@ public class OptRectangle {
 
     public static void resetStep(){
         step=0;
-        s_color_glob=null;
     }
     public static void resetPointsy(){
         pointsy.clear();
