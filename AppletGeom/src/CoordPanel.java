@@ -54,6 +54,10 @@ public class CoordPanel extends JPanel {
             g.setColor(Color.BLACK);
             g.drawLine(l.getX1(),l.getY1(),l.getX2(),l.getY2());
         }
+        if (lines.get(2)!=null){
+            g.setColor(Color.red);
+            g.drawLine(lines.get(2).getX1(),lines.get(2).getY1(),lines.get(2).getX2(),lines.get(2).getY2());
+        }
         if (lines.get(3)!=null){
             g.setColor(Color.RED);
             g.drawLine(lines.get(3).getX1(),lines.get(3).getY1(),lines.get(3).getX2(),lines.get(3).getY2());

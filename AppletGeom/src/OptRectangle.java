@@ -1,4 +1,5 @@
 
+
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.util.*;
@@ -178,7 +179,7 @@ public class OptRectangle {
                 cspanning.add(null);
             }
             int s_ending_Size = pointsy.size();
-                //r = rechte Grenze
+            //r = rechte Grenze
             for (int r = p; r < pointsx.size(); r++) {
                 //1. Fall r_x muss größer als linke Grenze p sein
                 if (pointsx.get(r).getX() < pointsx.get(p).getX()) {
@@ -226,7 +227,7 @@ public class OptRectangle {
 
                         //wenn Color Spanning
                         if (!ccomb.contains(null)) {
-                                s_ending_Size = s;
+                            s_ending_Size = s;
 
 
                             currentRectangle.setX(pointsx.get(p).getX());
@@ -366,13 +367,6 @@ public class OptRectangle {
             //setze Farbe an Stelle r
             cspanning.set(colors.indexOf(pointsx.get(r).getColor()), pointsx.get(r).getColor());
 
-            System.out.println("outstep: "+ out_step+ " step: "+ (step+1));
-
-            if(s_color_glob!= null && pointsx.get(r).getColor()!= s_color_glob){
-                step+=1;
-                continue;
-            }
-
 
             step += 1;
             if (step == out_step) {
@@ -382,6 +376,11 @@ public class OptRectangle {
                 panel.setLines(3, null);
                 step = 0;
                 return null;
+            }
+
+            if(s_color_glob!= null && pointsx.get(r).getColor()!= s_color_glob){
+                System.out.println("continued");
+                continue;
             }
 
 
@@ -412,16 +411,19 @@ public class OptRectangle {
                     //setze Farbe in List
                     ccomb.set(colors.indexOf(pointsy.get(s).getColor()), pointsy.get(s).getColor());
 
-                    if (!ccomb.contains(null)) {
-                        s_ending_Size=s;
-                        s_color_glob=pointsy.get(s).getColor();
-                    }
                     step += 1;
                     if (step == out_step) {
                         Line sline = new Line(0, pointsy.get(s).getY(), 5000, pointsy.get(s).getY());
                         panel.setLines(3, sline);
                         step = 0;
                         return null;
+                    }
+                    if (!ccomb.contains(null)) {
+                        s_ending_Size=s;
+                        s_color_glob=pointsy.get(s).getColor();
+                        ccomb.clear();
+                        System.out.println("color spanning");
+                        break;
                     }
                 }
             }
