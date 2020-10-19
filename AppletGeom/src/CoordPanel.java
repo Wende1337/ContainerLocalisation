@@ -6,143 +6,144 @@ import java.util.ArrayList;
 //2D Panel für Darstellung der Punkte und Container in Panel
 public class CoordPanel extends JPanel {
 
+    // Lists used for managing points, lines, rectangle and triangle used by the algorithms
     private static ArrayList<Point> points = new ArrayList<Point>();
     private static ArrayList<Rectangle> rects = new ArrayList<Rectangle>(5);
     private static ArrayList<Triangle> tris = new ArrayList<Triangle>(5);
     private static ArrayList<Line> lines = new ArrayList<>(5);
 
 
-
-
+    //initialize Main Panel used as Coordsystem
     public CoordPanel() {
         super();
         this.setBorder(new LineBorder(Color.WHITE, 2));
         this.setBackground(Color.WHITE);
-        for (int i=0; i<4; i++) {
+        for (int i = 0; i < 4; i++) {
             tris.add(null);
         }
-        for (int i=0; i<4; i++) {
+        for (int i = 0; i < 4; i++) {
             lines.add(null);
         }
     }
 
+    //used to get Point List for Algorithms
     public static ArrayList<Point> getPoints() {
         return points;
     }
 
+    //Paint Function to draw all existing Objects in above mentioned ArrayLists
     @Override
-    public void paint(Graphics g){
+    public void paint(Graphics g) {
         super.paint(g);
         for (Point p : points) {
             p.draw(g);
         }
-        for (Rectangle r: rects){
+        for (Rectangle r : rects) {
             g.setColor(Color.BLACK);
-            g.drawRect( r.getX(),  r.getY(),  r.getWidth(),  r.getHeight());
+            g.drawRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
         }
-        for (Triangle t: tris){
-            if (t==null){
+        for (Triangle t : tris) {
+            if (t == null) {
                 continue;
             }
             g.setColor(Color.BLACK);
-            g.drawPolygon(t.getX(),t.getY(),3);
+            g.drawPolygon(t.getX(), t.getY(), 3);
         }
-        for (Line l: lines){
-            if (l==null){
+        for (Line l : lines) {
+            if (l == null) {
                 continue;
             }
             g.setColor(Color.BLACK);
-            g.drawLine(l.getX1(),l.getY1(),l.getX2(),l.getY2());
+            g.drawLine(l.getX1(), l.getY1(), l.getX2(), l.getY2());
         }
-        if (lines.get(2)!=null){
+        //Step Lines that sweep in red
+        if (lines.get(2) != null) {
             g.setColor(Color.red);
-            g.drawLine(lines.get(2).getX1(),lines.get(2).getY1(),lines.get(2).getX2(),lines.get(2).getY2());
+            g.drawLine(lines.get(2).getX1(), lines.get(2).getY1(), lines.get(2).getX2(), lines.get(2).getY2());
         }
-        if (lines.get(3)!=null){
+        if (lines.get(3) != null) {
             g.setColor(Color.RED);
-            g.drawLine(lines.get(3).getX1(),lines.get(3).getY1(),lines.get(3).getX2(),lines.get(3).getY2());
+            g.drawLine(lines.get(3).getX1(), lines.get(3).getY1(), lines.get(3).getX2(), lines.get(3).getY2());
         }
     }
 
-    
-    public void addPoint(Point point){
+
+    //Functions to manage primites of ArrayLists, Algorithms as CSET and CSETA and their triangles use a distinct
+    // slot to not override the other Algorithms triangles
+    public void addPoint(Point point) {
         points.add(point);
         this.repaint();
     }
 
-    public void setLines( int idx, Line line){
+    public void setLines(int idx, Line line) {
         lines.set(idx, line);
         this.repaint();
     }
 
-    public void setRect(Rectangle rect){
-    	if (rects.size()==0) {
-    		rects.add(rect);
-    	} else {
-    		rects.set(0, rect);
-    	}
+    public void setRect(Rectangle rect) {
+        if (rects.size() == 0) {
+            rects.add(rect);
+        } else {
+            rects.set(0, rect);
+        }
         this.repaint();
     }
 
-    public void setTri(Triangle tri){
+    public void setTri(Triangle tri) {
         tris.set(0, tri);
         this.repaint();
     }
 
-    public void setTri_Ann(Triangle[] tri){
-        tris.set(1,tri[0]);
-        tris.set(2,tri[1]);
+    public void setTri_Ann(Triangle[] tri) {
+        tris.set(1, tri[0]);
+        tris.set(2, tri[1]);
         this.repaint();
     }
 
-    public void setTri_annStep(Triangle tri){
-        tris.set(3,tri);
+    public void setTri_annStep(Triangle tri) {
+        tris.set(3, tri);
         this.repaint();
     }
 
-    
-    public void emptyPoints() {
-    	points.clear();
-    	this.repaint();
-    }
-    
+
     public void emptyRects() {
-    	rects.clear();
-    	this.repaint();
+        rects.clear();
+        this.repaint();
     }
 
     public void emptyTri() {
-        tris.set(0,null);
+        tris.set(0, null);
         this.repaint();
     }
 
     public void emptyTri_Ann() {
-        tris.set(1,null);
-        tris.set(2,null);
+        tris.set(1, null);
+        tris.set(2, null);
         this.repaint();
     }
 
     public void emptyLine() {
-        for (int i=0; i<4; i++) {
-            lines.set(i,null);
+        for (int i = 0; i < 4; i++) {
+            lines.set(i, null);
         }
     }
-    
+
+    // Reset all
     public void emptyAll() {
-    	points.clear();
-    	rects.clear();
+        points.clear();
+        rects.clear();
 
-    	emptyTri_Ann();
-    	emptyTri();
-    	emptyLine();
+        emptyTri_Ann();
+        emptyTri();
+        emptyLine();
 
-    	OptRectangle.resetStep();
-    	CSET.resetStep();
+        OptRectangle.resetStep();
+        CSET.resetStep();
         CSETA.resetStep();
-    	OptRectStepButton.resetOut_Step();
-    	OptRectangle.resetPointsy();
-    	CSETStepButton.resetOut_Step();
+        OptRectStepButton.resetOut_Step();
+        OptRectangle.resetPointsy();
+        CSETStepButton.resetOut_Step();
         CSETAStepButton.resetOut_Step();
-    	this.repaint();
+        this.repaint();
     }
 }

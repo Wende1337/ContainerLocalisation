@@ -3,8 +3,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class CSETAButton implements ActionListener{
+public class CSETAButton implements ActionListener {
 
+    //set necessary objects to execute algorithm and switch it off and on
     private CoordPanel panel;
     private static boolean CSETAbool;
 
@@ -16,8 +17,10 @@ public class CSETAButton implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        //bool Variable so the Algorithm can be turned on and off
         computeCSETA();
-        if (CSETAbool == true ) {
+        if (CSETAbool == true) {
             CSETA.execute(panel);
         }
 
