@@ -25,7 +25,7 @@ public class Layout extends JFrame {
     public static JTextField area3 = new JTextField("Fläche");
     public static JTextField time3 = new JTextField("Zeit in ns");
 
-    //for number Generation:
+    //for point Generation:
     public static JTextField point_num = new JTextField("Anzahl an Punkten");
     public static JTextField color_num = new JTextField("#verschiedene Farben");
 

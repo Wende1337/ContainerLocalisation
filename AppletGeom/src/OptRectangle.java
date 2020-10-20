@@ -8,7 +8,7 @@ import java.util.List;
 public class OptRectangle {
 
 
-    //Two Lists for point sweep, ascending
+    //Two Lists for point sweep, ascending, pointsx gets poin
     private static ArrayList<Point> pointsx = CoordPanel.getPoints();
     private static ArrayList<Point> pointsy = new ArrayList<Point>(pointsx.size());
     //For Step Algorithm

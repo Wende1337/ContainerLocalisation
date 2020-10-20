@@ -6,8 +6,8 @@ import java.util.*;
 public class CSET {
 
 
-    //get ArrayList from Coordpanel, inserted by mouseclicks
-    private static ArrayList<Point> pointsx = CoordPanel.getPoints();
+    //get ArrayList of points from Coordpanel, use pointsy and pointsy for sweep
+    private static ArrayList<Point> pointsy = CoordPanel.getPoints();
     //empty Triangle for execute function
     static Triangle triangle = new Triangle(null, null);
     //two Variables for the TextField in GUI to get Information of optimal Triangle
@@ -23,21 +23,21 @@ public class CSET {
         //for the base above the wedge, and once for the base below wedge
 
         //		if List is less than 1
-        if (pointsx.size() < 2) {
+        if (pointsy.size() < 2) {
             return null;
         }
-        //      sort point List after x coordinate
-        Collections.sort(pointsx, new ComparatorPointX());
+        //sort in x order ascending
+        Collections.sort(pointsy, new ComparatorPointY());
 
         //List for Colors
-        ArrayList<Color> colors = new ArrayList<Color>(pointsx.size());
-        colors.add(pointsx.get(0).getColor());
+        ArrayList<Color> colors = new ArrayList<Color>(pointsy.size());
+        colors.add(pointsy.get(0).getColor());
 
         //        get all point colors
-        for (int k = 1; k < pointsx.size(); k++) {
+        for (int k = 1; k < pointsy.size(); k++) {
             for (int l = 0; l < colors.size(); l++) {
-                if (colors.contains(pointsx.get(k).getColor()) == false) {
-                    colors.add(pointsx.get(k).getColor());
+                if (colors.contains(pointsy.get(k).getColor()) == false) {
+                    colors.add(pointsy.get(k).getColor());
                 }
             }
         }
@@ -54,7 +54,7 @@ public class CSET {
         double[] v_pq = new double[2];
         //Y-Axis section for wedge lines p and q
         double b_p, b_q = 0;
-        ArrayList<Point> wedgepoints = new ArrayList<Point>(pointsx.size());
+        ArrayList<Point> wedgepoints = new ArrayList<Point>(pointsy.size());
         ArrayList<Color> allwedgecolors = new ArrayList<>(colors.size());
         ArrayList<Color> wedgecolors = new ArrayList<>(colors.size());
         //triangle x and y array for coordinates of the corner points
@@ -72,11 +72,11 @@ public class CSET {
         //MIRRORED VERSIONS (2) , THEN NORMAL (2)
 
         //iterates for each point MIRRORED and 1 Point defining Wedge
-        for (int v = 0; v < pointsx.size(); v++) {
+        for (int v = 0; v < pointsy.size(); v++) {
             //set lines for q,p Wedges, y=mx+b <=> b=-mx+y
             //compute b_p mit -sqrt(3), b_q with sqrt(3)), because java coordinate origin is mirrored
-            b_p = -Math.sqrt(3) * pointsx.get(v).getX() + pointsx.get(v).getY();
-            b_q = Math.sqrt(3) * pointsx.get(v).getX() + pointsx.get(v).getY();
+            b_p = -Math.sqrt(3) * pointsy.get(v).getX() + pointsy.get(v).getY();
+            b_q = Math.sqrt(3) * pointsy.get(v).getX() + pointsy.get(v).getY();
 
             // compute intersection of line equations
             // tan(60)x +b1 = -tan(60)x +b2 <=> 2*tan(60)x +b1 = b2 <=> x = (-b1 + b2)/2*tan(60)
@@ -93,16 +93,16 @@ public class CSET {
 
 
             //loop to find Points in Wedge_p,q
-            for (int windx = 0; windx < pointsx.size(); windx++) {
+            for (int windx = 0; windx < pointsy.size(); windx++) {
 
 
                 //because of conversion double to int there may be cases where the Wedgepoint isn't added
                 //add manually
                 if (windx == v) {
-                    wedgepoints.add(pointsx.get(windx));
+                    wedgepoints.add(pointsy.get(windx));
                     //add color to List to later check if wedge is color spanning
-                    if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
-                        allwedgecolors.add(pointsx.get(windx).getColor());
+                    if (!allwedgecolors.contains(pointsy.get(windx).getColor())) {
+                        allwedgecolors.add(pointsy.get(windx).getColor());
                     }
                     continue;
                 }
@@ -110,23 +110,20 @@ public class CSET {
 
                 //filter points that lie in wedge with half pane intersection through triangle area computation
                 //"Halbebenschnitt" from Module "Algorithmic Geometry"
-                if (((pointsx.get(windx).getX() - line_p[0]) * ((pointsx.get(windx).getY() + line_p[1]) / 2) +
-                        (v_pq[0] - pointsx.get(windx).getX()) * ((v_pq[1] + pointsx.get(windx).getY()) / 2) +
+                if (((pointsy.get(windx).getX() - line_p[0]) * ((pointsy.get(windx).getY() + line_p[1]) / 2) +
+                        (v_pq[0] - pointsy.get(windx).getX()) * ((v_pq[1] + pointsy.get(windx).getY()) / 2) +
                         (line_p[0] - v_pq[0]) * ((line_p[1] + v_pq[1]) / 2)) >= 0 &&
-                        ((pointsx.get(windx).getX() - v_pq[0]) * ((pointsx.get(windx).getY() + v_pq[1]) / 2) +
-                                (line_q[0] - pointsx.get(windx).getX()) * ((line_q[1] + pointsx.get(windx).getY()) / 2) +
+                        ((pointsy.get(windx).getX() - v_pq[0]) * ((pointsy.get(windx).getY() + v_pq[1]) / 2) +
+                                (line_q[0] - pointsy.get(windx).getX()) * ((line_q[1] + pointsy.get(windx).getY()) / 2) +
                                 (v_pq[0] - line_q[0]) * ((v_pq[1] + line_q[1]) / 2)) >= 0 &&
-                        (pointsx.get(windx).getY() <= v_pq[1])) {
-                    wedgepoints.add(pointsx.get(windx));
+                        (pointsy.get(windx).getY() <= v_pq[1])) {
+                    wedgepoints.add(pointsy.get(windx));
                     //add color to List to later check if wedge is color spanning
-                    if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
-                        allwedgecolors.add(pointsx.get(windx).getColor());
+                    if (!allwedgecolors.contains(pointsy.get(windx).getColor())) {
+                        allwedgecolors.add(pointsy.get(windx).getColor());
                     }
                 }
             }
-
-            //sort Wedgepoints in Y-coord ascending order
-            Collections.sort(wedgepoints, new ComparatorPointY());
 
 
             // Check if Wedge Color Condition is met, reset lists if not
@@ -177,18 +174,22 @@ public class CSET {
 
 
         //iterates through a points pair, MIRRORED, 2 points that define wedge
-        for (int p = 0; p < pointsx.size(); p++) {
+        for (int p = 0; p < pointsy.size(); p++) {
             // x(p) < x(q)
-            for (int q = p + 1; q < pointsx.size(); q++) {
+            for (int q = 0; q < pointsy.size(); q++) {
                 //if color of p and q are the same
-                if (pointsx.get(p).getColor() == pointsx.get(q).getColor()) {
+                if (pointsy.get(p).getColor() == pointsy.get(q).getColor()) {
+                    continue;
+                }
+                // if p X-coordinate is lower than q
+                if(pointsy.get(p).getX()>=pointsy.get(q).getX()){
                     continue;
                 }
 
                 //set lines for q,p Wedges, y=mx+b <=> b=-mx+y
                 //compute b_p with -sqrt(3), b_q mit sqrt(3)
-                b_p = -Math.sqrt(3) * pointsx.get(p).getX() + pointsx.get(p).getY();
-                b_q = Math.sqrt(3) * pointsx.get(q).getX() + pointsx.get(q).getY();
+                b_p = -Math.sqrt(3) * pointsy.get(p).getX() + pointsy.get(p).getY();
+                b_q = Math.sqrt(3) * pointsy.get(q).getX() + pointsy.get(q).getY();
 
                 // compute points of intersection for wedge
                 // -tan(60)x +b1 = tan(60)x +b2 <=> 2*tan(60)x +b2 = b1 <=> x = (b1 - b2)/2*tan(60)
@@ -199,17 +200,17 @@ public class CSET {
 
 
                 //loop to find Points in Wedge_p,q
-                for (int windx = 0; windx < pointsx.size(); windx++) {
+                for (int windx = 0; windx < pointsy.size(); windx++) {
 
 
                     //because of conversion double to int, wedge defining points may not always be in wedge, add manually
                     if (windx == p) {
-                        if (v_pq[1] >= pointsx.get(p).getY()) {
-                            wedgepoints.add(pointsx.get(windx));
+                        if (v_pq[1] >= pointsy.get(p).getY()) {
+                            wedgepoints.add(pointsy.get(windx));
 
                             //add color to List to later check if color Spanning
-                            if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
-                                allwedgecolors.add(pointsx.get(windx).getColor());
+                            if (!allwedgecolors.contains(pointsy.get(windx).getColor())) {
+                                allwedgecolors.add(pointsy.get(windx).getColor());
                             }
                             continue;
                         } else {
@@ -217,45 +218,43 @@ public class CSET {
                         }
                     }
                     if (windx == q) {
-                        if (v_pq[1] >= pointsx.get(q).getY()) {
+                        if (v_pq[1] >= pointsy.get(q).getY()) {
 
-                            wedgepoints.add(pointsx.get(windx));
+                            wedgepoints.add(pointsy.get(windx));
                             //add color to List to later check if color Spanning
-                            if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
-                                allwedgecolors.add(pointsx.get(windx).getColor());
+                            if (!allwedgecolors.contains(pointsy.get(windx).getColor())) {
+                                allwedgecolors.add(pointsy.get(windx).getColor());
                             }
                             continue;
                         } else {
                             continue;
                         }
                     }
-                    if (windx == q && v_pq[1] >= pointsx.get(q).getY()) {
-                        wedgepoints.add(pointsx.get(windx));
+                    if (windx == q && v_pq[1] >= pointsy.get(q).getY()) {
+                        wedgepoints.add(pointsy.get(windx));
 
                         //add color to List to later check if color Spanning
-                        if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
-                            allwedgecolors.add(pointsx.get(windx).getColor());
+                        if (!allwedgecolors.contains(pointsy.get(windx).getColor())) {
+                            allwedgecolors.add(pointsy.get(windx).getColor());
                         }
                         continue;
                     }
 
                     //"Halbebenenschnitt" half pane intersection was not working too well so we used line equations
                     // to filter wedgepoints
-                    if (pointsx.get(windx).getY() <= v_pq[1] &&
-                            pointsx.get(windx).getX() >= (pointsx.get(windx).getY() - b_p) / Math.sqrt(3) &&
-                            pointsx.get(windx).getX() <= (pointsx.get(windx).getY() - b_q) / -Math.sqrt(3)) {
-                        wedgepoints.add(pointsx.get(windx));
+                    if (pointsy.get(windx).getY() <= v_pq[1] &&
+                            pointsy.get(windx).getX() >= (pointsy.get(windx).getY() - b_p) / Math.sqrt(3) &&
+                            pointsy.get(windx).getX() <= (pointsy.get(windx).getY() - b_q) / -Math.sqrt(3)) {
+                        wedgepoints.add(pointsy.get(windx));
 
 
                         //add color to List to check later if Color Spanning
-                        if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
-                            allwedgecolors.add(pointsx.get(windx).getColor());
+                        if (!allwedgecolors.contains(pointsy.get(windx).getColor())) {
+                            allwedgecolors.add(pointsy.get(windx).getColor());
                         }
                     }
                 }
 
-                //sort Y-Coord ascending order
-                Collections.sort(wedgepoints, new ComparatorPointY());
 
                 // reset if not Color Spanning
                 if (allwedgecolors.size() != colors.size()) {
@@ -306,12 +305,12 @@ public class CSET {
 
 
         //iterates for each point, NOT MIRRORED, 1 Wedge defining Point
-        for (int v = 0; v < pointsx.size(); v++) {
+        for (int v = 0; v < pointsy.size(); v++) {
 
             //set lines for q,p Wedges, y=mx+b <=> b=-mx+y
             //compute b_p with sqrt(3), b_q mit -(sqrt(3))
-            b_p = Math.sqrt(3) * pointsx.get(v).getX() + pointsx.get(v).getY();
-            b_q = -Math.sqrt(3) * pointsx.get(v).getX() + pointsx.get(v).getY();
+            b_p = Math.sqrt(3) * pointsy.get(v).getX() + pointsy.get(v).getY();
+            b_q = -Math.sqrt(3) * pointsy.get(v).getX() + pointsy.get(v).getY();
 
             // compute points of intersection for wedge
             // -tan(60)x +b1 = tan(60)x +b2 <=> 2*tan(60)x +b2 = b1 <=> x = (b1 - b2)/2*tan(60)
@@ -328,38 +327,36 @@ public class CSET {
 
 
             //loop to find Points in Wedge_p,q
-            for (int windx = 0; windx < pointsx.size(); windx++) {
+            for (int windx = 0; windx < pointsy.size(); windx++) {
 
 
                 //because of not percise double to int conversion, add wedgepoint manually
                 if (windx == v) {
-                    wedgepoints.add(pointsx.get(windx));
+                    wedgepoints.add(pointsy.get(windx));
                     //add color to List to later check if color Spanning
-                    if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
-                        allwedgecolors.add(pointsx.get(windx).getColor());
+                    if (!allwedgecolors.contains(pointsy.get(windx).getColor())) {
+                        allwedgecolors.add(pointsy.get(windx).getColor());
                     }
                     continue;
                 }
 
                 //filter points that lie in wedge with half pane intersection through triangle area computation
                 //"Halbebenschnitt" from Module "Algorithmic Geometry"
-                if (((pointsx.get(windx).getX() - line_p[0]) * ((pointsx.get(windx).getY() + line_p[1]) / 2) +
-                        (v_pq[0] - pointsx.get(windx).getX()) * ((v_pq[1] + pointsx.get(windx).getY()) / 2) +
+                if (((pointsy.get(windx).getX() - line_p[0]) * ((pointsy.get(windx).getY() + line_p[1]) / 2) +
+                        (v_pq[0] - pointsy.get(windx).getX()) * ((v_pq[1] + pointsy.get(windx).getY()) / 2) +
                         (line_p[0] - v_pq[0]) * ((line_p[1] + v_pq[1]) / 2)) >= 0 &&
-                        ((pointsx.get(windx).getX() - v_pq[0]) * ((pointsx.get(windx).getY() + v_pq[1]) / 2) +
-                                (line_q[0] - pointsx.get(windx).getX()) * ((line_q[1] + pointsx.get(windx).getY()) / 2) +
+                        ((pointsy.get(windx).getX() - v_pq[0]) * ((pointsy.get(windx).getY() + v_pq[1]) / 2) +
+                                (line_q[0] - pointsy.get(windx).getX()) * ((line_q[1] + pointsy.get(windx).getY()) / 2) +
                                 (v_pq[0] - line_q[0]) * ((v_pq[1] + line_q[1]) / 2)) >= 0 &&
-                        (pointsx.get(windx).getY() >= v_pq[1])) {
-                    wedgepoints.add(pointsx.get(windx));
+                        (pointsy.get(windx).getY() >= v_pq[1])) {
+                    wedgepoints.add(pointsy.get(windx));
                     //add color to List to later check if color Spanning
-                    if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
-                        allwedgecolors.add(pointsx.get(windx).getColor());
+                    if (!allwedgecolors.contains(pointsy.get(windx).getColor())) {
+                        allwedgecolors.add(pointsy.get(windx).getColor());
                     }
                 }
             }
 
-            //sortiere nach Y
-            Collections.sort(wedgepoints, new ComparatorPointY());
 
 
             //color Spanning check
@@ -408,18 +405,22 @@ public class CSET {
         }
 
         //iterates for each point, NOT MIRRORED, 2 Wedge defining Point
-        for (int p = 0; p < pointsx.size(); p++) {
+        for (int p = 0; p < pointsy.size(); p++) {
             // x(p) < x(q) zu jedem Zeiptunkt
-            for (int q = p + 1; q < pointsx.size(); q++) {
+            for (int q = 0; q < pointsy.size(); q++) {
                 //if color of p and q are the same skip
-                if (pointsx.get(p).getColor() == pointsx.get(q).getColor()) {
+                if (pointsy.get(p).getColor() == pointsy.get(q).getColor()) {
+                    continue;
+                }
+                // if p X-coordinate is lower than q
+                if(pointsy.get(p).getX()>=pointsy.get(q).getX()){
                     continue;
                 }
 
                 //set lines for q,p Wedges, y=mx+b <=> b=-mx+y
                 //compute b_p with sqrt(3), b_q mit -(sqrt(3))
-                b_p = Math.sqrt(3) * pointsx.get(p).getX() + pointsx.get(p).getY();
-                b_q = -Math.sqrt(3) * pointsx.get(q).getX() + pointsx.get(q).getY();
+                b_p = Math.sqrt(3) * pointsy.get(p).getX() + pointsy.get(p).getY();
+                b_q = -Math.sqrt(3) * pointsy.get(q).getX() + pointsy.get(q).getY();
 
                 // compute points of intersection for wedge
                 // -tan(60)x +b1 = tan(60)x +b2 <=> 2*tan(60)x +b2 = b1 <=> x = (b1 - b2)/2*tan(60)
@@ -430,15 +431,15 @@ public class CSET {
 
 
                 //loop to find Points in Wedge_p,q
-                for (int windx = 0; windx < pointsx.size(); windx++) {
+                for (int windx = 0; windx < pointsy.size(); windx++) {
 
                     //because of conversion double to int, wedge defining points may not always be in wedge, add manually
                     if (windx == p) {
-                        if (v_pq[1] <= pointsx.get(p).getY()) {
-                            wedgepoints.add(pointsx.get(windx));
+                        if (v_pq[1] <= pointsy.get(p).getY()) {
+                            wedgepoints.add(pointsy.get(windx));
                             //add color to List to later check if color Spanning
-                            if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
-                                allwedgecolors.add(pointsx.get(windx).getColor());
+                            if (!allwedgecolors.contains(pointsy.get(windx).getColor())) {
+                                allwedgecolors.add(pointsy.get(windx).getColor());
                             }
                             continue;
                         } else {
@@ -446,44 +447,42 @@ public class CSET {
                         }
                     }
                     if (windx == q) {
-                        if (v_pq[1] <= pointsx.get(q).getY()) {
+                        if (v_pq[1] <= pointsy.get(q).getY()) {
 
-                            wedgepoints.add(pointsx.get(windx));
+                            wedgepoints.add(pointsy.get(windx));
                             //add color to List to later check if color Spanning
-                            if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
-                                allwedgecolors.add(pointsx.get(windx).getColor());
+                            if (!allwedgecolors.contains(pointsy.get(windx).getColor())) {
+                                allwedgecolors.add(pointsy.get(windx).getColor());
                             }
                             continue;
                         } else {
                             continue;
                         }
                     }
-                    if (windx == q && v_pq[1] <= pointsx.get(q).getY()) {
-                        wedgepoints.add(pointsx.get(windx));
+                    if (windx == q && v_pq[1] <= pointsy.get(q).getY()) {
+                        wedgepoints.add(pointsy.get(windx));
                         //add color to List to later check if color Spanning
-                        if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
-                            allwedgecolors.add(pointsx.get(windx).getColor());
+                        if (!allwedgecolors.contains(pointsy.get(windx).getColor())) {
+                            allwedgecolors.add(pointsy.get(windx).getColor());
                         }
                         continue;
                     }
 
                     //"Halbebenenschnitt" half pane intersection was not working too well so we used line equations
                     // to filter wedgepoints
-                    if (pointsx.get(windx).getY() >= v_pq[1] &&
-                            pointsx.get(windx).getX() >= (pointsx.get(windx).getY() - b_p) / -Math.sqrt(3) &&
-                            pointsx.get(windx).getX() <= (pointsx.get(windx).getY() - b_q) / Math.sqrt(3)) {
-                        wedgepoints.add(pointsx.get(windx));
+                    if (pointsy.get(windx).getY() >= v_pq[1] &&
+                            pointsy.get(windx).getX() >= (pointsy.get(windx).getY() - b_p) / -Math.sqrt(3) &&
+                            pointsy.get(windx).getX() <= (pointsy.get(windx).getY() - b_q) / Math.sqrt(3)) {
+                        wedgepoints.add(pointsy.get(windx));
 
 
                         //add color to List to check later if Color Spanning
-                        if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
-                            allwedgecolors.add(pointsx.get(windx).getColor());
+                        if (!allwedgecolors.contains(pointsy.get(windx).getColor())) {
+                            allwedgecolors.add(pointsy.get(windx).getColor());
                         }
                     }
                 }
 
-                //sort Y-Coord ascending order
-                Collections.sort(wedgepoints, new ComparatorPointY());
 
                 // reset if not Color Spanning
                 if (allwedgecolors.size() != colors.size()) {
@@ -548,7 +547,7 @@ public class CSET {
     //execute for the Container of CSET
     public static void execute(CoordPanel panel) {
         //check if there are enugh points
-        if (pointsx.size() >= 2) {
+        if (pointsy.size() >= 2) {
             //count time for Algorithm Information and set Triangle
             long startTime = System.nanoTime();
             triangle = AlgorithmCSET();
@@ -574,18 +573,18 @@ public class CSET {
         Triangle tri = new Triangle(null, null);
         tri = AlgorithmCSET();
 
-        // sort point List after x coordinate
-        Collections.sort(pointsx, new ComparatorPointX());
+        // sort point List after y coordinate
+        Collections.sort(pointsy, new ComparatorPointY());
 
         //List for Colors
-        ArrayList<Color> colors = new ArrayList<Color>(pointsx.size());
-        colors.add(pointsx.get(0).getColor());
+        ArrayList<Color> colors = new ArrayList<Color>(pointsy.size());
+        colors.add(pointsy.get(0).getColor());
 
         //get all point colors
-        for (int k = 1; k < pointsx.size(); k++) {
+        for (int k = 1; k < pointsy.size(); k++) {
             for (int l = 0; l < colors.size(); l++) {
-                if (colors.contains(pointsx.get(k).getColor()) == false) {
-                    colors.add(pointsx.get(k).getColor());
+                if (colors.contains(pointsy.get(k).getColor()) == false) {
+                    colors.add(pointsy.get(k).getColor());
                 }
             }
         }
@@ -601,9 +600,9 @@ public class CSET {
         int y_q;
 
 
-        //sort List x order and intialize Lists
-        Collections.sort(pointsx, new ComparatorPointX());
-        ArrayList<Point> wedgepoints = new ArrayList<Point>(pointsx.size());
+        //sort List y order and initialize Lists
+        Collections.sort(pointsy, new ComparatorPointY());
+        ArrayList<Point> wedgepoints = new ArrayList<Point>(pointsy.size());
         ArrayList<Color> allwedgecolors = new ArrayList<>(colors.size());
         ArrayList<Color> wedgecolors = new ArrayList<>(colors.size());
 
@@ -644,22 +643,21 @@ public class CSET {
 
 
             //loop to find Points in Wedge_p,q
-            for (int windx = 0; windx < pointsx.size(); windx++) {
+            for (int windx = 0; windx < pointsy.size(); windx++) {
                 //exactly same operations as above
 
-                if (pointsx.get(windx).getY() <= tri.getY()[0] &&
-                        pointsx.get(windx).getX() >= (pointsx.get(windx).getY() - b_p) / Math.sqrt(3) &&
-                        pointsx.get(windx).getX() <= 1 + (pointsx.get(windx).getY() - b_q) / -Math.sqrt(3)) {
-                    wedgepoints.add(pointsx.get(windx));
+                if (pointsy.get(windx).getY() <= tri.getY()[0] &&
+                        pointsy.get(windx).getX() >= (pointsy.get(windx).getY() - b_p) / Math.sqrt(3) &&
+                        pointsy.get(windx).getX() <= 1 + (pointsy.get(windx).getY() - b_q) / -Math.sqrt(3)) {
+                    wedgepoints.add(pointsy.get(windx));
 
 
-                    if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
-                        allwedgecolors.add(pointsx.get(windx).getColor());
+                    if (!allwedgecolors.contains(pointsy.get(windx).getColor())) {
+                        allwedgecolors.add(pointsy.get(windx).getColor());
                     }
                 }
             }
 
-            Collections.sort(wedgepoints, new ComparatorPointY());
 
             if (allwedgecolors.size() != colors.size()) {
                 allwedgecolors.clear();
@@ -720,22 +718,21 @@ public class CSET {
             step++;
 
             //loop to find Points in Wedge_p,q
-            for (int windx = 0; windx < pointsx.size(); windx++) {
+            for (int windx = 0; windx < pointsy.size(); windx++) {
                 //exactly same operations as above
 
-                if (pointsx.get(windx).getY() >= tri.getY()[0] &&
-                        pointsx.get(windx).getX() >= (pointsx.get(windx).getY() - b_p) / -Math.sqrt(3) &&
-                        pointsx.get(windx).getX() <= 1 + (pointsx.get(windx).getY() - b_q) / Math.sqrt(3)) {
-                    wedgepoints.add(pointsx.get(windx));
+                if (pointsy.get(windx).getY() >= tri.getY()[0] &&
+                        pointsy.get(windx).getX() >= (pointsy.get(windx).getY() - b_p) / -Math.sqrt(3) &&
+                        pointsy.get(windx).getX() <= 1 + (pointsy.get(windx).getY() - b_q) / Math.sqrt(3)) {
+                    wedgepoints.add(pointsy.get(windx));
 
 
-                    if (!allwedgecolors.contains(pointsx.get(windx).getColor())) {
-                        allwedgecolors.add(pointsx.get(windx).getColor());
+                    if (!allwedgecolors.contains(pointsy.get(windx).getColor())) {
+                        allwedgecolors.add(pointsy.get(windx).getColor());
                     }
                 }
             }
 
-            Collections.sort(wedgepoints, new ComparatorPointY());
 
             if (allwedgecolors.size() != colors.size()) {
                 allwedgecolors.clear();
