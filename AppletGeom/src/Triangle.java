@@ -1,5 +1,3 @@
-import java.awt.*;
-
 public class Triangle {
 
     // connecting Points in following order: 0, 1, 2

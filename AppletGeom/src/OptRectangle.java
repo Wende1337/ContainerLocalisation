@@ -1,9 +1,5 @@
-
-
 import java.awt.*;
-import java.awt.geom.Line2D;
 import java.util.*;
-import java.util.List;
 
 public class OptRectangle {
 
@@ -17,7 +13,7 @@ public class OptRectangle {
 
     public static Rectangle algo1() {
 
-        //bufixing for Step Algorithm
+        //bugfixing for Step Algorithm
         step = 0;
 
         //Rectangle for Optimum and Comparing with Optimum

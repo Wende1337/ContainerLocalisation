@@ -1,7 +1,3 @@
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-
 public class Line {
 
     //an endless line which is set by two points

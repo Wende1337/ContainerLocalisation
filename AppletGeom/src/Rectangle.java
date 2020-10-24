@@ -1,5 +1,3 @@
-import java.awt.*;
-
 public class Rectangle {
 
     //rectanle object with x and y as left and upper boundy, widht and height as right and lower bound
